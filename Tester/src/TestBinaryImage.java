@@ -13,7 +13,7 @@ public class TestBinaryImage extends Tester{
 
     @Override
     public void runTest() {
-        for (int i = 6; i < 7; i++) {
+        for (int i = 0; i < 7; i++) {
             BinaryImage bimg = new BinaryImage("Test/t"+i+".jpg");
             ImgProcUtil.writeImage("Test/u"+i+".jpg", bimg.rasterize(), "jpeg");
             System.out.println("Done " + i);
