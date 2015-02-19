@@ -3,6 +3,8 @@
 
 import org.opencv.core.Core;
 
+import javax.naming.BinaryRefAddr;
+
 /**
  * @author mahefa
  */
@@ -11,11 +13,10 @@ public class EntryPoint {
     public EntryPoint() {
     }
 
-    static {
-        System.load(Core.NATIVE_LIBRARY_NAME);
-    }
 
     public static void main(String[] args) {
+        Tester t = new TestBinaryImage();
+        t.runTest();
     }
 
 }
