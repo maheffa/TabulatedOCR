@@ -2,6 +2,7 @@
 // Created: 19/02/2015
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 
 /**
  * @author mahefa
@@ -19,15 +20,23 @@ public class BinaryImage {
         height = img.getHeight();
         width = img.getWidth();
         int[] preData = new int[height * width];
-        data = new int[height * width];
+        int[] inData = new int[height * width];
+        long s = System.currentTimeMillis();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 setPixel(i, j, convertToGrayscale(img.getRGB(j, i), 1), preData);
             }
         }
+        System.out.println("prevtime : " + (System.currentTimeMillis() - s));
         long t = System.currentTimeMillis();
-        iproc.process(preData, data, height, width, new NiblackBinarization(-0.2, NEIGHBOR));
+        byte[] raw = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
+        for (int i = 0, j = 0; i < inData.length; i++, j+=3) {
+            preData[i] = convertToGrayscale(raw[j] & 0xFF, raw[j+1] & 0xFF, raw[j+2] & 0xFF, 1);
+        }
+//        data = new int[height * width];
+//        iproc.process(preData, data, height, width, new NiblackBinarization(-0.2, NEIGHBOR));
         System.out.println("time: " + (System.currentTimeMillis() - t));
+        data = preData;
     }
 
     /**
@@ -40,6 +49,17 @@ public class BinaryImage {
         int r = (pixel >> 16) & 0xFF;
         int g = (pixel >> 8) & 0xFF;
         int b = pixel & 0xFF;
+        int v;
+        switch (method) {
+            case 0 : v = (r + g + b) / 3; break;
+            case 1 : v = (int) (0.21 * r + 0.67 * g + 0.12 * b); break;
+            case 2 : v = (Math.min(Math.min(r, g),b) + Math.max(Math.max(r, g), b)) / 2; break;
+            default: v = (int) (0.21 * r + 0.67 * g + 0.12 * b); break;
+        }
+        return v;
+    }
+
+    private int convertToGrayscale(int r, int g, int b, int method) {
         int v;
         switch (method) {
             case 0 : v = (r + g + b) / 3; break;
@@ -84,72 +104,40 @@ public class BinaryImage {
 
 }
 
-class NiblackBinarization implements  ProcessorFunction {
+class GrayScaler implements ProcessorFunction {
+    private class AverageGrayscale implements ProcessorFunction {
+        public int processPoint(int index, int[] src, int height, int width) {
+            return (((src[index] >> 16) & 0xFF) + ((src[index] >> 8) & 0xFF) + (src[index] & 0xFF)) / 3;
+        }
+    }
+    private class LuminanceGrayscale implements ProcessorFunction {
+        public int processPoint(int index, int[] src, int height, int width) {
+            return (int) (0.21 * ((src[index] >> 16) & 0xFF) +
+                    0.67 * ((src[index] >> 8) & 0xFF) +
+                    0.12 * (src[index] & 0xFF));
+        }
+    }
+    private class DesaturateGrayscale implements ProcessorFunction {
+        public int processPoint(int index, int[] src, int height, int width) {
+            int r = (src[index] >> 16) & 0xFF, g = (src[index] >> 8) & 0xFF, b = src[index] & 0xFF;
+            return (Math.min(r, Math.min(g, b)) + Math.max(r, Math.max(g, b))) / 2;
+        }
+    }
 
-    private double k;
-    private int neighbor;
+    public static int AVERAGE = 0, LUMINANCE = 1, DESATURATE = 2;
+    private ProcessorFunction pf;
 
-    public NiblackBinarization(double k, int neighbor) {
-        this.k = k;
-        this.neighbor = neighbor;
+    public GrayScaler(int method) {
+        switch (method) {
+            case 0 : pf = new AverageGrayscale(); break;
+            case 1 : pf = new LuminanceGrayscale(); break;
+            case 3 : pf = new DesaturateGrayscale(); break;
+            default: pf = new LuminanceGrayscale(); break;
+        }
     }
 
     @Override
     public int processPoint(int index, int[] src, int height, int width) {
-        int imin = Math.max(0, index / width - neighbor);
-        int imax = Math.min(height, index / width + neighbor + 1);
-        int jmin = Math.max(0, index % width - neighbor);
-        int jmax = Math.min(width, index % width + neighbor + 1);
-        int m = 0;
-        int std = 0;
-        int n = (jmax - jmin) * (imax - imin);
-        for (int i = imin; i < imax; i++) {
-            for (int j = jmin; j < jmax; j++) {
-                m += src[i * width + j];
-            }
-        }
-        m /= n;
-        for (int i = imin; i < imax; i++) {
-            for (int j = jmin; j < jmax; j++) {
-                int t = src[i * width + j] - m;
-                std += t * t;
-            }
-        }
-        std = (int) Math.sqrt(std / n);
-        return src[index] >= Math.min(m + (int) (k * std), 0xFF) ? 0xFF : 0x00;
-    }
-}
-
-class BernsenBinarization implements ProcessorFunction {
-
-    private int treshold, neighbor, squareSize;
-
-    public BernsenBinarization(int treshold, int neighbor) {
-        this.treshold = treshold;
-        this.neighbor = neighbor;
-        this.squareSize = (2 * neighbor + 1) * (2 * neighbor +  1);
-    }
-
-    @Override
-    public int processPoint(int index, int[] src, int height, int width) {
-        // TODO: can be optimized
-        int i0 = index / width, j0 = index % width;
-        int ii = i0 < neighbor ? neighbor : i0 >= height - neighbor ? height - neighbor - 1 : i0;
-        int jj = j0 < neighbor ? neighbor : j0 >= width - neighbor ? width - neighbor - 1 : j0;
-        int max = 0, min = 255;
-        for (int i = ii - neighbor; i <= ii + neighbor; i++) {
-            for (int j = jj - neighbor; j <= jj + neighbor; j++) {
-                int t = src[i * width + j] & 0xFF;
-                if (t > max) {
-                    max = t;
-                }
-                if (t < min) {
-                    min = t;
-                }
-            }
-        }
-        return max - min < treshold
-                ? (byte) 0xFF
-                : ((src[index] & 0xFF) > ((max - min) / 2) ? (byte) 0xFF : 0x00);
+        return pf.processPoint(index, src, height, width);
     }
 }

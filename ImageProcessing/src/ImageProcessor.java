@@ -43,7 +43,7 @@ public class ImageProcessor {
 //        ExecutorService service = Executors.newFixedThreadPool(1);
         ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         ArrayList<Future> futureList = new ArrayList<Future>();
-        for (int i = 0; i < src.length; i += CHUNK_SIZE) {
+        for (int i = 0; i < dst.length; i += CHUNK_SIZE) {
             futureList.add(service.submit(new ParallelProcessor(i, src, dst, height, width, pf)));
         }
         service.shutdown();
