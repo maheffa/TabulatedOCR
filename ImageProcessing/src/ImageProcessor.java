@@ -16,10 +16,10 @@ public class ImageProcessor {
 
         private int begin, end;
         private ProcessorFunction pf;
-        private byte[] src, dst;
+        private int[] src, dst;
         private int height, width;
 
-        public ParallelProcessor(int begin, byte[] src, byte[] dst, int height, int width, ProcessorFunction pf) {
+        public ParallelProcessor(int begin, int[] src, int[] dst, int height, int width, ProcessorFunction pf) {
             this.pf = pf;
             this.src = src;
             this.dst = dst;
@@ -39,7 +39,8 @@ public class ImageProcessor {
 
     private static int CHUNK_SIZE = 100000;
 
-    public void process(byte[] src, byte[] dst, int height, int width, ProcessorFunction pf) {
+    public void process(int[] src, int[] dst, int height, int width, ProcessorFunction pf) {
+//        ExecutorService service = Executors.newFixedThreadPool(1);
         ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         ArrayList<Future> futureList = new ArrayList<Future>();
         for (int i = 0; i < src.length; i += CHUNK_SIZE) {

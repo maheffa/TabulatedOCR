@@ -7,8 +7,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="opencv-2410" level="project" />
     <orderEntry type="module" module-name="Tester" />
     <orderEntry type="module" module-name="ImageProcessing" />
+    <orderEntry type="library" name="opencv" level="project" />
   </component>
 </module>
