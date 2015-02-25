@@ -3,60 +3,44 @@
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author mahefa
  */
 public class BinaryImage {
 
-    private static int NEIGHBOR = 15;
+    class MidData {
+        int[] val;
+        int height, width;
+
+        public MidData(int[] val, int height, int width) {
+            this.val = val;
+            this.height = height;
+            this.width = width;
+        }
+    }
+
     private int height, width;
     private int[] data;
-    private ImageProcessor iproc;
+    public ArrayList<MidData> midData = new ArrayList<MidData>();
 
     public BinaryImage(String filePath) {
-        iproc = new ImageProcessor();
         BufferedImage img = ImgProcUtil.readImage(filePath);
         height = img.getHeight();
         width = img.getWidth();
-        int[] preData = new int[height * width];
-        int[] inData = new int[height * width];
-        long s = System.currentTimeMillis();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                setPixel(i, j, convertToGrayscale(img.getRGB(j, i), 1), preData);
+        data = new int[height * width];
+        byte[] raw = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
+        if (raw.length == data.length) {
+            for (int i = 0; i < data.length; i++) {
+                data[i] = raw[i] & 0xFF;
+            }
+        } else {
+            for (int i = 0, j = 0; i < data.length; i++, j += 3) {
+                data[i] = convertToGrayscale(raw[j] & 0xFF, raw[j + 1] & 0xFF, raw[j + 2] & 0xFF, 1);
             }
         }
-        System.out.println("prevtime : " + (System.currentTimeMillis() - s));
-        long t = System.currentTimeMillis();
-        byte[] raw = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
-        for (int i = 0, j = 0; i < inData.length; i++, j+=3) {
-            preData[i] = convertToGrayscale(raw[j] & 0xFF, raw[j+1] & 0xFF, raw[j+2] & 0xFF, 1);
-        }
-//        data = new int[height * width];
-//        iproc.process(preData, data, height, width, new NiblackBinarization(-0.2, NEIGHBOR));
-        System.out.println("time: " + (System.currentTimeMillis() - t));
-        data = preData;
-    }
-
-    /**
-     *
-     * @param pixel input rgb pixel
-     * @param method 0 - average, 1 - luminance, 2 - desaturate
-     * @return grayscaled pixel
-     */
-    private int convertToGrayscale(int pixel, int method) {
-        int r = (pixel >> 16) & 0xFF;
-        int g = (pixel >> 8) & 0xFF;
-        int b = pixel & 0xFF;
-        int v;
-        switch (method) {
-            case 0 : v = (r + g + b) / 3; break;
-            case 1 : v = (int) (0.21 * r + 0.67 * g + 0.12 * b); break;
-            case 2 : v = (Math.min(Math.min(r, g),b) + Math.max(Math.max(r, g), b)) / 2; break;
-            default: v = (int) (0.21 * r + 0.67 * g + 0.12 * b); break;
-        }
-        return v;
     }
 
     private int convertToGrayscale(int r, int g, int b, int method) {
@@ -70,14 +54,97 @@ public class BinaryImage {
         return v;
     }
 
-    public BufferedImage rasterize() {
-        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int t = getPixel(i, j) & 0xFF;
-                img.setRGB(j, i, (t << 16) + (t << 8) + t);
+    public void binarize() {
+        ImageProcessor imageProcessor = new ImageProcessor();
+        /*
+        Step 1 : resize to workable document size
+         */
+//        System.out.println("Resizing ...");
+//        int maxSize = 500;
+//        double scale = 1.0 * maxSize / Math.max(width, height);
+//        byte[] nwData = ((DataBufferByte) ImgProcUtil.resize(rasterize(), scale)
+//                .getRaster().getDataBuffer()).getData();
+//        width = (int) (width * scale);
+//        height = (int) (height * scale);
+//        assert height * width == nwData.length;
+//        data = new int[nwData.length];
+//        for (int i = 0; i < nwData.length; i++) {
+//            data[i] = nwData[i] & 0xFF;
+//        }
+//        memorize(data);
+        /*
+        Step 2 : find mean values
+         */
+        System.out.println("Finding mean ...");
+        int area = 10;
+        int[] means = new int[height * width];
+        imageProcessor.process(data, means, height, width, area, new MeanFinder());
+        memorize(means);
+        /*
+        Step 3 : calculate variance
+         */
+        System.out.println("Finding variance ...");
+        VarianceFinder.means = means;
+        int[] variance = new int[height * width];
+        imageProcessor.process(data, variance, height, width, area, new VarianceFinder());
+        memorize(variance);
+        /*
+        Step 4 : wider mean variance
+         */
+        System.out.println("Finding mean variance ...");
+        int[] vmeans = new int[height * width];
+        imageProcessor.process(variance, vmeans, height, width, 3 * area, new MeanFinder());
+        memorize(vmeans);
+        /*
+        Step 5 : finding noise threshold;
+         */
+        System.out.println("Finding noise threshold ...");
+        int vnoise = 16;
+        double h = 0.3;
+        int counter = 0, count = 0;
+        for (int i = 0; i < vmeans.length; i++) {
+            if (variance[i] < h * vmeans[i] + vnoise) {
+                count += variance[i];
+                counter++;
             }
         }
+        if (counter > 0) {
+            vnoise = count / counter;
+        }
+        System.out.println("Counter " + counter);
+        /*
+        Step 6 : removing foreground;
+         */
+        System.out.println("Removing foreground ...");
+        for (int i = 0; i < data.length; i++) {
+            if (variance[i] > h * vmeans[i]  + vnoise) {
+                data[i] = 0;
+            }
+        }
+
+
+        /*
+        resizing back
+         */
+//        System.out.println("Resizing back");
+//        BufferedImage rimg = ImgProcUtil.resize(rasterize(), 1 / scale);
+//        nwData = ((DataBufferByte) rimg.getRaster().getDataBuffer()).getData();
+//        height = rimg.getHeight();
+//        width = rimg.getWidth();
+//        assert nwData.length == height * width;
+//        data = new int[nwData.length];
+//        for (int i = 0; i < nwData.length; i++) {
+//            data[i] = nwData[i] & 0xFF;
+//        }
+    }
+
+    private void memorize(int[] val) {
+        midData.add(new MidData(val, height, width));
+    }
+
+    public BufferedImage rasterize() {
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+        img.getRaster().setPixels(0, 0, width, height, data);
         return img;
     }
 
@@ -104,40 +171,66 @@ public class BinaryImage {
 
 }
 
-class GrayScaler implements ProcessorFunction {
-    private class AverageGrayscale implements ProcessorFunction {
-        public int processPoint(int index, int[] src, int height, int width) {
-            return (((src[index] >> 16) & 0xFF) + ((src[index] >> 8) & 0xFF) + (src[index] & 0xFF)) / 3;
-        }
-    }
-    private class LuminanceGrayscale implements ProcessorFunction {
-        public int processPoint(int index, int[] src, int height, int width) {
-            return (int) (0.21 * ((src[index] >> 16) & 0xFF) +
-                    0.67 * ((src[index] >> 8) & 0xFF) +
-                    0.12 * (src[index] & 0xFF));
-        }
-    }
-    private class DesaturateGrayscale implements ProcessorFunction {
-        public int processPoint(int index, int[] src, int height, int width) {
-            int r = (src[index] >> 16) & 0xFF, g = (src[index] >> 8) & 0xFF, b = src[index] & 0xFF;
-            return (Math.min(r, Math.min(g, b)) + Math.max(r, Math.max(g, b))) / 2;
-        }
-    }
+class MeanFinder implements ProcessorFunction {
 
-    public static int AVERAGE = 0, LUMINANCE = 1, DESATURATE = 2;
-    private ProcessorFunction pf;
-
-    public GrayScaler(int method) {
-        switch (method) {
-            case 0 : pf = new AverageGrayscale(); break;
-            case 1 : pf = new LuminanceGrayscale(); break;
-            case 3 : pf = new DesaturateGrayscale(); break;
-            default: pf = new LuminanceGrayscale(); break;
+    @Override
+    public int processPoint(int index, int[] src, int height, int width, int area) {
+        int m = 0;
+        int ii, n = height * width;
+        int n1 = index / width + area / 2, n2 = index % width + area / 2;
+        int s = (area + 1) * (area + 1);
+        for (int i = index / width - area / 2; i <= n1; i++) {
+            for (int j = index % width - area / 2; j <= n2; j++) {
+                ii = i * width + j;
+                if (ii >= 0 && ii < n) {
+                    m += src[ii];
+                }
+            }
         }
+        return m / s;
+    }
+}
+
+class VarianceFinder implements ProcessorFunction {
+    public static int[] means;
+
+    @Override
+    public int processPoint(int index, int[] src, int height, int width, int area) {
+        int ii, n = height * width;
+        int res = 0;
+        int n1 = index / width + area / 2, n2 = index % width + area / 2;
+        int s = (area + 1) * (area + 1);
+        for (int i = index / width - area / 2; i <= n1; i++) {
+            for (int j = index % width - area / 2; j <= n2; j++) {
+                ii = i * width + j;
+                if (ii >= 0 && ii < n) {
+                    res += (src[ii] - means[ii]) * (src[ii] - means[ii]);
+                }
+            }
+        }
+        return res / s;
+    }
+}
+
+class Interpolator implements ProcessorFunction {
+    private static int[] dst;
+
+    public static void initGoal(int[] src) {
+        dst = Arrays.copyOf(src, src.length);
     }
 
     @Override
-    public int processPoint(int index, int[] src, int height, int width) {
-        return pf.processPoint(index, src, height, width);
+    public int processPoint(int index, int[] src, int height, int width, int area) {
+        if (dst[index] != 0) {
+            return dst[index];
+        } else {
+            int r1, r2, c1, c2;
+            int lr, lc;
+            int i;
+            i = index;
+            while (dst[i] == 0) i++;
+
+        }
+        return 0;
     }
 }

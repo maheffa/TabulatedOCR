@@ -5,5 +5,5 @@
  * @author mahefa
  */
 public interface ProcessorFunction {
-    public int processPoint(int index, int[] src, int height, int width);
+    public int processPoint(int index, int[] src, int height, int width, int area);
 }
