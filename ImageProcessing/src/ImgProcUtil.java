@@ -15,6 +15,11 @@ public class ImgProcUtil {
     public ImgProcUtil() {
     }
 
+    public static int getRGB(int binaryColor) {
+        int v = binaryColor & 0xFF;
+        return v | (v << 8) | (v << 16);
+    }
+
     public static BufferedImage readImage(String filePath) {
         BufferedImage img = null;
         try {

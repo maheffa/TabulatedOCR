@@ -3,7 +3,6 @@
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -11,20 +10,10 @@ import java.util.Arrays;
  */
 public class BinaryImage {
 
-    class MidData {
-        int[] val;
-        int height, width;
-
-        public MidData(int[] val, int height, int width) {
-            this.val = val;
-            this.height = height;
-            this.width = width;
-        }
-    }
+    public static int BLACK = 0x00, WHITE = 0xFF;
 
     private int height, width;
     private int[] data;
-//    public ArrayList<MidData> midData = new ArrayList<MidData>();
 
     public BinaryImage(String filePath) {
         BufferedImage img = ImgProcUtil.readImage(filePath);
@@ -41,6 +30,14 @@ public class BinaryImage {
                 data[i] = convertToGrayscale(raw[j] & 0xFF, raw[j + 1] & 0xFF, raw[j + 2] & 0xFF, 1);
             }
         }
+        binarize();
+    }
+
+    public BinaryImage(int height, int width) {
+        this.height = height;
+        this.width = width;
+        data = new int[height * width];
+        Arrays.fill(data, WHITE);
     }
 
     private int convertToGrayscale(int r, int g, int b, int method) {
@@ -73,7 +70,6 @@ public class BinaryImage {
         for (int i = 0; i < nwData.length; i++) {
             miniData[i] = nwData[i] & 0xFF;
         }
-//        memorize(miniData);
         /*
         Step 2 : find mean values
          */
@@ -81,7 +77,6 @@ public class BinaryImage {
         int area = 15;
         int[] means = new int[height * width];
         imageProcessor.process(miniData, means, height, width, area, new MeanFinder());
-//        memorize(means);
         /*
         Step 3 : calculate variance
          */
@@ -89,14 +84,12 @@ public class BinaryImage {
         VarianceFinder.means = means;
         int[] variance = new int[height * width];
         imageProcessor.process(miniData, variance, height, width, area, new VarianceFinder());
-//        memorize(variance);
         /*
         Step 4 : mean variance
          */
         System.out.println("Finding mean variance ...");
         int[] vmeans = new int[height * width];
         imageProcessor.process(variance, vmeans, height, width, 3 * area, new MeanFinder());
-//        memorize(vmeans);
         /*
         Step 5 : finding noise threshold;
          */
@@ -130,28 +123,17 @@ public class BinaryImage {
         int[] back = new int[miniData.length];
         Interpolator.initGoal(miniData);
         imageProcessor.process(miniData, back, height, width, 0, new Interpolator());
-//        Interpolator interpol = new Interpolator();
-//        for (int i = 0; i < back.length; i++) {
-//            back[i] = interpol.processPoint(i, miniData, height, width, 0);
-//        }
         /*
         Step 8 : Blurring
          */
         System.out.println("Blurring ...");
-//        data = back;
-//        byte[] rblurred = ((DataBufferByte)ImgProcUtil.boxblur(rasterize(), 5).getData().getDataBuffer()).getData();
-//        for (int i = 0; i < back.length; i++) {
-//            back[i] = rblurred[i] * 0xFF;
-//        }
         int[] backblurred = new int[miniData.length];
         imageProcessor.process(back, backblurred, height, width, 3 * area, new MeanFinder());
-//        int[] backblurred = back;
         /*
         Step 9 : resizing back
          */
         System.out.println("Resizing back");
         tmpData = data;
-//        data = backblurred;
         for (int i = 0; i < backblurred.length; i++) {
             data[i] = (int) (backblurred[i] - 0.0 * variance[i]);
         }
@@ -159,7 +141,6 @@ public class BinaryImage {
         nwData = ((DataBufferByte) rimg.getRaster().getDataBuffer()).getData();
         height = rimg.getHeight();
         width = rimg.getWidth();
-//        assert nwData.length == tmpHeight * tmpWidth;
         int[] background = new int[nwData.length];
         for (int i = 0; i < nwData.length; i++) {
             background[i] = nwData[i] & 0xFF;
@@ -174,14 +155,9 @@ public class BinaryImage {
             if ((i + 1) % width == 0) {
                 j += dw;
             }
-            data[i] = tmpData[j] > background[i] ? 0xFF : 0x00;
-//            data[i] = background[i];
+            data[i] = tmpData[j] > background[i] ? WHITE : BLACK;
         }
     }
-
-//    private void memorize(int[] val) {
-//        midData.add(new MidData(val, height, width));
-//    }
 
     public BufferedImage rasterize() {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
@@ -195,6 +171,22 @@ public class BinaryImage {
         } else {
             data[i * width + j] = pixel;
         }
+    }
+
+    public void setPixel(int i, int j, int val) {
+        if (i < 0 || i >= height || j < 0 || j >= width) {
+            System.err.println("index ("+i+","+j+") out of bound");
+        } else {
+            data[i * width + j] = val;
+        }
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public int[] getData() {
@@ -217,9 +209,8 @@ class MeanFinder implements ProcessorFunction {
     @Override
     public int processPoint(int index, int[] src, int height, int width, int area) {
         int m = 0;
-        int ii, n = height * width;
+        int n = height * width;
         int n1 = index / width + area / 2, n2 = index % width + area / 2;
-//        int s = (area + 1) * (area + 1);
         int s = 0;
         for (int i = index / width - area / 2; i <= n1; i++) {
             if (i < 0 || i >= height) continue;
@@ -241,7 +232,6 @@ class VarianceFinder implements ProcessorFunction {
         int ii, n = height * width;
         int res = 0;
         int n1 = index / width + area / 2, n2 = index % width + area / 2;
-//        int s = (area + 1) * (area + 1);
         int s = 0;
         for (int i = index / width - area / 2; i <= n1; i++) {
             if (i < 0 || i >= height) continue;
