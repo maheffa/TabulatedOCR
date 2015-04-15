@@ -1,6 +1,8 @@
 // File:    Document.java
 // Created: 14/04/2015
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +18,8 @@ public class Document {
     public Document(String path) {
         this.path = path;
         this.binaryImage = new BinaryImage(path);
+        File file = new File(path);
+
     }
 
     public void detectCharacters(int radius, int margin, int minCharSize, int maxCharSize, int charSize) {
@@ -34,6 +38,16 @@ public class Document {
 
     public void detectStructure() {
         // TODO
+    }
+
+    public BufferedImage rasterizeBinaryImage(boolean writeToFile) {
+        BufferedImage res = binaryImage.rasterize();
+        if (writeToFile) {
+            String[] initialFile = ImgProcUtil.getPathBaseExtension(path);
+            String newName = initialFile[0] + initialFile[1] + ".bin" + initialFile[2];
+            ImgProcUtil.writeImage(newName, res, "jpeg");
+        }
+        return res;
     }
 
 }

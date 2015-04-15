@@ -1,6 +1,12 @@
 // File:    BinaryImage.java
 // Created: 19/02/2015
 
+import org.encog.ml.MLCluster;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.kmeans.KMeansClustering;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.util.Arrays;
@@ -52,6 +58,56 @@ public class BinaryImage {
     }
 
     public void binarize() {
+        System.out.println("Starting binarization ...");
+        BasicMLDataSet set = new BasicMLDataSet();
+        KMeansClustering kmeans = null;
+        MLCluster[] clusters = null;
+        MLCluster background = null, foreground = null;
+        int[] clusterContainment = new int[256];
+        int maxIterations = 1000;
+        int iterations = 0;
+
+        // adding all the pixel to the set
+        for (int pixelColor : data) {
+            set.add(new BasicMLData(new double[]{pixelColor}));
+        }
+        System.out.println("Set size = " + set.size());
+
+        // clustering into two sets till no changes or iteration less than maxIterations
+        kmeans = new KMeansClustering(2, set);
+        System.out.println("Clustering ...");
+        do {
+            kmeans.iteration(1);
+            clusters = kmeans.getClusters();
+            iterations++;
+            System.out.println("Iteration " + iterations + ": " + clusters[0].size() + " / " + clusters[1].size());
+        } while (iterations < maxIterations && Math.abs(clusters[0].size() - clusters[1].size()) <= 1);
+
+        // deciding which one is the fore and background
+        if (clusters[0].get(0).getData(0) < clusters[1].get(0).getData(0)) {
+            foreground = clusters[0];
+            background = clusters[1];
+        } else {
+            background = clusters[0];
+            foreground = clusters[1];
+        }
+
+        // revealing clusters containement, foregrounds to 1, backgrounds to -1
+        for (MLData val : foreground.getData()) {
+            clusterContainment[(int)(val.getData(0))] = 1;
+        }
+        for (MLData val : background.getData()) {
+            clusterContainment[(int)(val.getData(0))] = -1;
+        }
+
+        // binarizing
+        for (int i = 0; i < data.length; i++) {
+            // if foregrounds then black, otherwise white
+            data[i] = clusterContainment[data[i]] > 0 ? BinaryImage.BLACK : BinaryImage.WHITE;
+        }
+
+        System.out.println("Done with binarization ...");
+
     }
 
     public BufferedImage rasterize() {
