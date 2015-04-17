@@ -124,7 +124,7 @@ public class ConnectedPixel implements Comparable {
                 boolean detected = false;
                 for (int j = 0; j < img.getHeight() && !detected; j++) {
                     for (int k = 0; k < margin && !detected; k++) {
-                        if (img.getPixel(j, i + k) == BinaryImage.BLACK) {
+                        if (img.getPixel(j, i + k) != BinaryImage.WHITE) {
                             detected = true;
                             i = i + k + 1;
                         }

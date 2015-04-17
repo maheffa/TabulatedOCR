@@ -1,6 +1,7 @@
 // File:    BinaryImage.java
 // Created: 19/02/2015
 
+import org.apache.commons.math3.fraction.Fraction;
 import org.encog.ml.MLCluster;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
@@ -36,7 +37,7 @@ public class BinaryImage {
                 data[i] = convertToGrayscale(raw[j] & 0xFF, raw[j + 1] & 0xFF, raw[j + 2] & 0xFF, 1);
             }
         }
-        binarize();
+//        binarize();
     }
 
     public BinaryImage(int height, int width) {
@@ -59,32 +60,44 @@ public class BinaryImage {
 
     public void binarize() {
         System.out.println("Starting binarization ...");
-        BasicMLDataSet set = new BasicMLDataSet();
-        KMeansClustering kmeans = null;
-        MLCluster[] clusters = null;
-        MLCluster background = null, foreground = null;
-        int[] clusterContainment = new int[256];
+        KMeanCluster dataSet = new KMeanCluster();
+        KMeanCluster[] clusters;
+        KMeanCluster background, foreground;
         int maxIterations = 1000;
-        int iterations = 0;
+        int maxPixelToAnalyze = 2000000;
+        boolean reducePixel = false;
+        int[] binarizedHistogram = new int[256];
 
-        // adding all the pixel to the set
-        for (int pixelColor : data) {
-            set.add(new BasicMLData(new double[]{pixelColor}));
+        // adding the pixel to the set
+        int[] dataToAnalyze;
+        if (data.length > maxPixelToAnalyze && reducePixel) {
+            Fraction fraction = new Fraction(maxPixelToAnalyze, data.length);
+            int num = fraction.getNumerator(), den = fraction.getDenominator();
+            int i = 0, j = 0;
+            dataToAnalyze = new int[maxPixelToAnalyze];
+            while (i < data.length) {
+                int k0 = 0, k1 = 0;
+                while (k0 < num && i < data.length && j < maxPixelToAnalyze) {
+                    dataToAnalyze[j++] = data[i++];
+                    k0++;
+                }
+                while (k1 < den && i < data.length) {
+                    i++; k1++;
+                }
+            }
+        } else {
+            dataToAnalyze = Arrays.copyOf(data, data.length);
         }
-        System.out.println("Set size = " + set.size());
+        for (int pixelColor : dataToAnalyze) {
+            dataSet.add(pixelColor);
+        }
+        System.out.println("Set size = " + dataSet.size());
 
         // clustering into two sets till no changes or iteration less than maxIterations
-        kmeans = new KMeansClustering(2, set);
-        System.out.println("Clustering ...");
-        do {
-            kmeans.iteration(1);
-            clusters = kmeans.getClusters();
-            iterations++;
-            System.out.println("Iteration " + iterations + ": " + clusters[0].size() + " / " + clusters[1].size());
-        } while (iterations < maxIterations && Math.abs(clusters[0].size() - clusters[1].size()) <= 1);
+        clusters = dataSet.cluster(2, maxIterations);
 
         // deciding which one is the fore and background
-        if (clusters[0].get(0).getData(0) < clusters[1].get(0).getData(0)) {
+        if (clusters[0].getMean() < clusters[1].getMean()) {
             foreground = clusters[0];
             background = clusters[1];
         } else {
@@ -93,17 +106,17 @@ public class BinaryImage {
         }
 
         // revealing clusters containement, foregrounds to 1, backgrounds to -1
-        for (MLData val : foreground.getData()) {
-            clusterContainment[(int)(val.getData(0))] = 1;
+        for (int val : foreground.getData()) {
+            binarizedHistogram[val] = 1;
         }
-        for (MLData val : background.getData()) {
-            clusterContainment[(int)(val.getData(0))] = -1;
+        for (int val : background.getData()) {
+            binarizedHistogram[val] = -1;
         }
 
         // binarizing
         for (int i = 0; i < data.length; i++) {
             // if foregrounds then black, otherwise white
-            data[i] = clusterContainment[data[i]] > 0 ? BinaryImage.BLACK : BinaryImage.WHITE;
+            data[i] = binarizedHistogram[data[i]] > 0 ? BinaryImage.BLACK : BinaryImage.WHITE;
         }
 
         System.out.println("Done with binarization ...");

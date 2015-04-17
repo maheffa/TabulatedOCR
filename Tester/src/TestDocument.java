@@ -12,8 +12,14 @@ public class TestDocument {
     }
 
     public static void main(String[] args) {
-        Document doc = new Document("Test/v0.jpg");
-        doc.rasterizeBinaryImage(true);
+        for (int i = 0; i < 2; i++) {
+            if (i == 2) continue;
+            Document doc = new Document("Test/learn/scan"+i+".jpg");
+//            Document doc = new Document("Test/v"+i+".jpg");
+            doc.rasterizeBinaryImage(true);
+            doc.detectCharacters(3, 1, 5, 60);
+            doc.rasterizeDetectedCharacter(true, -1);
+        }
     }
 
 }

@@ -23,7 +23,7 @@ public class CharacterPixel {
         centerY = y;
     }
 
-    public void scaleInto(int squareSize) {
+    public CharacterPixel scaleInto(int squareSize) {
         double sc = Math.min((double)squareSize / height, (double)squareSize / width);
         boolean isHeight = Math.abs((double)squareSize / height - sc) < 0.001;
         int newHeight = (int) (height * sc), newWidth = (int) (width * sc);
@@ -35,9 +35,13 @@ public class CharacterPixel {
                 newData[(iniH + i) * squareSize + iniW + j] = this.getPixel((int) (i / sc), (int) (j / sc));
             }
         }
-        height = squareSize;
-        width = squareSize;
-        data = newData;
+        CharacterPixel res = new CharacterPixel(squareSize, squareSize, centerX, centerY);
+        res.setData(newData);
+        return res;
+    }
+
+    public void setData(int[] data) {
+        this.data = data;
     }
 
     public int[] getData() {
@@ -64,7 +68,7 @@ public class CharacterPixel {
         int iniY = centerY == 0 ? 0 : centerY - width / 2;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                img.setPixel(iniY + j, iniX + i, this.getPixel(i, j));
+                img.setPixel(iniX + i, iniY + j, this.getPixel(i, j));
             }
         }
     }
@@ -75,7 +79,7 @@ public class CharacterPixel {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 img.setPixel(iniX + i, iniY + j,
-                        this.getPixel(i, j) == BinaryImage.BLACK ? BinaryImage.BLACK : background);
+                        this.getPixel(i, j) == BinaryImage.WHITE ? background : BinaryImage.BLACK);
             }
         }
     }
