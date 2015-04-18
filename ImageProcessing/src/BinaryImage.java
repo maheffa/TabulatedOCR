@@ -37,7 +37,7 @@ public class BinaryImage {
                 data[i] = convertToGrayscale(raw[j] & 0xFF, raw[j + 1] & 0xFF, raw[j + 2] & 0xFF, 1);
             }
         }
-//        binarize();
+        binarize();
     }
 
     public BinaryImage(int height, int width) {

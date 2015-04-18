@@ -1,9 +1,19 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
-public class ConnectedPixel implements Comparable {
+class ConnectedPixelComparator implements Comparator<ConnectedPixel> {
+
+    @Override
+    public int compare(ConnectedPixel c1, ConnectedPixel c2) {
+        int sameLineThreshold = 5;
+        if (Math.abs(c1.getMinx() - c2.getMinx()) <= sameLineThreshold) {
+            return c1.getMiny() - c2.getMiny();
+        } else {
+            return c1.getMinx() - c2.getMinx();
+        }
+    }
+}
+
+public class ConnectedPixel {
 
     private Set<int[]> pixels;
     private int minx, miny, maxx, maxy;
@@ -178,17 +188,23 @@ public class ConnectedPixel implements Comparable {
         return maxy - miny;
     }
 
-    @Override
-    public int compareTo(Object o) {
-        if (o instanceof ConnectedPixel) {
-            ConnectedPixel other = (ConnectedPixel) o;
-            int sameLineThreshold = 5;
-            if (Math.abs(other.minx - this.minx) <= sameLineThreshold) {
-                return this.miny - other.miny;
-            } else {
-                return this.minx - other.minx;
-            }
-        }
-        return 0;
+    public int size() {
+        return pixels.size();
+    }
+
+    public int getMinx() {
+        return minx;
+    }
+
+    public int getMiny() {
+        return miny;
+    }
+
+    public int getMaxx() {
+        return maxx;
+    }
+
+    public int getMaxy() {
+        return maxy;
     }
 }

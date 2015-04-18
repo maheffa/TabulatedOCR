@@ -2,6 +2,7 @@
 // Created: 16/02/2015
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 /**
  * @author mahefa
@@ -15,6 +16,7 @@ public class CharacterPixel {
         this.height = height;
         this.width = width;
         data = new int[height * width];
+        Arrays.fill(data, BinaryImage.WHITE);
     }
 
     public CharacterPixel(int height, int width, int x, int y) {
@@ -30,6 +32,7 @@ public class CharacterPixel {
         int iniH = !isHeight ? squareSize / 2 - newHeight / 2 : 0;
         int iniW = !isHeight ? 0 : squareSize / 2 - newWidth / 2;
         int[] newData = new int[squareSize * squareSize];
+        Arrays.fill(newData, BinaryImage.WHITE);
         for (int i = 0; i < newHeight; i++) {
             for (int j = 0; j < newWidth; j++) {
                 newData[(iniH + i) * squareSize + iniW + j] = this.getPixel((int) (i / sc), (int) (j / sc));
