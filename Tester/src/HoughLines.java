@@ -1,9 +1,11 @@
-import javax.swing.JFrame;
 import org.bytedeco.javacpp.Pointer;
-import org.bytedeco.javacv.*;
+import org.bytedeco.javacv.CanvasFrame;
+
+import javax.swing.*;
+
 import static org.bytedeco.javacpp.opencv_core.*;
+import static org.bytedeco.javacpp.opencv_highgui.cvLoadImage;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
-import static org.bytedeco.javacpp.opencv_highgui.*;
 
 /**
  * C to Java translation of the houghlines.c sample provided in the c sample directory of OpenCV 2.1,

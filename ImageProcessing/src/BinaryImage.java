@@ -2,11 +2,6 @@
 // Created: 19/02/2015
 
 import org.apache.commons.math3.fraction.Fraction;
-import org.encog.ml.MLCluster;
-import org.encog.ml.data.MLData;
-import org.encog.ml.data.basic.BasicMLData;
-import org.encog.ml.data.basic.BasicMLDataSet;
-import org.encog.ml.kmeans.KMeansClustering;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -91,7 +86,7 @@ public class BinaryImage {
         for (int pixelColor : dataToAnalyze) {
             dataSet.add(pixelColor);
         }
-        System.out.println("Set size = " + dataSet.size());
+//        System.out.println("Set size = " + dataSet.size());
 
         // clustering into two sets till no changes or iteration less than maxIterations
         clusters = dataSet.cluster(2, maxIterations);
@@ -119,7 +114,7 @@ public class BinaryImage {
             data[i] = binarizedHistogram[data[i]] > 0 ? BinaryImage.BLACK : BinaryImage.WHITE;
         }
 
-        System.out.println("Done with binarization ...");
+//        System.out.println("Done with binarization ...");
 
     }
 

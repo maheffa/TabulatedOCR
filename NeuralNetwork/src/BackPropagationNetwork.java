@@ -37,6 +37,17 @@ public class BackPropagationNetwork {
         trainingSet = new BasicMLDataSet();
     }
 
+    public BackPropagationNetwork(BackPropagationNetwork copy, boolean keepTraining) {
+        this.outputSize = copy.outputSize;
+        this.layers = copy.layers;
+        this.network = copy.network;
+        if (keepTraining) {
+            this.trainingSet = copy.trainingSet;
+        } else {
+            this.trainingSet = new BasicMLDataSet();
+        }
+    }
+
     public void addTraining(int[] inValue, int outValue) {
         double[] i = new double[inValue.length];
         double[] o = new double[outputSize];

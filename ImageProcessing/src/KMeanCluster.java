@@ -1,7 +1,7 @@
 // File:    Cluster.java
 // Created: 15/04/2015
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * @author mahefa

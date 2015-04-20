@@ -5,11 +5,18 @@ class ConnectedPixelComparator implements Comparator<ConnectedPixel> {
     @Override
     public int compare(ConnectedPixel c1, ConnectedPixel c2) {
         int sameLineThreshold = 5;
-        if (Math.abs(c1.getMinx() - c2.getMinx()) <= sameLineThreshold) {
+        if (c1.getMaxx() > c2.getMinx() && c2.getMaxx() > c1.getMinx()) {
             return c1.getMiny() - c2.getMiny();
+        } else if (c1.getMaxx() < c2.getMinx()) {
+            return -1;
         } else {
-            return c1.getMinx() - c2.getMinx();
+            return 1;
         }
+//        if (Math.abs(c1.getMaxx() - c2.getMaxx()) <= sameLineThreshold) {
+//            return c1.getMiny() - c2.getMiny();
+//        } else {
+//            return c1.getMaxx() - c2.getMaxx();
+//        }
     }
 }
 

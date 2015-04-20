@@ -7,6 +7,7 @@ import java.util.Arrays;
 /**
  * @author mahefa
  */
+
 public class CharacterPixel {
     private int height, width;
     private int centerX = 0, centerY = 0;

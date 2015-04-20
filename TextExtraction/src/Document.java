@@ -2,48 +2,43 @@
 // Created: 14/04/2015
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.PriorityQueue;
 
 /**
  * @author mahefa
  */
 public class Document {
+    public static int sizeCharacter = 50;
+    public static int pixelDefinition = sizeCharacter * sizeCharacter;
+    public static int charNumber = 64;
+    public static int space = 10;
+
     private String path;
     private BinaryImage binaryImage;
 //    private ArrayList<ConnectedPixel> connectedPixels;
 //    private ArrayList<CharacterPixel> characterPixels;
     private PriorityQueue<ConnectedPixel> priorityCP;
-    private BackPropagationNetwork network;
-    private int sizeCharacter = 30;
     private int averageCharacterPerDocument = 1500;
-    private int pixelDefinition = sizeCharacter * sizeCharacter;
-    private int charNumber = 64;
-    private int space = 10;
-    private int[] layers = new int[]{pixelDefinition, (pixelDefinition + charNumber) / 2, charNumber};
 
     public Document(String path) {
         this.path = path;
         this.binaryImage = new BinaryImage(path);
-        this.network = new BackPropagationNetwork(layers);
         this.priorityCP = new PriorityQueue<ConnectedPixel>(
                 averageCharacterPerDocument,
                 new ConnectedPixelComparator());
     }
 
-    public void detectCharacters(int radius, int margin, int minCharSize, int maxCharSize) {
+    public void detectCharacters(int radius, int margin, int minCharHeight, int minCharWidth, int maxCharSize) {
 //        connectedPixels = new ArrayList<ConnectedPixel>();
 //        characterPixels = new ArrayList<CharacterPixel>();
         this.priorityCP = new PriorityQueue<ConnectedPixel>(
                 averageCharacterPerDocument,
                 new ConnectedPixelComparator());
         for (ConnectedPixel cp : ConnectedPixel.getConnectedPixels(radius, margin, binaryImage)) {
-            if (cp.getHeight() >= minCharSize
+            if (cp.getHeight() >= minCharHeight
                     && cp.getHeight() <= maxCharSize
-                    /*&& cp.getWidth() >= minCharSize
-                    && cp.getWidth() <= maxCharSize*/) {
+                    && cp.getWidth() >= minCharWidth
+                    && cp.getWidth() <= maxCharSize) {
 //                connectedPixels.add(cp);
                 priorityCP.add(cp);
 //                CharacterPixel chp = cp.createCharaterPixel();
@@ -96,17 +91,19 @@ public class Document {
         );
         int height = priorityCP.size()
                 / (binaryImage.getWidth() / (sizeCharacter + 2 * space))
-                * (sizeCharacter + space);
+                * (2 * sizeCharacter);
         BinaryImage bImg = new BinaryImage(Math.max(binaryImage.getHeight(), height), binaryImage.getWidth());
         int i = sizeCharacter * 2;
-        int j = sizeCharacter * 2;
-        int minColor = 60, maxColor = 160;
+        int j = 125;
+        int minColor = 200, maxColor = 250;
         int color = maxColor;
+        int nChar = priorityCP.size();
         while (this.priorityCP.size() > 0) {
             ConnectedPixel cp = priorityCP.poll();
-            if (j > bImg.getWidth() - 2 * sizeCharacter) {
-                j = sizeCharacter * 2;
-                i += sizeCharacter + space;
+            pq.add(cp);
+            if (j > bImg.getWidth() - 125) {
+                j = 125;
+                i += 2 * sizeCharacter;
             }
             CharacterPixel chr = cp.createCharaterPixel(i, j);
             chr.scaleInto(sizeCharacter).writeOnImage(bImg, color);
@@ -114,12 +111,15 @@ public class Document {
             color = color == minColor ? maxColor : color - 2;
             j += sizeCharacter + space;
         }
+        System.out.println("Charnumber = " + nChar);
         BufferedImage img = bImg.rasterize();
         if (writeToFile) {
             String[] initialFile = ImgProcUtil.getPathBaseExtension(path);
             String newName = initialFile[0] + initialFile[1] + ".orChar." + initialFile[2];
             ImgProcUtil.writeImage(newName, img, "jpeg");
         }
+
+        this.priorityCP = pq;
     }
 
     public void setNetwork(BackPropagationNetwork network) {

@@ -1,7 +1,6 @@
 // File:    TestKMeans.java
 // Created: 15/04/2015
 
-import java.util.Arrays;
 import java.util.Random;
 
 /**
