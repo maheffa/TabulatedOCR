@@ -9,7 +9,6 @@ public class TestBinaryImage extends Tester{
     public TestBinaryImage() {
     }
 
-    @Override
     public void runTest() {
         for (int i = 0; i < 7; i++) {
             if (i == 2) continue;

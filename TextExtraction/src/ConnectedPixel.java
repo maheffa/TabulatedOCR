@@ -4,7 +4,6 @@ class ConnectedPixelComparator implements Comparator<ConnectedPixel> {
 
     @Override
     public int compare(ConnectedPixel c1, ConnectedPixel c2) {
-        int sameLineThreshold = 5;
         if (c1.getMaxx() > c2.getMinx() && c2.getMaxx() > c1.getMinx()) {
             return c1.getMiny() - c2.getMiny();
         } else if (c1.getMaxx() < c2.getMinx()) {
@@ -12,11 +11,6 @@ class ConnectedPixelComparator implements Comparator<ConnectedPixel> {
         } else {
             return 1;
         }
-//        if (Math.abs(c1.getMaxx() - c2.getMaxx()) <= sameLineThreshold) {
-//            return c1.getMiny() - c2.getMiny();
-//        } else {
-//            return c1.getMaxx() - c2.getMaxx();
-//        }
     }
 }
 
@@ -169,19 +163,6 @@ public class ConnectedPixel {
         }
         return lcp;
     }
-
-//    public void writeOnImage(BinaryImage img, ColorB background) {
-//        for (int[] pix : pixels) {
-//            img.setPixel(pix[0], pix[1], ColorB.BLACK);
-//        }
-//        for (int i = minx; i <= maxx; i++) {
-//            for (int j = miny; j <= maxy; j++) {
-//                if (img.getPixel(i, j) != ColorB.BLACK) {
-//                    img.setPixel(i, j, background);
-//                }
-//            }
-//        }
-//    }
 
     public int getBlackPixelCount() {
         return this.pixels.size();

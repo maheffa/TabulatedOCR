@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -58,9 +59,29 @@ public class DocumentLearn {
         document.detectCharacters(5, 1, 10, 2, 60);
     }
 
-    public boolean learn() {
-
+    public boolean learn(double learningRate, double momentum, double minError) {
+        int indexChar = 0;
+        Iterator<ConnectedPixel> connectedPixelIterator = document.iterateConnectedPixels();
+        if (textChar.length != document.getNumberOfDetectedCharacter()) {
+            System.out.println("Error: cannot learn document with provided text. Size are different");
+            System.out.println("Dectected characters = " + document.getNumberOfDetectedCharacter());
+            System.out.println("Number of text in file = " + textChar.length);
+            System.out.println(false);
+        }
+        System.out.println("Adding each character to training set");
+        while (connectedPixelIterator.hasNext()) {
+            ConnectedPixel cp = connectedPixelIterator.next();
+            char c = textChar[indexChar++];
+            CharacterPixel charPix = cp.createCharaterPixel();
+            charPix = charPix.scaleInto(Document.sizeCharacter);
+            neuralNetwork.addTraining(charPix.getData(), Document.getCharIndex(c));
+        }
+        System.out.println("Starting learning");
+        neuralNetwork.train(learningRate, momentum, minError);
         return true;
     }
 
+    public OCREngine getOCREngine() {
+        return new OCREngine(neuralNetwork);
+    }
 }

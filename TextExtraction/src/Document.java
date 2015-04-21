@@ -2,58 +2,51 @@
 // Created: 14/04/2015
 
 import java.awt.image.BufferedImage;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * @author mahefa
  */
 public class Document {
-    public static int sizeCharacter = 50;
+    public static int sizeCharacter = 30;
     public static int pixelDefinition = sizeCharacter * sizeCharacter;
-    public static int charNumber = 64;
     public static int space = 10;
+    public static char[] chars = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A',
+            'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    public static int charNumber = chars.length;
 
     private String path;
     private BinaryImage binaryImage;
-//    private ArrayList<ConnectedPixel> connectedPixels;
-//    private ArrayList<CharacterPixel> characterPixels;
-    private PriorityQueue<ConnectedPixel> priorityCP;
+    private TreeSet<ConnectedPixel> connectedPixels;
     private int averageCharacterPerDocument = 1500;
 
     public Document(String path) {
         this.path = path;
         this.binaryImage = new BinaryImage(path);
-        this.priorityCP = new PriorityQueue<ConnectedPixel>(
-                averageCharacterPerDocument,
-                new ConnectedPixelComparator());
+        this.connectedPixels = new TreeSet<ConnectedPixel>(new ConnectedPixelComparator());
     }
 
     public void detectCharacters(int radius, int margin, int minCharHeight, int minCharWidth, int maxCharSize) {
-//        connectedPixels = new ArrayList<ConnectedPixel>();
-//        characterPixels = new ArrayList<CharacterPixel>();
-        this.priorityCP = new PriorityQueue<ConnectedPixel>(
-                averageCharacterPerDocument,
-                new ConnectedPixelComparator());
         for (ConnectedPixel cp : ConnectedPixel.getConnectedPixels(radius, margin, binaryImage)) {
             if (cp.getHeight() >= minCharHeight
                     && cp.getHeight() <= maxCharSize
                     && cp.getWidth() >= minCharWidth
                     && cp.getWidth() <= maxCharSize) {
-//                connectedPixels.add(cp);
-                priorityCP.add(cp);
-//                CharacterPixel chp = cp.createCharaterPixel();
-//                characterPixels.add(cp.createCharaterPixel());
-//                System.out.println(Arrays.toString(cp.createCharaterPixel().getData()));
-//                System.out.println(cp.size() + " / " + chp.getData().length);
+                connectedPixels.add(cp);
             }
         }
     }
 
-    public int getNumberOfDetectedCharacter() {
-        return priorityCP.size();
+    public static int getCharIndex(char c) {
+        for (int i = 0; i < charNumber; i++) {
+            if (chars[i] == c) {
+                return i;
+            }
+        }
+        return -1;
     }
-
-
 
     public void detectStructure() {
         // TODO
@@ -73,7 +66,7 @@ public class Document {
         BinaryImage bImg = new BinaryImage(binaryImage.getHeight(), binaryImage.getWidth());
         int[] backgroundColor = new int[]{64, 110, 156};
         int iBack = 0;
-        for (ConnectedPixel cp : priorityCP) {
+        for (ConnectedPixel cp : connectedPixels) {
             CharacterPixel characterPixel = cp.createCharaterPixel();
             if (charSize > 0) {
                 characterPixel = characterPixel.scaleInto(charSize);
@@ -95,7 +88,7 @@ public class Document {
                 averageCharacterPerDocument,
                 new ConnectedPixelComparator()
         );
-        int height = priorityCP.size()
+        int height = connectedPixels.size()
                 / (binaryImage.getWidth() / (sizeCharacter + 2 * space))
                 * (2 * sizeCharacter);
         BinaryImage bImg = new BinaryImage(Math.max(binaryImage.getHeight(), height), binaryImage.getWidth());
@@ -103,10 +96,8 @@ public class Document {
         int j = 125;
         int minColor = 200, maxColor = 250;
         int color = maxColor;
-        int nChar = priorityCP.size();
-        while (this.priorityCP.size() > 0) {
-            ConnectedPixel cp = priorityCP.poll();
-            pq.add(cp);
+        int nChar = connectedPixels.size();
+        for (ConnectedPixel cp : connectedPixels) {
             if (j > bImg.getWidth() - 125) {
                 j = 125;
                 i += 2 * sizeCharacter;
@@ -124,12 +115,17 @@ public class Document {
             String newName = initialFile[0] + initialFile[1] + ".orChar." + initialFile[2];
             ImgProcUtil.writeImage(newName, img, "jpeg");
         }
+    }
 
-        this.priorityCP = pq;
+    public Iterator<ConnectedPixel> iterateConnectedPixels() {
+        return connectedPixels.iterator();
     }
 
     public void setNetwork(BackPropagationNetwork network) {
+    }
 
+    public int getNumberOfDetectedCharacter() {
+        return connectedPixels.size();
     }
 
     public String getPath() {

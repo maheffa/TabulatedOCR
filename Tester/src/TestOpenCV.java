@@ -11,7 +11,6 @@ public class TestOpenCV extends Tester{
     public TestOpenCV() {
     }
 
-    @Override
     public void runTest() {
         for(int i = 6; i < 9; i++) {
             BufferedImage img = ImgProcUtil.readImage("Test/t"+i+".jpg");

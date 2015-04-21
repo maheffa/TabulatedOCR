@@ -3,18 +3,20 @@
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * @author mahefa
  */
-public class TestDocumentLearn {
+public class TestDocumentLearn extends Tester{
 
     public TestDocumentLearn() {
     }
 
     public static void main(String[] args) {
-        for (int i = 0; i < 8; i++) {
-            String path = "Test/learn/scan" + i + ".jpg";
+        for (int i = 1; i < 8; i++) {
+            String path = "Test/learn/rchar" + i + ".jpg";
+            String text = "Test/learn/scan" + i + ".txt";
             long fileSize = 0;
             File f = null;
             if (!(f = new File(path)).exists()) {
@@ -30,21 +32,18 @@ public class TestDocumentLearn {
             Util.stopChrono();
             Util.outputChrono();
 
-//            System.out.println("Rasterizing binary image");
-//            doc.rasterizeBinaryImage(true);
-//            System.out.println("Detecting character");
-//            Util.startChrono();
-//            doc.detectCharacters(5, 1, 10, 2, 60);
-//            Util.stopChrono();
-//            Util.outputChrono();
-
-//            doc.rasterizeDetectedCharacter(true, -1);
-
-//            System.out.println("Rasterizing ordered character");
-//            Util.startChrono();
-//            doc.rasterizeInOrder(true);
-//            Util.stopChrono();
-//            Util.outputChrono();
+            System.out.println("Creating document learning");
+            DocumentLearn documentLearn = new DocumentLearn(doc, text);
+            documentLearn.prepareDocument();
+            documentLearn.learn(0.7, 0.3, 0.01);
+            OCREngine engine = documentLearn.getOCREngine();
+            log.info("Starting recogniztion");
+            Iterator<ConnectedPixel> iterator = doc.iterateConnectedPixels();
+            while (iterator.hasNext()) {
+                char c = engine.recognize(iterator.next());
+                System.out.print(c + ", ");
+            }
+            log.info("Done");
         }
     }
 

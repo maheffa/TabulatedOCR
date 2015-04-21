@@ -12,6 +12,8 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author mahefa
@@ -52,7 +54,7 @@ public class BackPropagationNetwork {
         double[] i = new double[inValue.length];
         double[] o = new double[outputSize];
         for (int j = 0; j < i.length; j++) {
-            i[j] = inValue[j] == 0 ? 0.0 : 1.0;
+            i[j] = inValue[j] == BinaryImage.BLACK ? 1.0 : 0.0;
         }
         o[outValue] = 1.0;
         MLData idata = new BasicMLData(i);
@@ -61,15 +63,26 @@ public class BackPropagationNetwork {
     }
 
     public void train(double learningRate, double momentum, double minError) {
+        Logger log = Logger.getAnonymousLogger();
         Backpropagation train = new Backpropagation(network, trainingSet, learningRate, momentum);
         train.fixFlatSpot(false);
         int epoch = 0;
-        System.out.println("Starting training ...");
+        double lastError = 1;
+        log.info("Starting learning");
         do {
             train.iteration();
             epoch++;
+            log.log(Level.INFO, "Epoch " + epoch + ", error = " + train.getError());
+            if (lastError == train.getError()) {
+                log.warning("Error had converged to " + lastError + ". Now quitting");
+                break;
+            }  else {
+                lastError = train.getError();
+            }
         } while (train.getError() > minError);
-        System.out.println("Done training: epoch " + epoch + " ...");
+        log.info("Epoch finished\n" +
+                "Final error: " + train.getError() + "\n" +
+                "Last delta: " + Arrays.toString(train.getLastDelta()));
     }
 
     public int recognize(int[] inValue) {
