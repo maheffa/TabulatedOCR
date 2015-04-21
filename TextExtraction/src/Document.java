@@ -49,6 +49,12 @@ public class Document {
         }
     }
 
+    public int getNumberOfDetectedCharacter() {
+        return priorityCP.size();
+    }
+
+
+
     public void detectStructure() {
         // TODO
     }

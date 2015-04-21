@@ -34,7 +34,7 @@ public class DocumentLearn {
         this.neuralNetwork = network;
     }
 
-    private char[] readChars(String textPath) {
+    public static char[] readChars(String textPath) {
 //        BufferedReader reader = new BufferedReader();
         StringBuilder str = new StringBuilder();
         try {
@@ -51,6 +51,11 @@ public class DocumentLearn {
         }
         System.out.println("Read chars: " + str.length());
         return str.toString().toCharArray();
+    }
+
+    public void prepareDocument() {
+        System.out.println("Detecting character");
+        document.detectCharacters(5, 1, 10, 2, 60);
     }
 
     public boolean learn() {
