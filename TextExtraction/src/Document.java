@@ -8,13 +8,14 @@ import java.util.*;
  * @author mahefa
  */
 public class Document {
-    public static int sizeCharacter = 30;
+    public static int sizeCharacter = 20;
     public static int pixelDefinition = sizeCharacter * sizeCharacter;
     public static int space = 10;
-    public static char[] chars = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A',
-            'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+//    public static char[] chars = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+//            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A',
+//            'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+//            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    public static char[] chars = new char[] {'a', 'b', 'c'};
     public static int charNumber = chars.length;
 
     private String path;
@@ -119,6 +120,10 @@ public class Document {
 
     public Iterator<ConnectedPixel> iterateConnectedPixels() {
         return connectedPixels.iterator();
+    }
+
+    public TreeSet<ConnectedPixel> getConnectedPixels() {
+        return this.connectedPixels;
     }
 
     public void setNetwork(BackPropagationNetwork network) {

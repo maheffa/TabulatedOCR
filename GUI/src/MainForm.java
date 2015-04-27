@@ -8,13 +8,11 @@ import javax.swing.*;
  */
 public class MainForm {
 
-    private JButton nextButton;
-    private JButton previousButton;
-    private JPanel pMainPanel;
-    private JPanel pInputChoose;
-    private JPanel pConfigurationChoose;
+    private JPanel mainPan;
 
     public MainForm() {
+        JMenuBar menubar = new JMenuBar();
+
     }
 
 }

@@ -52,6 +52,14 @@ public class CharacterPixel {
         return this.data;
     }
 
+    public double[] getNeuralNetworkData() {
+        double[] res = new double[data.length];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = data[i] == BinaryImage.BLACK ? 1.0 : 0.0;
+        }
+        return res;
+    }
+
     public void scale(double factor) {
         int ideal = Math.max(height, width);
         scaleInto((int)(factor * ideal));
@@ -107,4 +115,14 @@ public class CharacterPixel {
         }
     }
 
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                str.append(data[i * width + j] == BinaryImage.BLACK ? 1 : 0);
+            }
+            str.append('\n');
+        }
+        return str.toString();
+    }
 }

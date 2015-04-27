@@ -16,7 +16,12 @@ public class OCREngine {
 
     public char recognize(ConnectedPixel cp) {
         CharacterPixel charPix = cp.createCharaterPixel().scaleInto(Document.sizeCharacter);
-        int solution = network.recognize(charPix.getData());
-        return Document.chars[solution];
+        System.out.println("Recognizing\n"+charPix);
+        int solution = network.recognize(charPix.getNeuralNetworkData());
+        if (solution < 0 || solution >= Document.charNumber) {
+            return ' ';
+        } else {
+            return Document.chars[solution];
+        }
     }
 }
