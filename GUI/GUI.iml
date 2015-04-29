@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="JGoodies Forms" level="project" />
     <orderEntry type="library" name="swingx-1.6.1" level="project" />
+    <orderEntry type="module" module-name="SerialData" />
   </component>
 </module>

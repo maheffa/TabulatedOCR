@@ -1,10 +1,14 @@
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Vector;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.plaf.basic.DefaultMenuLayout;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.jgoodies.forms.factories.*;
@@ -18,6 +22,8 @@ import com.jgoodies.forms.factories.*;
  * @author Boubakar Tilojab
  */
 public class OcrMainForm  {
+
+    private Parameters paramater;
 
     private void menuCreateFormatActionPerformed(ActionEvent e) {
         JFrame frame = new JFrame();
@@ -59,7 +65,7 @@ public class OcrMainForm  {
         menuItem17 = new JMenuItem();
         panel1 = new JPanel();
         screllTree = new JScrollPane();
-        treeView = new JTree(addNodes(null, new File("/")));
+        projectTreeView = new JTree(openDownToPath(paramater.getProjectPath()));
         scrollPane2 = new JScrollPane();
         label3 = new JLabel();
         panel3 = new JPanel();
@@ -249,7 +255,7 @@ public class OcrMainForm  {
                     screllTree.setBorder(new TitledBorder("\u041f\u0440\u043e\u0435\u043a\u0442"));
                     screllTree.setMinimumSize(new Dimension(50, 50));
                     screllTree.setPreferredSize(new Dimension(150, 382));
-                    screllTree.setViewportView(treeView);
+                    screllTree.setViewportView(projectTreeView);
                 }
                 panel1.add(screllTree, new GridBagConstraints(0, 0, 1, 1, 0.0, 5.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -445,7 +451,7 @@ public class OcrMainForm  {
     private JMenuItem menuItem17;
     private JPanel panel1;
     private JScrollPane screllTree;
-    private JTree treeView;
+    private JTree projectTreeView;
     private JScrollPane scrollPane2;
     private JLabel label3;
     private JPanel panel3;
@@ -467,8 +473,9 @@ public class OcrMainForm  {
     private JPanel panel9;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 
-    public OcrMainForm() {
+    public OcrMainForm(Parameters paramater) {
         super();
+        this.paramater = paramater;
         initComponents();
     }
 
@@ -476,40 +483,38 @@ public class OcrMainForm  {
         return this.mainFrame;
     }
 
-    public void setProjectPathTree(String path) {
-
+    private DefaultMutableTreeNode openDownToPath(String path) {
+        String[] folders = path.split(Pattern.quote(File.separator));
+        System.out.printf(Arrays.toString(folders));
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new File("/"));
+        int index = 1;
+        DefaultMutableTreeNode current = root;
+        while (index < folders.length) {
+            open(current, 2);
+            Enumeration<DefaultMutableTreeNode> enumeration = current.children();
+            DefaultMutableTreeNode satisfactory = null;
+            while (enumeration.hasMoreElements() && satisfactory == null) {
+                DefaultMutableTreeNode tmpDm = enumeration.nextElement();
+                if (((File) tmpDm.getUserObject()).getName().equals(folders[index])) {
+                    satisfactory = tmpDm;
+                    index++;
+                    current = satisfactory;
+                }
+            }
+        }
+        return root;
     }
 
-    private DefaultMutableTreeNode addNodes(DefaultMutableTreeNode curTop, File dir) {
-//        System.out.println("Current directory : " + dir.getPath());
-        String curPath = dir.getPath();
-        DefaultMutableTreeNode curDir = new DefaultMutableTreeNode(curPath);
-        if (curTop != null) { // should only be null at root
-            curTop.add(curDir);
+    public void open(DefaultMutableTreeNode folder, int depth) {
+        File f = (File) folder.getUserObject();
+        if (f.isDirectory() && depth > 0) {
+            File[] files = f.listFiles();
+            if (files != null)
+                for (File ff : files) {
+                    DefaultMutableTreeNode df = new DefaultMutableTreeNode(ff);
+                    open(df, depth - 1);
+                    folder.add(df);
+                }
         }
-        Vector ol = new Vector();
-        String[] tmp = dir.list();
-        for (int i = 0; tmp != null && i < tmp.length; i++)
-            ol.addElement(tmp[i]);
-        Collections.sort(ol, String.CASE_INSENSITIVE_ORDER);
-        File f;
-        Vector files = new Vector();
-        // Make two passes, one for Dirs and one for Files. This is #1.
-        for (int i = 0; i < ol.size(); i++) {
-            String thisObject = (String) ol.elementAt(i);
-            String newPath;
-            if (curPath.equals("."))
-                newPath = thisObject;
-            else
-                newPath = curPath + File.separator + thisObject;
-            if ((f = new File(newPath)).isDirectory())
-                addNodes(curDir, f);
-            else
-                files.addElement(thisObject);
-        }
-        // Pass two: for files.
-        for (int fnum = 0; fnum < files.size(); fnum++)
-            curDir.add(new DefaultMutableTreeNode(files.elementAt(fnum)));
-        return curDir;
     }
 }

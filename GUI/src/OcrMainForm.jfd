@@ -28,9 +28,9 @@ new FormModel {
 					"minimumSize": new java.awt.Dimension( 50, 50 )
 					"preferredSize": new java.awt.Dimension( 150, 382 )
 					add( new FormComponent( "javax.swing.JTree" ) {
-						name: "treeView"
+						name: "projectTreeView"
 						auxiliary() {
-							"JavaCodeGenerator.customCreateCode": "new JTree(addNodes(null, new File(\"/\")));"
+							"JavaCodeGenerator.customCreateCode": "new JTree(openDownToPath(parameter.getProjectPath()));"
 						}
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {

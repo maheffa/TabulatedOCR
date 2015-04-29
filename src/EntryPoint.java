@@ -8,13 +8,13 @@ import javax.swing.*;
  * @author mahefa
  */
 public class EntryPoint {
-    private Parameters parameters;
+    private Parameters parameter;
     private OcrMainForm ocrMainForm;
 
     public EntryPoint() {
-        parameters = Parameters.getInstance();
-        ocrMainForm = new OcrMainForm();
-        System.out.println("Parameters filepath " + parameters.getProjectPath());
+        parameter = Parameters.getInstance();
+        ocrMainForm = new OcrMainForm(parameter);
+        System.out.println("Parameters filepath " + parameter.getProjectPath());
         launchGUI();
     }
 
