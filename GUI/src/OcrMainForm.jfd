@@ -29,6 +29,9 @@ new FormModel {
 					"preferredSize": new java.awt.Dimension( 150, 382 )
 					add( new FormComponent( "javax.swing.JTree" ) {
 						name: "treeView"
+						auxiliary() {
+							"JavaCodeGenerator.customCreateCode": "new JTree(addNodes(null, new File(\"/\")));"
+						}
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"hAlign": 5
@@ -273,8 +276,9 @@ new FormModel {
 						name: "separator4"
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem11"
+						name: "menuCreateFormat"
 						"text": "Созадать формат"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuCreateFormatActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuItem12"

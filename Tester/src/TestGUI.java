@@ -11,12 +11,23 @@ public class TestGUI {
     public TestGUI() {
     }
 
-    public static void main(String[] args) {
+    public static void testOcrMainForm() {
+        OcrMainForm ocr = new OcrMainForm();
+        JFrame frame = ocr.getMainFrame();
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public static void testCreateFormatForm() {
         CreateFormatForm form = new CreateFormatForm();
         JFrame frame = new JFrame("Hey watsup");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(form);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        testOcrMainForm();
     }
 }

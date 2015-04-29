@@ -115,7 +115,7 @@ new FormModel {
 					"hAlign": 4
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textField1"
+					name: "txtFormatName"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
 					"hAlign": 5
@@ -130,6 +130,7 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "butCancel"
 					"text": "Отменить"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butCancelActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 3
 					"weightx": 1.0
@@ -137,6 +138,7 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "butSave"
 					"text": "Сохранить"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butSaveActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 4
 					"weightx": 1.0

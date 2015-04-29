@@ -17,7 +17,8 @@ public class CreateFormatForm extends JPanel {
     }
 
     private void butCancelActionPerformed(ActionEvent e) {
-
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        frame.dispose();
     }
 
     private void panelFormatMouseClicked(MouseEvent e) {
@@ -61,6 +62,10 @@ public class CreateFormatForm extends JPanel {
         }
     }
 
+    private void butSaveActionPerformed(ActionEvent e) {
+
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Boubakar Tilojab
@@ -79,7 +84,7 @@ public class CreateFormatForm extends JPanel {
         butSaveFormat = new JButton();
         panel3 = new JPanel();
         label3 = new JLabel();
-        textField1 = new JTextField();
+        txtFormatName = new JTextField();
         hSpacer1 = new JPanel(null);
         butCancel = new JButton();
         butSave = new JButton();
@@ -225,7 +230,7 @@ public class CreateFormatForm extends JPanel {
             panel3.add(label3, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
                 GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
                 new Insets(0, 0, 0, 0), 0, 0));
-            panel3.add(textField1, new GridBagConstraints(1, 0, 1, 1, 10.0, 0.0,
+            panel3.add(txtFormatName, new GridBagConstraints(1, 0, 1, 1, 10.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 0), 0, 0));
             panel3.add(hSpacer1, new GridBagConstraints(2, 0, 1, 1, 2.0, 0.0,
@@ -234,12 +239,24 @@ public class CreateFormatForm extends JPanel {
 
             //---- butCancel ----
             butCancel.setText("\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c");
+            butCancel.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    butCancelActionPerformed(e);
+                }
+            });
             panel3.add(butCancel, new GridBagConstraints(3, 0, 1, 1, 1.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 0), 0, 0));
 
             //---- butSave ----
             butSave.setText("\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c");
+            butSave.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    butSaveActionPerformed(e);
+                }
+            });
             panel3.add(butSave, new GridBagConstraints(4, 0, 1, 1, 1.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 0), 0, 0));
@@ -265,7 +282,7 @@ public class CreateFormatForm extends JPanel {
     private JButton butSaveFormat;
     private JPanel panel3;
     private JLabel label3;
-    private JTextField textField1;
+    private JTextField txtFormatName;
     private JPanel hSpacer1;
     private JButton butCancel;
     private JButton butSave;

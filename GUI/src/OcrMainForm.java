@@ -1,6 +1,12 @@
+import java.util.Collections;
+import java.util.Vector;
 import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import com.jgoodies.forms.factories.*;
 /*
  * Created by JFormDesigner on Sun Apr 26 16:23:28 MSK 2015
@@ -12,6 +18,13 @@ import com.jgoodies.forms.factories.*;
  * @author Boubakar Tilojab
  */
 public class OcrMainForm  {
+
+    private void menuCreateFormatActionPerformed(ActionEvent e) {
+        JFrame frame = new JFrame();
+        frame.add(new CreateFormatForm());
+        frame.pack();
+        frame.setVisible(true);
+    }
 
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -31,7 +44,7 @@ public class OcrMainForm  {
         menuItem9 = new JMenuItem();
         menu3 = new JMenu();
         menuItem10 = new JMenuItem();
-        menuItem11 = new JMenuItem();
+        menuCreateFormat = new JMenuItem();
         menuItem12 = new JMenuItem();
         menuItem13 = new JMenuItem();
         menuItem14 = new JMenuItem();
@@ -46,7 +59,7 @@ public class OcrMainForm  {
         menuItem17 = new JMenuItem();
         panel1 = new JPanel();
         screllTree = new JScrollPane();
-        treeView = new JTree();
+        treeView = new JTree(addNodes(null, new File("/")));
         scrollPane2 = new JScrollPane();
         label3 = new JLabel();
         panel3 = new JPanel();
@@ -144,9 +157,15 @@ public class OcrMainForm  {
                     menu3.add(menuItem10);
                     menu3.addSeparator();
 
-                    //---- menuItem11 ----
-                    menuItem11.setText("\u0421\u043e\u0437\u0430\u0434\u0430\u0442\u044c \u0444\u043e\u0440\u043c\u0430\u0442");
-                    menu3.add(menuItem11);
+                    //---- menuCreateFormat ----
+                    menuCreateFormat.setText("\u0421\u043e\u0437\u0430\u0434\u0430\u0442\u044c \u0444\u043e\u0440\u043c\u0430\u0442");
+                    menuCreateFormat.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            menuCreateFormatActionPerformed(e);
+                        }
+                    });
+                    menu3.add(menuCreateFormat);
 
                     //---- menuItem12 ----
                     menuItem12.setText("\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0444\u043e\u0440\u043c\u0430\u0442");
@@ -411,7 +430,7 @@ public class OcrMainForm  {
     private JMenuItem menuItem9;
     private JMenu menu3;
     private JMenuItem menuItem10;
-    private JMenuItem menuItem11;
+    private JMenuItem menuCreateFormat;
     private JMenuItem menuItem12;
     private JMenuItem menuItem13;
     private JMenuItem menuItem14;
@@ -447,4 +466,50 @@ public class OcrMainForm  {
     private JLabel label5;
     private JPanel panel9;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
+
+    public OcrMainForm() {
+        super();
+        initComponents();
+    }
+
+    public JFrame getMainFrame() {
+        return this.mainFrame;
+    }
+
+    public void setProjectPathTree(String path) {
+
+    }
+
+    private DefaultMutableTreeNode addNodes(DefaultMutableTreeNode curTop, File dir) {
+//        System.out.println("Current directory : " + dir.getPath());
+        String curPath = dir.getPath();
+        DefaultMutableTreeNode curDir = new DefaultMutableTreeNode(curPath);
+        if (curTop != null) { // should only be null at root
+            curTop.add(curDir);
+        }
+        Vector ol = new Vector();
+        String[] tmp = dir.list();
+        for (int i = 0; tmp != null && i < tmp.length; i++)
+            ol.addElement(tmp[i]);
+        Collections.sort(ol, String.CASE_INSENSITIVE_ORDER);
+        File f;
+        Vector files = new Vector();
+        // Make two passes, one for Dirs and one for Files. This is #1.
+        for (int i = 0; i < ol.size(); i++) {
+            String thisObject = (String) ol.elementAt(i);
+            String newPath;
+            if (curPath.equals("."))
+                newPath = thisObject;
+            else
+                newPath = curPath + File.separator + thisObject;
+            if ((f = new File(newPath)).isDirectory())
+                addNodes(curDir, f);
+            else
+                files.addElement(thisObject);
+        }
+        // Pass two: for files.
+        for (int fnum = 0; fnum < files.size(); fnum++)
+            curDir.add(new DefaultMutableTreeNode(files.elementAt(fnum)));
+        return curDir;
+    }
 }

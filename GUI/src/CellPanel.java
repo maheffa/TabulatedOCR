@@ -3,12 +3,13 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author mahefa
  */
-public class CellPanel{
+public class CellPanel implements Serializable {
 
     private CellPanel parent;
     private ArrayList<CellPanel> child;
@@ -19,6 +20,7 @@ public class CellPanel{
     private String formattedContent = "";
     private Color color;
     private FormatPanel panel;
+    private String name = "";
 
     public CellPanel() {
     }
@@ -73,6 +75,7 @@ public class CellPanel{
                         dHeight,
                         this,
                         panel);
+                cp.name = name;
                 if (!child.contains(cp)) {
                     System.out.println(cp);
                     child.add(cp);
@@ -122,6 +125,14 @@ public class CellPanel{
 
     public CellPanel getParent() {
         return parent;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ArrayList<CellPanel> getChild() {
