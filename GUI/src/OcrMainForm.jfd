@@ -23,6 +23,20 @@ new FormModel {
 				"border": sfield com.jgoodies.forms.factories.Borders DLU2_BORDER
 				"minimumSize": new java.awt.Dimension( 150, 447 )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane2"
+					"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label3"
+						"text": "<html>  <b>Название</b>:<br/>  Исходный:<br/>  <i>Размер</i>:<br/> </html>"
+						"verticalAlignment": 1
+					} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 1
+					"hAlign": 5
+					"weighty": 3.0
+					"vAlign": 5
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "screllTree"
 					"border": new javax.swing.border.TitledBorder( "Проект" )
 					"minimumSize": new java.awt.Dimension( 50, 50 )
@@ -36,20 +50,6 @@ new FormModel {
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"hAlign": 5
 					"weighty": 5.0
-				} )
-				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-					name: "scrollPane2"
-					"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "label3"
-						"text": "<html>  <b>Название</b>:<br/>  Исходный:<br/>  <i>Размер</i>:<br/> </html>"
-						"verticalAlignment": 1
-					} )
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 1
-					"hAlign": 5
-					"weighty": 3.0
-					"vAlign": 5
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"hAlign": 5

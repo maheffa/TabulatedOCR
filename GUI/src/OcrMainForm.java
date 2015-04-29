@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -10,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeCellRenderer;
 
 import com.jgoodies.forms.factories.*;
 /*
@@ -64,10 +62,10 @@ public class OcrMainForm  {
         menu4 = new JMenu();
         menuItem17 = new JMenuItem();
         panel1 = new JPanel();
-        screllTree = new JScrollPane();
-        projectTreeView = new JTree(openDownToPath(paramater.getProjectPath()));
         scrollPane2 = new JScrollPane();
         label3 = new JLabel();
+        screllTree = new JScrollPane();
+        projectTreeView = new JTree(openDownToPath(parameter.getProjectPath()));
         panel3 = new JPanel();
         scrollPane3 = new JScrollPane();
         panel8 = new JPanel();
@@ -250,17 +248,6 @@ public class OcrMainForm  {
                 ((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
                 ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
-                //======== screllTree ========
-                {
-                    screllTree.setBorder(new TitledBorder("\u041f\u0440\u043e\u0435\u043a\u0442"));
-                    screllTree.setMinimumSize(new Dimension(50, 50));
-                    screllTree.setPreferredSize(new Dimension(150, 382));
-                    screllTree.setViewportView(projectTreeView);
-                }
-                panel1.add(screllTree, new GridBagConstraints(0, 0, 1, 1, 0.0, 5.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
-
                 //======== scrollPane2 ========
                 {
                     scrollPane2.setBorder(Borders.DLU4);
@@ -271,6 +258,17 @@ public class OcrMainForm  {
                     scrollPane2.setViewportView(label3);
                 }
                 panel1.add(scrollPane2, new GridBagConstraints(0, 1, 1, 1, 0.0, 3.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
+
+                //======== screllTree ========
+                {
+                    screllTree.setBorder(new TitledBorder("\u041f\u0440\u043e\u0435\u043a\u0442"));
+                    screllTree.setMinimumSize(new Dimension(50, 50));
+                    screllTree.setPreferredSize(new Dimension(150, 382));
+                    screllTree.setViewportView(projectTreeView);
+                }
+                panel1.add(screllTree, new GridBagConstraints(0, 0, 1, 1, 0.0, 5.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                     new Insets(0, 0, 0, 0), 0, 0));
             }
@@ -450,10 +448,10 @@ public class OcrMainForm  {
     private JMenu menu4;
     private JMenuItem menuItem17;
     private JPanel panel1;
-    private JScrollPane screllTree;
-    private JTree projectTreeView;
     private JScrollPane scrollPane2;
     private JLabel label3;
+    private JScrollPane screllTree;
+    private JTree projectTreeView;
     private JPanel panel3;
     private JScrollPane scrollPane3;
     private JPanel panel8;
@@ -477,6 +475,30 @@ public class OcrMainForm  {
         super();
         this.paramater = paramater;
         initComponents();
+        projectTreeView.setCellRenderer(new TreeCellRenderer() {
+            @Override
+            public Component getTreeCellRendererComponent(JTree jTree,
+                                                          Object o,
+                                                          boolean selected,
+                                                          boolean expanded,
+                                                          boolean leaf, int i,
+                                                          boolean hasFocus) {
+                if (o instanceof DefaultMutableTreeNode) {
+                    DefaultMutableTreeNode object = (DefaultMutableTreeNode) o;
+                    if (object.getUserObject() instanceof File) {
+                        File f = (File) object.getUserObject();
+                        JLabel label = new JLabel(f.getName());
+                        if (leaf) {
+                            label.setIcon(UIManager.getIcon("FileView.fileIcon"));
+                        } else {
+                            label.setIcon(UIManager.getIcon("FileView.directoryIcon"));
+                        }
+                        return label;
+                    }
+                }
+                return null;
+            }
+        });
     }
 
     public JFrame getMainFrame() {
@@ -509,12 +531,28 @@ public class OcrMainForm  {
         File f = (File) folder.getUserObject();
         if (f.isDirectory() && depth > 0) {
             File[] files = f.listFiles();
-            if (files != null)
+            ArrayList<File> ds = new ArrayList<File>();
+            ArrayList<File> fs = new ArrayList<File>();
+            if (files != null) {
                 for (File ff : files) {
+                    if (ff.isHidden()) continue;
+                    if (ff.isDirectory()) {
+                        ds.add(ff);
+                    } else {
+                        fs.add(ff);
+                    }
+                }
+                Collections.sort(ds);
+                Collections.sort(fs);
+                for (File ff : ds) {
                     DefaultMutableTreeNode df = new DefaultMutableTreeNode(ff);
                     open(df, depth - 1);
                     folder.add(df);
                 }
+                for (File ff : fs) {
+                    folder.add(new DefaultMutableTreeNode(ff));
+                }
+            }
         }
     }
 }
