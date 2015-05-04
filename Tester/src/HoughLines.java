@@ -21,8 +21,8 @@ public class HoughLines {
      */
     public static void main(String[] args) {
 
-//        String fileName = args.length >= 1 ? args[0] : "t3.jpg"; // if no params provided, compute the defaut image
-        String fileName = "Test/t8.jpg";
+        String fileName = args.length >= 1 ? args[0] : "t3.jpg"; // if no params provided, compute the defaut image
+//        String fileName = "Test/t8.jpg";
         IplImage src = cvLoadImage(fileName, 0);
         IplImage dst;
         IplImage colorDst;
@@ -64,6 +64,7 @@ public class HoughLines {
                 System.out.println("\t pt2: " + pt2);
                 cvLine(colorDst, pt1, pt2, CV_RGB(0, 255, 0), 3, CV_AA, 0); // draw the segment on the image
             }
+            System.out.println("Total line number " + lines.total());
         }
         /*
          * Apply the multiscale hough transform which returns for each line two float parameters (rho, theta)

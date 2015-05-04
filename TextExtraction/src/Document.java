@@ -56,7 +56,7 @@ public class Document {
     public BufferedImage rasterizeBinaryImage(boolean writeToFile) {
         BufferedImage res = binaryImage.rasterize();
         if (writeToFile) {
-            String[] initialFile = ImgProcUtil.getPathBaseExtension(path);
+            String[] initialFile = SerializerUtil.getPathBaseExtension(path);
             String newName = initialFile[0] + initialFile[1] + ".bin." + initialFile[2];
             ImgProcUtil.writeImage(newName, res, "jpeg");
         }
@@ -77,7 +77,7 @@ public class Document {
         }
         BufferedImage res = bImg.rasterize();
         if (writeToFile) {
-            String[] initialFile = ImgProcUtil.getPathBaseExtension(path);
+            String[] initialFile = SerializerUtil.getPathBaseExtension(path);
             String newName = initialFile[0] + initialFile[1] + ".char." + initialFile[2];
             ImgProcUtil.writeImage(newName, res, "jpeg");
         }
@@ -112,7 +112,7 @@ public class Document {
         System.out.println("Charnumber = " + nChar);
         BufferedImage img = bImg.rasterize();
         if (writeToFile) {
-            String[] initialFile = ImgProcUtil.getPathBaseExtension(path);
+            String[] initialFile = SerializerUtil.getPathBaseExtension(path);
             String newName = initialFile[0] + initialFile[1] + ".orChar." + initialFile[2];
             ImgProcUtil.writeImage(newName, img, "jpeg");
         }

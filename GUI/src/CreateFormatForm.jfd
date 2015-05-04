@@ -18,55 +18,93 @@ new FormModel {
 					"JavaCodeGenerator.postInitCode": "formatPanel = (FormatPanel) panelFormat;\nformatPanel.initCell();"
 				}
 				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "panelFormatMouseClicked", true ) )
-				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "panelFormatMouseClicked", true ) )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.swingx.HorizontalLayout ) ) {
 				name: "panel2"
 				"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
+				"preferredSize": new java.awt.Dimension( 644, 140 )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-					"$columnSpecs": "0, 5, 0, 5"
-					"$rowSpecs": "0, center:5, 0, center:5, 0"
+					"$columnSpecs": "53, 66, 37:1.0, 50:1.0"
+					"$rowSpecs": "12, 11, 0"
 					"$alignTop": true
 					"$alignLeft": true
+					"$hGap": 3
+					"$vGap": 3
 				} ) {
 					name: "panel4"
 					"border": new javax.swing.border.TitledBorder( null, "Клетки", 4, 0, new java.awt.Font( "Dialog", 1, 14 ), null )
+					"preferredSize": new java.awt.Dimension( 280, 100 )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "txtColumnWeight"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 2
+						"hAlign": 5
+						"vAlign": 0
+					} )
 					add( new FormComponent( "javax.swing.JSpinner" ) {
 						name: "spinCol"
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+						"model": new javax.swing.SpinnerNumberModel {
+							minimum: 1
+							value: 1
+						}
+						addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "spinColStateChanged", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"hAlign": 0
+						"vAlign": 0
+					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "label1"
 						"text": "Columns"
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridx": 2
+						"gridx": 1
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label4"
+						"text": "Column weight"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 3
 					} )
 					add( new FormComponent( "javax.swing.JSpinner" ) {
 						name: "spinRow"
+						"model": new javax.swing.SpinnerNumberModel {
+							minimum: 1
+							value: 1
+						}
+						addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "spinRowStateChanged", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 2
+						"gridy": 1
+						"hAlign": 0
+						"vAlign": 0
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "label2"
 						"text": "Rows"
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+						"gridx": 1
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "txtRowWeight"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 2
-						"gridy": 2
+						"gridy": 1
+						"hAlign": 5
+						"vAlign": 0
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label5"
+						"text": "Row weight"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 3
+						"gridy": 1
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "butSplit"
 						"text": "Split"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butSplitActionPerformed", true ) )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butSplitActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 4
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "butMerge"
-						"text": "Merge"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butMergeActionPerformed", true ) )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridx": 2
-						"gridy": 4
+						"gridy": 2
+						"hAlign": 5
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
@@ -79,7 +117,7 @@ new FormModel {
 				} ) {
 					name: "panel5"
 					"border": new javax.swing.border.TitledBorder( null, "Формат", 4, 0, new java.awt.Font( "Dialog", 1, 14 ), null )
-					"preferredSize": new java.awt.Dimension( 450, 124 )
+					"preferredSize": new java.awt.Dimension( 350, 124 )
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 						name: "scrollPane1"
 						"preferredSize": new java.awt.Dimension( 250, 100 )
@@ -105,6 +143,7 @@ new FormModel {
 				"$rowSpecs": "0:1.0"
 				"$alignTop": true
 				"$alignLeft": true
+				"$hGap": 4
 			} ) {
 				name: "panel3"
 				add( new FormComponent( "javax.swing.JLabel" ) {
@@ -139,6 +178,7 @@ new FormModel {
 					name: "butSave"
 					"text": "Сохранить"
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butSaveActionPerformed", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "butSaveMouseClicked", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 4
 					"weightx": 1.0

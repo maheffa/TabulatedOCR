@@ -110,15 +110,4 @@ public class ImgProcUtil {
         return img;
     }
 
-    public static String[] getPathBaseExtension(String path) {
-        String[] res = new String[3];
-        File f = new File(path);
-        String name = f.getName();
-        String pathN = f.getPath();
-        res[0] = pathN.substring(0, pathN.length() - name.length());
-        int dotIndex = name.lastIndexOf('.');
-        res[1] = name.substring(0, dotIndex);
-        res[2] = name.substring(dotIndex + 1);
-        return res;
-    }
 }

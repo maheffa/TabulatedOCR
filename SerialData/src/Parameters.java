@@ -9,7 +9,9 @@ import java.io.Serializable;
  */
 public class Parameters implements Serializable {
     private static Parameters instance = null;
+
     private String projectPath = "";
+    private File projectDir = null;
 
     public Parameters() {
         setProjectPath();
@@ -38,6 +40,7 @@ public class Parameters implements Serializable {
             f.mkdir();
         }
         projectPath = basePath + File.separator + "TabulatedOCR" + File.separator;
+        projectDir = new File(projectPath);
     }
 
     public void setProjectPath(String projectPath) {
@@ -46,6 +49,18 @@ public class Parameters implements Serializable {
 
     public String getProjectPath() {
         return this.projectPath;
+    }
+
+    public File getProjectDir() {
+        if (projectDir == null) {
+            File f = new File(projectPath);
+            if (!f.exists()) {
+                setProjectPath();
+            } else {
+                return f;
+            }
+        }
+        return projectDir;
     }
 
 }

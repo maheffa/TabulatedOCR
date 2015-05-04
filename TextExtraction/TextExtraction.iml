@@ -10,5 +10,6 @@
     <orderEntry type="library" name="opencv" level="project" />
     <orderEntry type="module" module-name="ImageProcessing" />
     <orderEntry type="module" module-name="NeuralNetwork" />
+    <orderEntry type="module" module-name="SerialData" />
   </component>
 </module>

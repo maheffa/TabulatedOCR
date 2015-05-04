@@ -20,8 +20,10 @@ public class EntryPoint {
 
     private void launchGUI() {
         JFrame frame = ocrMainForm.getMainFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
     }
 
     public static void main(String[] args) {

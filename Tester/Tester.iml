@@ -13,5 +13,6 @@
     <orderEntry type="module" module-name="NeuralNetwork" />
     <orderEntry type="library" name="encog-core-3.3.0" level="project" />
     <orderEntry type="module" module-name="GUI" />
+    <orderEntry type="module" module-name="SerialData" />
   </component>
 </module>
