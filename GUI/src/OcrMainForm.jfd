@@ -136,7 +136,6 @@ new FormModel {
 								add( new FormComponent( "javax.swing.JList" ) {
 									name: "listFormat"
 									"selectionMode": 0
-									"cursor": -1
 									auxiliary() {
 										"JavaCodeGenerator.customCreateCode": "new JList(formatNameListModel = getFormatList());"
 									}

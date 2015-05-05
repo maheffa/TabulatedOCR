@@ -36,6 +36,7 @@ new FormModel {
 					"preferredSize": new java.awt.Dimension( 280, 100 )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "txtColumnWeight"
+						"editable": false
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 2
 						"hAlign": 5
@@ -49,7 +50,7 @@ new FormModel {
 						}
 						addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "spinColStateChanged", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"hAlign": 0
+						"hAlign": 4
 						"vAlign": 0
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
@@ -73,7 +74,7 @@ new FormModel {
 						addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "spinRowStateChanged", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 1
-						"hAlign": 0
+						"hAlign": 4
 						"vAlign": 0
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
@@ -85,6 +86,7 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "txtRowWeight"
+						"editable": false
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 2
 						"gridy": 1
@@ -177,7 +179,6 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "butSave"
 					"text": "Сохранить"
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butSaveActionPerformed", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "butSaveMouseClicked", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 4

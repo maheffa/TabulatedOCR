@@ -33,6 +33,7 @@ public class ImageProcessor {
 
         @Override
         public void run() {
+            System.out.println("Processing " + begin + " - " + end);
             for (int i = begin; i < end; i++) {
                 dst[i] = pf.processPoint(i, src, height, width, area);
             }

@@ -33,7 +33,7 @@ public class TestGUI {
     public static void main(String[] args) {
 
 //        launchApp();
-        testJPanel(new CreateFormatForm("Bomba"));
+        testJPanel(new CreateFormatForm("Buff"));
     }
 
 

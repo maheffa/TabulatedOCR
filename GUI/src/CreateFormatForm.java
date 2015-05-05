@@ -65,6 +65,7 @@ public class CreateFormatForm extends JPanel {
 //            selectedCell.draw(formatPanel);
             formatPanel.revalidate();
             formatPanel.repaint();
+            System.out.println(cellPanel.printCellsInOrder());
         }
     }
 
@@ -112,10 +113,6 @@ public class CreateFormatForm extends JPanel {
         }
     }
 
-    private void butSaveActionPerformed(ActionEvent e) {
-        // TODO add your code here
-    }
-
     private void spinColStateChanged(ChangeEvent e) {
         int v = (Integer) spinCol.getValue();
         if (v == 2) {
@@ -136,7 +133,7 @@ public class CreateFormatForm extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Boubakar Tilojab
+        // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
         panelFormat = new FormatPanel();
         panel2 = new JPanel();
         panel4 = new JPanel();
@@ -207,6 +204,9 @@ public class CreateFormatForm extends JPanel {
                 ((GridBagLayout)panel4.getLayout()).rowHeights = new int[] {15, 14, 0, 0};
                 ((GridBagLayout)panel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0, 1.0, 1.0E-4};
                 ((GridBagLayout)panel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+
+                //---- txtColumnWeight ----
+                txtColumnWeight.setEditable(false);
                 panel4.add(txtColumnWeight, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                     new Insets(0, 0, 3, 3), 0, 0));
@@ -220,7 +220,7 @@ public class CreateFormatForm extends JPanel {
                     }
                 });
                 panel4.add(spinCol, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                    GridBagConstraints.EAST, GridBagConstraints.NONE,
                     new Insets(0, 0, 3, 3), 0, 0));
 
                 //---- label1 ----
@@ -244,7 +244,7 @@ public class CreateFormatForm extends JPanel {
                     }
                 });
                 panel4.add(spinRow, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                    GridBagConstraints.EAST, GridBagConstraints.NONE,
                     new Insets(0, 0, 3, 3), 0, 0));
 
                 //---- label2 ----
@@ -252,6 +252,9 @@ public class CreateFormatForm extends JPanel {
                 panel4.add(label2, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                     new Insets(0, 0, 3, 3), 0, 0));
+
+                //---- txtRowWeight ----
+                txtRowWeight.setEditable(false);
                 panel4.add(txtRowWeight, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                     new Insets(0, 0, 3, 3), 0, 0));
@@ -346,12 +349,6 @@ public class CreateFormatForm extends JPanel {
 
             //---- butSave ----
             butSave.setText("\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c");
-            butSave.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    butSaveActionPerformed(e);
-                }
-            });
             butSave.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -367,7 +364,7 @@ public class CreateFormatForm extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Boubakar Tilojab
+    // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
     private JPanel panelFormat;
     private JPanel panel2;
     private JPanel panel4;

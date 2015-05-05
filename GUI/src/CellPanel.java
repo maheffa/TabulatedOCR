@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,13 +15,13 @@ import java.util.regex.Pattern;
  */
 public class CellPanel implements Serializable {
 
-    private PriorityQueue<Cell> cells;
+    private TreeSet<Cell> cells;
     private Cell selectedCell = null;
     private FormatPanel panel;
     private String name = "";
 
     public CellPanel(FormatPanel panel) {
-        cells = new PriorityQueue<Cell>(10, new CellComparator(0.01));
+        cells = new TreeSet<Cell>(new CellComparator(0.01));
         cells.add(new Cell(0.0, 0.0, 1.0, 1.0));
         this.panel = panel;
         panel.revalidate();
@@ -72,6 +73,15 @@ public class CellPanel implements Serializable {
 
     public void setSelectedCell(Cell selectedCell) {
         this.selectedCell = selectedCell;
+    }
+
+    public String printCellsInOrder() {
+        StringBuilder str = new StringBuilder();
+        str.append("Cells in order:").append('\n');
+        for (Cell cell : cells) {
+            str.append(cell).append('\n');
+        }
+        return str.toString();
     }
 }
 

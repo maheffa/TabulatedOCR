@@ -87,7 +87,7 @@ public class KMeanCluster{
                 iterations++;
             }
         } while (iterations < maxIterations);
-        System.out.println("Number of iterations: " + iterations);
+//        System.out.println("Number of iterations: " + iterations);
         return clusters0;
     }
 

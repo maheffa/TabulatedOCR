@@ -54,9 +54,13 @@ public class OcrMainForm  {
 
     }
 
+    private void createUIComponents() {
+        // TODO: add custom component creation code here
+    }
+
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Boubakar Tilojab
+        // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
         mainFrame = new JFrame();
         menuBar1 = new JMenuBar();
         menu1 = new JMenu();
@@ -394,7 +398,6 @@ public class OcrMainForm  {
 
                                 //---- listFormat ----
                                 listFormat.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                                listFormat.setCursor(null);
                                 listFormat.addListSelectionListener(new ListSelectionListener() {
                                     @Override
                                     public void valueChanged(ListSelectionEvent e) {
@@ -463,7 +466,7 @@ public class OcrMainForm  {
 	}
 
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Boubakar Tilojab
+    // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
     private JFrame mainFrame;
     private JMenuBar menuBar1;
     private JMenu menu1;

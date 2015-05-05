@@ -2,6 +2,7 @@
 // Created: 19/02/2015
 
 import org.apache.commons.math3.fraction.Fraction;
+import org.encog.ml.kmeans.KMeansClustering;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -22,17 +23,30 @@ public class BinaryImage {
         height = img.getHeight();
         width = img.getWidth();
         data = new int[height * width];
-        byte[] raw = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
-        if (raw.length == data.length) {
-            for (int i = 0; i < data.length; i++) {
-                data[i] = raw[i] & 0xFF;
-            }
-        } else {
-            for (int i = 0, j = 0; i < data.length; i++, j += 3) {
-                data[i] = convertToGrayscale(raw[j] & 0xFF, raw[j + 1] & 0xFF, raw[j + 2] & 0xFF, 1);
+        data = new int[height * width];
+//        byte[] raw = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
+//        if (raw.length == data.length) {
+//            for (int i = 0; i < data.length; i++) {
+//                data[i] = raw[i] & 0xFF;
+//            }
+//        } else {
+//            for (int i = 0, j = 0; i < data.length; i++, j += 3) {
+//                data[i] = convertToGrayscale(raw[j] & 0xFF, raw[j + 1] & 0xFF, raw[j + 2] & 0xFF, 1);
+//            }
+//        }
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int rgb = img.getRGB(j, i);
+                data[i * width + j] = convertToGrayscale(
+                        (rgb >> 16) & 0xFF,
+                        (rgb >> 8) & 0xFF,
+                        rgb & 0xFF,
+                        1
+                );
             }
         }
         binarize();
+//        localBinarize();
     }
 
     public BinaryImage(int height, int width) {
@@ -51,6 +65,14 @@ public class BinaryImage {
             default: v = (int) (0.21 * r + 0.67 * g + 0.12 * b); break;
         }
         return v;
+    }
+
+    public void localBinarize() {
+        int[] res = new int[data.length];
+        System.out.println("Data length " + data.length);
+        ImageProcessor imgProc = new ImageProcessor();
+        imgProc.process(data, res, this.height, this.width, 11, new BinarizationKMean());
+        data = res;
     }
 
     public void binarize() {
@@ -202,6 +224,35 @@ class VarianceFinder implements ProcessorFunction {
             }
         }
         return res / s;
+    }
+}
+
+class BinarizationKMean implements ProcessorFunction {
+
+    @Override
+    public int processPoint(int index, int[] src, int height, int width, int area) {
+        KMeanCluster inData = new KMeanCluster();
+        KMeanCluster[] result;
+        int i0 = index / width;
+        int j0 = index % width;
+        for (int i = i0 - area; i < i0 + area; i++) {
+            if (i < 0 || i >= height) continue;
+            for (int j = j0 - area; j < j0 + area; j++) {
+                if (j < 0 || j >= width) continue;
+                inData.add(src[i * width + j]);
+            }
+        }
+        result = inData.cluster(2, 50);
+        KMeanCluster a = result[0];
+        KMeanCluster b = result[1];
+        if (a.getMean() > b.getMean()) {
+            KMeanCluster c = a;
+            a = b;
+            b = c;
+        }
+        return Math.abs(src[index] - a.getMean()) < Math.abs(src[index] - b.getMean())
+                ? BinaryImage.BLACK
+                : BinaryImage.WHITE;
     }
 }
 

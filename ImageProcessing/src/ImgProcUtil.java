@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
@@ -13,7 +14,19 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
  */
 public class ImgProcUtil {
 
+    public static String[] IMAGE_EXTENSION = new String[]{ "png", "PNG", "jpg", "jpeg", "JPG", "JPEG", "tiff", "TIFF" };
+
     public ImgProcUtil() {
+    }
+
+    public static boolean isAcceptableImage(File f) {
+        String[] pbe = SerializerUtil.getPathBaseExtension(f.getAbsolutePath());
+        for (String extension : IMAGE_EXTENSION) {
+            if (extension.equals(pbe[2])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static int getRGB(int binaryColor) {
@@ -38,6 +51,10 @@ public class ImgProcUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void writeImage(String filePath, BufferedImage img) {
+        writeImage(filePath, img, "png");
     }
 
     public static BufferedImage resize(BufferedImage img, double scale) {
@@ -109,5 +126,7 @@ public class ImgProcUtil {
         }
         return img;
     }
+
+
 
 }
