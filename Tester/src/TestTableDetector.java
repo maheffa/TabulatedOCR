@@ -17,7 +17,7 @@ public class TestTableDetector {
         if (files != null) {
             for (File file : files) {
                 String[] pbe = SerializerUtil.getPathBaseExtension(file.getAbsolutePath());
-                if (pbe[1].contains("hough") || !pbe[2].contains("png")) continue;
+                if (pbe[1].contains("hough") || !pbe[1].contains("bin") || !pbe[2].contains("png")) continue;
                 System.out.println("Working with " + file.getAbsolutePath());
                 TableDetector td = new TableDetector(file.getAbsolutePath());
                 td.detectLine(true);

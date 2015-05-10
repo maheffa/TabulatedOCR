@@ -7,9 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="opencv" level="project" />
     <orderEntry type="module" module-name="ImageProcessing" />
     <orderEntry type="module" module-name="NeuralNetwork" />
     <orderEntry type="module" module-name="SerialData" />
+    <orderEntry type="library" name="tess4j" level="project" />
   </component>
 </module>

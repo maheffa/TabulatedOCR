@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-import static org.bytedeco.javacpp.opencv_core.*;
-import static org.bytedeco.javacpp.opencv_imgproc.*;
 /**
  * @author mahefa
  */
@@ -37,7 +35,15 @@ public class ImgProcUtil {
     public static BufferedImage readImage(String filePath) {
         BufferedImage img = null;
         try {
+//            System.out.println("reading " + filePath);
             img = ImageIO.read(new File(filePath));
+            BufferedImage rgbImg = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+            for (int i = 0; i < img.getWidth(); i++) {
+                for (int j = 0; j < img.getHeight(); j++) {
+                    rgbImg.setRGB(i, j, img.getRGB(i, j));
+                }
+            }
+            img = rgbImg;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,23 +61,6 @@ public class ImgProcUtil {
 
     public static void writeImage(String filePath, BufferedImage img) {
         writeImage(filePath, img, "png");
-    }
-
-    public static BufferedImage resize(BufferedImage img, double scale) {
-        IplImage iplImg = IplImage.createFrom(img);
-        IplImage outImg = IplImage.create(
-                (int) (iplImg.width() * scale),
-                (int) (iplImg.height() * scale),
-                iplImg.depth(), iplImg.nChannels());
-        cvResize(iplImg, outImg, CV_INTER_LINEAR);
-        return outImg.getBufferedImage();
-    }
-
-    public static BufferedImage boxblur(BufferedImage img, int boxSize) {
-        Mat min = Mat.createFrom(img);
-        Mat mout = new Mat();
-        blur(min, mout, new Size(boxSize, boxSize));
-        return mout.getBufferedImage();
     }
 
     public static BufferedImage rasterizeGrayarray(int[] src, int height, int width) {

@@ -1,6 +1,7 @@
 // File:    TestBinaryImage.java
 // Created: 19/02/2015
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
@@ -29,9 +30,14 @@ public class TestBinaryImage extends Tester{
                 String[] pbe = SerializerUtil.getPathBaseExtension(file.getAbsolutePath());
                 if (pbe[1].contains(".") || !ImgProcUtil.isAcceptableImage(file)) continue;
                 System.out.println("Working with " + file.getAbsolutePath());
-                BinaryImage bimg = new BinaryImage(file.getAbsolutePath());
-//                bimg.binarize();
-                ImgProcUtil.writeImage(pbe[0] + File.separator + pbe[1] + ".bin.png", bimg.rasterize(), "png");
+//                BinaryImage bimg = new BinaryImage(file.getAbsolutePath());
+////                bimg.binarize();
+//                ImgProcUtil.writeImage(pbe[0] + File.separator + pbe[1] + ".bin.png", bimg.rasterize(), "png");
+                BufferedImage bimg = ImgProcUtil.readImage(file.getAbsolutePath());
+                bimg = TableDetector.rotate(bimg, Math.PI / 6);
+                ImgProcUtil.writeImage(file.getAbsolutePath() + ".1", bimg);
+                bimg = TableDetector.rotate(bimg, -Math.PI / 3);
+                ImgProcUtil.writeImage(file.getAbsolutePath() + ".2", bimg);
             }
         }
     }

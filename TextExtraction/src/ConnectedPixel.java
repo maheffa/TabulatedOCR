@@ -195,4 +195,13 @@ public class ConnectedPixel {
     public int getMaxy() {
         return maxy;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("x : [").append(minx).append("-").append(maxx).append("], ");
+        str.append("y : [").append(miny).append("-").append(maxy).append("], ");
+        str.append("pixel count: ").append(pixels.size());
+        return str.toString();
+    }
 }

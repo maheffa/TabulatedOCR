@@ -1,6 +1,8 @@
 // File:    TestOpenCV.java
 // Created: 20/02/2015
 
+import org.opencv.core.Core;
+
 import java.awt.image.BufferedImage;
 
 /**
@@ -20,7 +22,7 @@ public class TestOpenCV extends Tester{
             ImageProcessor ip = new ImageProcessor();
             MeanFinder bb = new MeanFinder();
             long a = System.currentTimeMillis();
-            img1 = ImgProcUtil.boxblur(img, 5);
+//            img1 = ImgProcUtil.boxblur(img, 5);
             a = System.currentTimeMillis() - a;
             System.out.println("done opencv");
             long b = System.currentTimeMillis();
@@ -33,8 +35,8 @@ public class TestOpenCV extends Tester{
             b = System.currentTimeMillis() - b;
             System.out.println("Opencv : " + a);
             System.out.println("Mine : " + b);
-            ImgProcUtil.writeImage("Test/h" + i + "0.jpg", img1, "jpeg");
-            ImgProcUtil.writeImage("Test/h"+i+"1.jpg", img2, "jpeg");
+//            ImgProcUtil.writeImage("Test/h" + i + "0.jpg", img1, "jpeg");
+//            ImgProcUtil.writeImage("Test/h"+i+"1.jpg", img2, "jpeg");
         }
     }
 }

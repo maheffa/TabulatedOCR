@@ -6,6 +6,7 @@ import org.encog.ml.kmeans.KMeansClustering;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.nio.BufferUnderflowException;
 import java.util.Arrays;
 
 /**
@@ -19,21 +20,14 @@ public class BinaryImage {
     private int[] data;
 
     public BinaryImage(String filePath) {
-        BufferedImage img = ImgProcUtil.readImage(filePath);
+        this(ImgProcUtil.readImage(filePath));
+    }
+
+    public BinaryImage(BufferedImage img) {
         height = img.getHeight();
         width = img.getWidth();
         data = new int[height * width];
         data = new int[height * width];
-//        byte[] raw = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
-//        if (raw.length == data.length) {
-//            for (int i = 0; i < data.length; i++) {
-//                data[i] = raw[i] & 0xFF;
-//            }
-//        } else {
-//            for (int i = 0, j = 0; i < data.length; i++, j += 3) {
-//                data[i] = convertToGrayscale(raw[j] & 0xFF, raw[j + 1] & 0xFF, raw[j + 2] & 0xFF, 1);
-//            }
-//        }
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int rgb = img.getRGB(j, i);
@@ -47,6 +41,17 @@ public class BinaryImage {
         }
         binarize();
 //        localBinarize();
+    }
+
+    public BinaryImage (BufferedImage img, int threshold) {
+        height = img.getHeight();
+        width = img.getWidth();
+        data = new int[width * height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                data[j * width + i] = grayValue(img.getRGB(i, j), 1) > threshold ? BinaryImage.WHITE : BinaryImage.BLACK;
+            }
+        }
     }
 
     public BinaryImage(int height, int width) {
@@ -65,6 +70,10 @@ public class BinaryImage {
             default: v = (int) (0.21 * r + 0.67 * g + 0.12 * b); break;
         }
         return v;
+    }
+
+    private int grayValue(int argb, int method) {
+        return convertToGrayscale((argb >> 16) & 0xFF, (argb >> 8) & 0xFF, argb & 0xFF, method) & 0xFF;
     }
 
     public void localBinarize() {

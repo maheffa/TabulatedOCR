@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="tess4j">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/tess4j.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jna.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jai_imageio.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ghost4j-0.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

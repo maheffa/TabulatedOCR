@@ -8,12 +8,12 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ImageProcessing" />
-    <orderEntry type="library" name="opencv" level="project" />
     <orderEntry type="module" module-name="TextExtraction" />
     <orderEntry type="module" module-name="NeuralNetwork" />
-    <orderEntry type="library" name="encog-core-3.3.0" level="project" />
     <orderEntry type="module" module-name="GUI" />
     <orderEntry type="module" module-name="SerialData" />
     <orderEntry type="module" module-name="TableStructureDetection" />
+    <orderEntry type="module" module-name="Tabulated OCR" />
+    <orderEntry type="library" name="opencv-300" level="project" />
   </component>
 </module>
