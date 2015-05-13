@@ -1,7 +1,6 @@
 // File:    ProcessImage.java
 // Created: 05/05/2015
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,7 +17,6 @@ public class ProcessImage {
     private BufferedImage document;
     private String imageDirectory;
     private String imageName;
-    private String imageExtension;
     private ProjectConfiguration project = null;
     private BufferedImage binaryImage = null;
     private CallableBinarization callableBinarization = null;
@@ -32,7 +30,6 @@ public class ProcessImage {
         String[] pbe = SerializerUtil.getPathBaseExtension(project.getImagePath());
         imageDirectory = pbe[0];
         imageName = pbe[1];
-        imageExtension = pbe[2];
     }
 
     public void process() throws Exception {
@@ -68,31 +65,44 @@ public class ProcessImage {
 //        tableImage = hough.getTableDetector().deskewDocument();
 //        logImage(tableImage, "deskew");
         // 5) deskew document
-        System.out.println("Deskewing document");
-        document = hough.getTableDetector().deskewDocument(document);
-        logImage(document, "deskew");
-        // 6) work with new deskewed document
-        System.out.println("Binarizing deskewed document");
-        callableBinarization = new CallableBinarization(document);
-        binaryImage = callableBinarization.call();
-        logImage(binaryImage, "bin1");
-        // 7) Detect connected pixels;
-        System.out.println("Detecting connected pixels");
-        callableConnectedPixel = new CallableConnectedPixel(3, 1, callableBinarization.getBinaryImage());
-        connectedPixels = callableConnectedPixel.call();
+        // if document skew is too much (>1 degree)
+        if (Math.abs(hough.getTableDetector().getDocumentSkew()) > 1.0) {
+            System.out.println("Deskewing document");
+            document = hough.getTableDetector().deskewDocument(document);
+            logImage(document, "deskew");
+            // 6) work with new deskewed document
+            System.out.println("Binarizing deskewed document");
+            callableBinarization = new CallableBinarization(document);
+            binaryImage = callableBinarization.call();
+            logImage(binaryImage, "bin1");
+            // 7) Detect connected pixels;
+            System.out.println("Detecting connected pixels");
+            callableConnectedPixel = new CallableConnectedPixel(3, 1, callableBinarization.getBinaryImage());
+            connectedPixels = callableConnectedPixel.call();
+        }
         // 8) Write largest table
         System.out.println("Writing largest table");
         callableTableDetector = new CallableTableDetector(binaryImage);
         tableImage = callableTableDetector.getTableDetector().writeLargestTable(connectedPixels);
         logImage(tableImage, "largeTable");
         // 9) Get perfecttable
+        int lineThickness = 8;
         System.out.println("Getting perfect table");
         hough = new CallableTableDetector(tableImage);
         hough.call();
-        hough.getTableDetector().getLineApproximation().draw(tableImage.getWidth(), tableImage.getHeight(), 20);
+        tableImage = hough.getTableDetector().getLineApproximation()
+                .draw(tableImage.getWidth(), tableImage.getHeight(), lineThickness);
         logImage(tableImage, "perfectTable");
+        // 10) Check cell
+        System.out.println("Checking cells");
+        CellExtractor cellExtractor = new CellExtractor(tableImage, hough.getTableDetector().getIntersetionPoints(), lineThickness);
+//        CellExtractor cellExtractor = new CellExtractor(new BinaryImage(tableImage, 100), lineThickness);
+//        cellExtractor.getCells(hough.getTableDetector().getLineApproximation().getGroupLines());
+        CellContainer cellContainer = cellExtractor.getCellContainer();
+        cellExtractor.drawOnImage(tableImage, cellContainer);
+        logImage(tableImage, "coloredCell");
         // 6bis attempt to read text
-        Extractor extractor = new Extractor("fra");
+        Extractor extractor = new Extractor("rus");
         logText(extractor.extractText(binaryImage), "0");
         callableConnectedPixel = new CallableConnectedPixel(3, 1, callableBinarization.getBinaryImage());
         connectedPixels = callableConnectedPixel.call();
@@ -101,18 +111,26 @@ public class ProcessImage {
 
 
     private void logImage(BufferedImage img, String midName){
+        File f = new File(imageDirectory + File.separator + midName);
+        if (!f.exists()) {
+            f.mkdir();
+        }
         ImgProcUtil.writeImage(
-                imageDirectory + File.separator + imageName + "." + midName + ".png",
+                imageDirectory + File.separator + midName + File.separator + imageName + "." + midName + ".png",
                 img
         );
     }
 
     private void logText(String txt, String midName) {
         try {
+            File f = new File(imageDirectory + File.separator + "txt");
+            if (!f.exists()) {
+                f.mkdir();
+            }
             BufferedWriter bw = new BufferedWriter(
                     new FileWriter(
                             new File(
-                                    imageDirectory + File.separator + imageName + "." + midName + ".txt"
+                                    imageDirectory + File.separator + "txt" + File.separator + imageName + "." + midName + ".txt"
                             )));
             bw.write(txt);
             bw.flush();

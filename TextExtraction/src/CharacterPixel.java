@@ -78,8 +78,10 @@ public class CharacterPixel {
     public void writeOnImage(BinaryImage img) {
         int iniX = centerX == 0 ? 0 : centerX - height / 2;
         int iniY = centerY == 0 ? 0 : centerY - width / 2;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        if (iniX < 0) iniX = 0;
+        if (iniY < 0) iniY = 0;
+        for (int i = 0; i < height && iniX + i < img.getHeight(); i++) {
+            for (int j = 0; j < width && iniY + j < img.getWidth(); j++) {
                 img.setPixel(iniX + i, iniY + j, this.getPixel(i, j));
             }
         }

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DataStructure/DataStructure.iml" filepath="$PROJECT_DIR$/DataStructure/DataStructure.iml" />
       <module fileurl="file://$PROJECT_DIR$/GUI/GUI.iml" filepath="$PROJECT_DIR$/GUI/GUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImageProcessing/ImageProcessing.iml" filepath="$PROJECT_DIR$/ImageProcessing/ImageProcessing.iml" />
       <module fileurl="file://$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.iml" filepath="$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.iml" />

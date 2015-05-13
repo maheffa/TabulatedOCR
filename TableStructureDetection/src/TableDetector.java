@@ -34,7 +34,7 @@ public class TableDetector {
     private double angleAccumulator = Math.PI / 180;
     private int thresholdAccumulator = 40;
     private int minimumLineLenght = 50;
-    private int maximumLineGap = 50;
+    private int maximumLineGap = 100;
 //    private CvSeq detectedLines = null;
     private int minimumTableArea = 100 * 100;
     private double documentSkew = 0;
@@ -130,6 +130,24 @@ public class TableDetector {
         mat.put(0, 0, data);
         return mat;
     }
+
+    public ArrayList<Point> getIntersetionPoints() {
+        ArrayList<Point> intersections = new ArrayList<Point>();
+        ArrayList<Line> lines = lineApproximation.getLines();
+        for (int i = 0; i < lines.size(); i++) {
+            for (int j = i + 1; j < lines.size(); j++) {
+                Point p = Line.getProlongedIntersetion(lines.get(i), lines.get(j));
+                if (p.x > 0 && p.x < binaryImage.getWidth()
+                        && p.y > 0 && p.y < binaryImage.getHeight()) {
+                    intersections.add(p);
+//                    System.out.println("Intersection at " + p);
+                }
+            }
+        }
+        System.out.println("Number of intersetion " + intersections.size());
+        return intersections;
+    }
+
     /*
     Detect close lines
     Write straight line with thickness around 10px or more
@@ -151,7 +169,7 @@ public class TableDetector {
             int h = connectedPixel.getHeight();
             int w = connectedPixel.getWidth();
             if (h > minTableHeight && w > minTableWidth && h * w > minimumTableArea) {
-                System.out.println("writing on: " + connectedPixel);
+//                System.out.println("writing on: " + connectedPixel);
                 connectedPixel.createCharaterPixel().writeOnImage(binaryImage);
             }
         }

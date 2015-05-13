@@ -2,11 +2,7 @@
 // Created: 19/02/2015
 
 import org.apache.commons.math3.fraction.Fraction;
-import org.encog.ml.kmeans.KMeansClustering;
-
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.nio.BufferUnderflowException;
 import java.util.Arrays;
 
 /**
@@ -14,7 +10,11 @@ import java.util.Arrays;
  */
 public class BinaryImage {
 
-    public static int BLACK = 0x00, WHITE = 0xFF;
+    public static final int BLACK = 0x00;
+    public static final int WHITE = 0xFF;
+    public static final int BLUE = 0x01;
+    public static final int GREEN = 0x02;
+    public static final int RED = 0x03;
 
     private int height, width;
     private int[] data;
@@ -155,17 +155,40 @@ public class BinaryImage {
         return img;
     }
 
-    private void setPixel(int i, int j, int pixel, int[] data) {
-        if (i < 0 || i >= height || j < 0 || j >= width) {
-            System.err.println("index ("+i+","+j+") out of bound");
-        } else {
-            data[i * width + j] = pixel;
+    public BufferedImage rasterizeWithColor() {
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int color;
+                switch (data[j * width + i]) {
+                    case BinaryImage.WHITE : color = 0xFFFFFF; break;
+                    case BinaryImage.BLACK : color = 0x0; break;
+                    case BinaryImage.BLUE : color = 0x0000FF; break;
+                    case BinaryImage.GREEN : color = 0x00FF00; break;
+                    case BinaryImage.RED : color = 0xFF0000; break;
+                    default : color = 0xFFFFFF; break;
+                }
+                img.setRGB(i, j, color);
+            }
+        }
+        return img;
+    }
+
+    public void fillRect(int x, int y, int width, int height, int color) {
+        for (int i = x; i < x + width; i++) {
+            for (int j = y; j < y + height; j++) {
+                this.setPixel(j, i, color);
+            }
         }
     }
 
     public void setPixel(int i, int j, int val) {
         if (i < 0 || i >= height || j < 0 || j >= width) {
-            System.err.println("index ("+i+","+j+") out of bound");
+            System.err.println("Setting index ("+i+","+j+") out of bound");
+            for(StackTraceElement e : Thread.currentThread().getStackTrace()) {
+                System.err.println(e.toString());
+            }
+            System.exit(-1);
         } else {
             data[i * width + j] = val;
         }
@@ -185,7 +208,11 @@ public class BinaryImage {
 
     public int getPixel(int i, int j) {
         if (i < 0 || i >= height || j < 0 || j >= width) {
-            System.err.println("index ("+i+","+j+") out of bound");
+            System.err.println("Getting index ("+i+","+j+") out of bound");
+            for(StackTraceElement e : Thread.currentThread().getStackTrace()) {
+                System.err.println(e.toString());
+            }
+            System.exit(-1);
             return 0;
         } else {
             return data[i * width + j];
@@ -199,7 +226,6 @@ class MeanFinder implements ProcessorFunction {
     @Override
     public int processPoint(int index, int[] src, int height, int width, int area) {
         int m = 0;
-        int n = height * width;
         int n1 = index / width + area / 2, n2 = index % width + area / 2;
         int s = 0;
         for (int i = index / width - area / 2; i <= n1; i++) {

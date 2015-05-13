@@ -12,13 +12,17 @@ public class CellContainer {
 
     private CellImageComparator comparator;
     private TreeSet<CellImage> treeSet;
+    private int lineThickness;
 
-    public CellContainer(int distance) {
-        comparator = new CellImageComparator(10);
+    public CellContainer(int lineThickness) {
+        this.lineThickness = lineThickness;
+        comparator = new CellImageComparator(lineThickness);
         treeSet = new TreeSet<CellImage>(comparator);
     }
 
     public void add(CellImage e) {
+        // do not add cell with height or width less than double the line thickness
+        if (e.getWidth() <= 2 * lineThickness || e.getHeight() <= 2 * lineThickness) return;
         treeSet.add(e);
     }
 
@@ -33,8 +37,8 @@ public class CellContainer {
 
     public int contained(int x, int y) {
         for (CellImage cellImage : treeSet) {
-            if (cellImage.getX() < x && cellImage.getX() + cellImage.getWidth() > x
-                    && cellImage.getY() < y && cellImage.getY() + cellImage.getHeight() > y) {
+            if (cellImage.getX() <= x && cellImage.getX() + cellImage.getWidth() > x
+                    && cellImage.getY() <= y && cellImage.getY() + cellImage.getHeight() > y) {
                 return cellImage.getX() + cellImage.getWidth();
             }
         }
