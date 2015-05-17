@@ -15,5 +15,6 @@
     <orderEntry type="module" module-name="TableStructureDetection" />
     <orderEntry type="module" module-name="Tabulated OCR" />
     <orderEntry type="library" name="opencv-300" level="project" />
+    <orderEntry type="module" module-name="DBManager" />
   </component>
 </module>

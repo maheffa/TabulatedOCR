@@ -16,7 +16,7 @@ public class TestProcessing {
     public static void main(String[] args) {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         ProjectConfiguration proj = new ProjectConfiguration("Testing");
-        File dir = new File("Test/real_rus");
+        File dir = new File("Test/fake_rus");
         File[] files = dir.listFiles();
         for (File file : files) {
             String[] pbe = SerializerUtil.getPathBaseExtension(file.getAbsolutePath());

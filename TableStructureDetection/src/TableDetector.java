@@ -1,11 +1,9 @@
 // File:    TableDetector.java
 // Created: 04/05/2015
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
+import java.awt.image.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -14,6 +12,7 @@ import java.util.ArrayList;
 import static org.opencv.imgproc.Imgproc.*;
 
 import org.opencv.core.*;
+import org.opencv.core.Point;
 import org.opencv.imgcodecs.Imgcodecs;
 
 import javax.imageio.ImageIO;
@@ -204,6 +203,23 @@ public class TableDetector {
     public BufferedImage deskewDocument() {
         binaryImage = rotate(-getDocumentSkew() * Math.PI / 180);
         return binaryImage;
+    }
+
+    public BufferedImage getImageWithoutCells(BufferedImage image, CellContainer cellContainer) {
+        BufferedImage copy = deepCopy(image);
+        Graphics2D g2d = copy.createGraphics();
+        g2d.setColor(Color.WHITE);
+        for (CellImage cellImage : cellContainer.getCells()) {
+            g2d.drawRect(cellImage.getX() - 10, cellImage.getY() - 10, cellImage.getWidth() + 20, cellImage.getHeight() + 20);
+        }
+        return copy;
+    }
+
+    public static BufferedImage deepCopy(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
 
     public BufferedImage rotate(double angle) {

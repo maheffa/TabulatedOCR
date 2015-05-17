@@ -1,6 +1,7 @@
 // File:    ProcessImage.java
 // Created: 05/05/2015
 
+import javax.management.openmbean.TabularData;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -35,6 +36,7 @@ public class ProcessImage {
     public void process() throws Exception {
         document = ImgProcUtil.readImage(this.project.getImagePath());
 
+        // PRE-PROCESSING
         // I) run binarization
         callableBinarization = new CallableBinarization(document);
         binaryImage = callableBinarization.call();
@@ -99,13 +101,26 @@ public class ProcessImage {
 //        CellExtractor cellExtractor = new CellExtractor(new BinaryImage(tableImage, 100), lineThickness);
 //        cellExtractor.getCells(hough.getTableDetector().getLineApproximation().getGroupLines());
         CellContainer cellContainer = cellExtractor.getCellContainer();
+        System.out.println("Number of cells: " + cellContainer.getSize());
         cellExtractor.drawOnImage(tableImage, cellContainer);
         logImage(tableImage, "coloredCell");
-        // 6bis attempt to read text
+
+        // IV Extract information
+
+//        Extractor extractor = new Extractor("eng");
         Extractor extractor = new Extractor("rus");
-        logText(extractor.extractText(binaryImage), "0");
-        callableConnectedPixel = new CallableConnectedPixel(3, 1, callableBinarization.getBinaryImage());
-        connectedPixels = callableConnectedPixel.call();
+        cellContainer.extractCellsToPath(binaryImage, imageDirectory + File.separator + "txt", imageName);
+        int cellCounter = 0;
+        for (String s : cellContainer.getCellText(extractor)) {
+            System.out.println("Cell " + cellCounter++ + " contains:");
+            System.out.println(s);
+        }
+        BufferedImage imgWithoutCell = hough.getTableDetector().getImageWithoutCells(binaryImage, cellContainer);
+        logImage(imgWithoutCell, "nocell");
+        logText(extractor.extractText(imgWithoutCell), "nocell");
+//        logText(extractor.extractText(binaryImage), "0");
+//        callableConnectedPixel = new CallableConnectedPixel(3, 1, callableBinarization.getBinaryImage());
+//        connectedPixels = callableConnectedPixel.call();
 
     }
 
@@ -129,9 +144,7 @@ public class ProcessImage {
             }
             BufferedWriter bw = new BufferedWriter(
                     new FileWriter(
-                            new File(
-                                    imageDirectory + File.separator + "txt" + File.separator + imageName + "." + midName + ".txt"
-                            )));
+                            new File(imageDirectory + File.separator + "txt" + File.separator + imageName + ".txt")));
             bw.write(txt);
             bw.flush();
             bw.close();

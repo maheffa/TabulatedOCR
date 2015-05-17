@@ -2,8 +2,10 @@
 // Created: 10/05/2015
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeSet;
+import java.io.File;
 
 /**
  * @author mahefa
@@ -49,6 +51,32 @@ public class CellContainer {
         return this.treeSet;
     }
 
+    public void extractCellsToPath(BufferedImage original, String dirPath, String name) {
+        File dir = new File(dirPath + File.separator + name);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        int i = 0;
+        for (CellImage cellImage : treeSet) {
+            BufferedImage img = cellImage.getFromImage(original);
+            ImgProcUtil.writeImage(
+                    dirPath + File.separator + name + File.separator + Integer.toString(i) + ".png",
+                    img);
+            i++;
+        }
+    }
+
+    public ArrayList<String> getCellText(Extractor extractor) {
+        ArrayList<String> texts = new ArrayList<String>();
+        for (CellImage cellImage : treeSet) {
+            texts.add(cellImage.getText(extractor));
+        }
+        return texts;
+    }
+
+    public int getSize() {
+        return treeSet.size();
+    }
 }
 
 class CellImage {
@@ -72,6 +100,10 @@ class CellImage {
 
     public BufferedImage getImage() {
         return this.image;
+    }
+
+    public String getText(Extractor textExtractor) {
+        return textExtractor.extractText(this.image);
     }
 
     public int getX() {
