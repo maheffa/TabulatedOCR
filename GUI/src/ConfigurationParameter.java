@@ -22,9 +22,18 @@ public class ConfigurationParameter extends JPanel {
         tabbedPane1 = new JTabbedPane();
         panel1 = new JPanel();
         panel5 = new JPanel();
+        label16 = new JLabel();
+        textField12 = new JTextField();
+        label17 = new JLabel();
+        textField13 = new JTextField();
+        label18 = new JLabel();
+        passwordField1 = new JPasswordField();
+        button1 = new JButton();
+        panel4 = new JPanel();
         label2 = new JLabel();
-        panel6 = new JPanel();
         textField1 = new JTextField();
+        label15 = new JLabel();
+        comboBox2 = new JComboBox();
         panel3 = new JPanel();
         panel9 = new JPanel();
         panel12 = new JPanel();
@@ -59,7 +68,6 @@ public class ConfigurationParameter extends JPanel {
         textField9 = new JTextField();
         textField10 = new JTextField();
         textField11 = new JTextField();
-        panel4 = new JPanel();
         panel2 = new JPanel();
         label1 = new JLabel();
         txtConfigurationName = new JTextField();
@@ -83,52 +91,121 @@ public class ConfigurationParameter extends JPanel {
 
         //======== tabbedPane1 ========
         {
-            tabbedPane1.setBorder(new EmptyBorder(5, 5, 5, 5));
+            tabbedPane1.setBorder(Borders.DLU4);
 
             //======== panel1 ========
             {
-                panel1.setBorder(null);
+                panel1.setBorder(Borders.DLU4);
                 panel1.setLayout(new GridBagLayout());
                 ((GridBagLayout)panel1.getLayout()).columnWidths = new int[] {0, 0, 0};
-                ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0};
+                ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0};
                 ((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-                ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
                 //======== panel5 ========
                 {
-                    panel5.setBorder(Borders.DLU2);
+                    panel5.setBorder(new CompoundBorder(
+                        new TitledBorder("\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0434\u043b\u044f \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u044f \u043a \u0411\u0414"),
+                        Borders.TABBED_DIALOG));
                     panel5.setLayout(new GridBagLayout());
-                    ((GridBagLayout)panel5.getLayout()).columnWidths = new int[] {0, 0};
-                    ((GridBagLayout)panel5.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-                    ((GridBagLayout)panel5.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                    ((GridBagLayout)panel5.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)panel5.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+                    ((GridBagLayout)panel5.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+                    ((GridBagLayout)panel5.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)panel5.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+                    //---- label16 ----
+                    label16.setText("\u041f\u043e\u0440\u0442:");
+                    panel5.add(label16, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- textField12 ----
+                    textField12.setHorizontalAlignment(SwingConstants.TRAILING);
+                    textField12.setPreferredSize(new Dimension(150, 24));
+                    panel5.add(textField12, new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- label17 ----
+                    label17.setText("\u041b\u043e\u0433\u0438\u043d:");
+                    panel5.add(label17, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- textField13 ----
+                    textField13.setHorizontalAlignment(SwingConstants.TRAILING);
+                    textField13.setPreferredSize(new Dimension(150, 24));
+                    panel5.add(textField13, new GridBagConstraints(1, 1, 2, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- label18 ----
+                    label18.setText("\u041f\u0430\u0440\u043e\u043b\u044c:");
+                    panel5.add(label18, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- passwordField1 ----
+                    passwordField1.setHorizontalAlignment(SwingConstants.TRAILING);
+                    passwordField1.setPreferredSize(new Dimension(150, 24));
+                    panel5.add(passwordField1, new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- button1 ----
+                    button1.setText("\u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u044c\u0441\u044f");
+                    panel5.add(button1, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 0, 0), 0, 0));
+                }
+                panel1.add(panel5, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
+                    GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL,
+                    new Insets(0, 0, 0, 5), 0, 0));
+
+                //======== panel4 ========
+                {
+                    panel4.setBorder(new CompoundBorder(
+                        new EtchedBorder(),
+                        Borders.TABBED_DIALOG));
+                    panel4.setLayout(new GridBagLayout());
+                    ((GridBagLayout)panel4.getLayout()).columnWidths = new int[] {0, 0, 0};
+                    ((GridBagLayout)panel4.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+                    ((GridBagLayout)panel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)panel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
                     //---- label2 ----
                     label2.setText("DPI:");
-                    label2.setHorizontalAlignment(SwingConstants.CENTER);
-                    panel5.add(label2, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
-                }
-                panel1.add(panel5, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
-                    GridBagConstraints.EAST, GridBagConstraints.NONE,
-                    new Insets(0, 0, 0, 5), 0, 0));
+                    panel4.add(label2, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
-                //======== panel6 ========
-                {
-                    panel6.setBorder(Borders.DLU2);
-                    panel6.setLayout(new GridBagLayout());
-                    ((GridBagLayout)panel6.getLayout()).columnWidths = new int[] {0, 0};
-                    ((GridBagLayout)panel6.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-                    ((GridBagLayout)panel6.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                    ((GridBagLayout)panel6.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-                    panel6.add(textField1, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
+                    //---- textField1 ----
+                    textField1.setText("300");
+                    textField1.setPreferredSize(new Dimension(80, 26));
+                    textField1.setHorizontalAlignment(SwingConstants.TRAILING);
+                    panel4.add(textField1, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- label15 ----
+                    label15.setText("\u042f\u0437\u044b\u043a:");
+                    panel4.add(label15, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                        new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- comboBox2 ----
+                    comboBox2.setModel(new DefaultComboBoxModel(new String[] {
+                        "\u0410\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u0438\u0439",
+                        "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+                        "\u0424\u0440\u0430\u043d\u0446\u0443\u0437\u0441\u043a\u0438\u0439"
+                    }));
+                    panel4.add(comboBox2, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 5, 0), 0, 0));
                 }
-                panel1.add(panel6, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                panel1.add(panel4, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
+                    GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL,
+                    new Insets(0, 0, 5, 5), 0, 0));
             }
             tabbedPane1.addTab("\u041e\u0431\u0449\u0435\u0435", panel1);
 
@@ -410,16 +487,6 @@ public class ConfigurationParameter extends JPanel {
                     new Insets(0, 0, 0, 0), 0, 0));
             }
             tabbedPane1.addTab("\u041f\u0440\u0435\u043f\u0440\u043e\u0446\u0435\u0441\u0441\u043e\u0440", panel3);
-
-            //======== panel4 ========
-            {
-                panel4.setLayout(new GridBagLayout());
-                ((GridBagLayout)panel4.getLayout()).columnWidths = new int[] {0, 0, 0};
-                ((GridBagLayout)panel4.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-                ((GridBagLayout)panel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-                ((GridBagLayout)panel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-            }
-            tabbedPane1.addTab("\u0420\u0430\u0441\u043f\u043e\u0437\u043d\u043e\u0432\u0430\u043d\u0438\u0435", panel4);
         }
         add(tabbedPane1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -443,7 +510,7 @@ public class ConfigurationParameter extends JPanel {
             //---- txtConfigurationName ----
             txtConfigurationName.setMinimumSize(new Dimension(150, 27));
             txtConfigurationName.setPreferredSize(new Dimension(200, 27));
-            panel2.add(txtConfigurationName, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            panel2.add(txtConfigurationName, new GridBagConstraints(1, 0, 1, 1, 2.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 5), 0, 0));
 
@@ -454,7 +521,7 @@ public class ConfigurationParameter extends JPanel {
                 GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
                 new Insets(0, 0, 0, 0), 0, 0));
         }
-        add(panel2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+        add(panel2, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -465,9 +532,18 @@ public class ConfigurationParameter extends JPanel {
     private JTabbedPane tabbedPane1;
     private JPanel panel1;
     private JPanel panel5;
+    private JLabel label16;
+    private JTextField textField12;
+    private JLabel label17;
+    private JTextField textField13;
+    private JLabel label18;
+    private JPasswordField passwordField1;
+    private JButton button1;
+    private JPanel panel4;
     private JLabel label2;
-    private JPanel panel6;
     private JTextField textField1;
+    private JLabel label15;
+    private JComboBox comboBox2;
     private JPanel panel3;
     private JPanel panel9;
     private JPanel panel12;
@@ -502,7 +578,6 @@ public class ConfigurationParameter extends JPanel {
     private JTextField textField9;
     private JTextField textField10;
     private JTextField textField11;
-    private JPanel panel4;
     private JPanel panel2;
     private JLabel label1;
     private JTextField txtConfigurationName;

@@ -7,129 +7,70 @@ new FormModel {
 			"gap": 10
 		} ) {
 			name: "this"
-			"border": sfield com.jgoodies.forms.factories.Borders DLU7_BORDER
+			"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 				"$columnSpecs": "0, 60:1.0, 0, 0, 0:1.0"
-				"$rowSpecs": "0, 0:1.0, 0, 0:1.0"
+				"$rowSpecs": "0:1.0, 0"
 				"$hGap": 5
 				"$vGap": 5
 				"$alignTop": true
 				"$alignLeft": true
 			} ) {
 				name: "panel1"
-				"border": new javax.swing.border.EtchedBorder( 1, null, null )
-				add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-					name: "vSpacer1"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 2
-				} )
+				"border": new javax.swing.border.CompoundBorder( new javax.swing.border.EtchedBorder( 1, null, null ), sfield com.jgoodies.forms.factories.Borders DLU4_BORDER )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label5"
 					"text": "Название проекта:"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"hAlign": 4
-					"gridy": 1
 					"gridx": 1
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textField1"
+					name: "txtProjectName"
 					"preferredSize": new java.awt.Dimension( 250, 22 )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 1
-				} )
-				add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
-					name: "hSpacer1"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 2
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label2"
 					"text": "Исходный файл:"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 2
+					"gridy": 1
 					"hAlign": 4
 					"gridx": 1
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textField2"
+					name: "txtProjectImage"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 2
+					"gridy": 1
 					"gridx": 2
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button1"
-					"text": "выбрать"
+					name: "butChooseImage"
+					"text": "Выбрать"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 3
-					"gridy": 2
-				} )
-				add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
-					name: "hSpacer2"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 4
-					"gridy": 2
-				} )
-				add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-					name: "vSpacer2"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 2
-					"gridy": 3
+					"gridy": 1
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 				"$columnSpecs": "0:1.0, 0:1.0"
-				"$rowSpecs": "0:1.0, 4, 0"
+				"$rowSpecs": "4"
 				"$alignTop": true
 				"$hGap": 5
 				"$vGap": 10
 				"$alignLeft": true
 			} ) {
 				name: "panel2"
-				"border": new javax.swing.border.EtchedBorder( 1, null, null )
-				add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-					name: "vSpacer3"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 1
-				} )
+				"border": new javax.swing.border.CompoundBorder( new javax.swing.border.EtchedBorder( 1, null, null ), sfield com.jgoodies.forms.factories.Borders DLU2_BORDER )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label3"
 					"text": "Формат:"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"hAlign": 4
-					"gridy": 1
 				} )
 				add( new FormComponent( "javax.swing.JComboBox" ) {
-					name: "comboBox1"
-					"preferredSize": new java.awt.Dimension( 150, 22 )
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 1
-					"hAlign": 2
-					"gridy": 1
-				} )
-				add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
-					name: "vSpacer4"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 1
-					"gridy": 2
-				} )
-			} )
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-				"$columnSpecs": "0:1.0, 0:1.0"
-				"$rowSpecs": "0:1.0"
-				"$alignTop": true
-				"$alignLeft": true
-				"$hGap": 5
-			} ) {
-				name: "panel3"
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label4"
-					"text": "Язык:"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"hAlign": 4
-				} )
-				add( new FormComponent( "javax.swing.JComboBox" ) {
-					name: "comboBox2"
+					name: "comboFormat"
 					"preferredSize": new java.awt.Dimension( 150, 22 )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
@@ -144,8 +85,8 @@ new FormModel {
 			} ) {
 				name: "panel4"
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button2"
-					"text": "text"
+					name: "butCreate"
+					"text": "Создать"
 					"horizontalAlignment": 4
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"hAlign": 4

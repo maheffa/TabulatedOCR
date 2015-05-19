@@ -17,17 +17,50 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
 						name: "splitPane4"
 						"orientation": 0
-						"resizeWeight": 0.7
-						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-							name: "screllTree"
-							"border": new javax.swing.border.TitledBorder( "Проект" )
-							"minimumSize": new java.awt.Dimension( 150, 350 )
-							"preferredSize": new java.awt.Dimension( 150, 500 )
-							add( new FormComponent( "javax.swing.JTree" ) {
-								name: "projectTreeView"
-								auxiliary() {
-									"JavaCodeGenerator.customCreateCode": "new JTree(openDownToPath(paramater.getProjectPath()));"
-								}
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 68, 0"
+							"$rowSpecs": "0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel14"
+							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
+							"preferredSize": new java.awt.Dimension( 169, 400 )
+							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+								name: "scrollPane5"
+								add( new FormComponent( "javax.swing.JList" ) {
+									name: "listProject"
+								} )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"hAlign": 5
+								"weightx": 1.0
+								"weighty": 1.0
+								"gridwidth": 3
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "button2"
+								"text": "Edit"
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"hAlign": 4
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "button4"
+								"text": "Add"
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+								"gridy": 1
+								"hAlign": 4
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "button3"
+								"text": "Del"
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 2
+								"gridy": 1
+								"hAlign": 4
 							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
 							"value": "left"
@@ -57,7 +90,6 @@ new FormModel {
 						"$alignLeft": true
 					} ) {
 						name: "panel3"
-						"background": new java.awt.Color( 153, 153, 153, 255 )
 						"border": sfield com.jgoodies.forms.factories.Borders DLU2_BORDER
 						"minimumSize": new java.awt.Dimension( 300, 79 )
 						"preferredSize": new java.awt.Dimension( 300, 300 )
@@ -68,16 +100,53 @@ new FormModel {
 							"opaque": false
 							"verticalScrollBarPolicy": 22
 							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
-							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-								"$columnSpecs": "0"
-								"$rowSpecs": "0"
-								"$hGap": 5
-								"$vGap": 5
-								"$alignLeft": true
-								"$alignTop": true
-							} ) {
-								name: "panel8"
-								"background": new java.awt.Color( 153, 153, 153, 255 )
+							add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+								name: "tabbedPane2"
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+									"$columnSpecs": "0"
+									"$rowSpecs": "0"
+									"$hGap": 5
+									"$vGap": 5
+									"$alignLeft": true
+									"$alignTop": true
+								} ) {
+									name: "panel11"
+								}, new FormLayoutConstraints( null ) {
+									"title": "Исходное"
+								} )
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+									"$columnSpecs": "0"
+									"$rowSpecs": "0, 0"
+									"$hGap": 5
+									"$vGap": 5
+									"$alignLeft": true
+									"$alignTop": true
+								} ) {
+									name: "panel12"
+									add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+										"$columnSpecs": "0"
+										"$rowSpecs": "0"
+										"$hGap": 5
+										"$vGap": 5
+										"$alignLeft": true
+										"$alignTop": true
+									} ) {
+										name: "panel13"
+									}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+										"hAlign": 5
+										"weightx": 1.0
+										"weighty": 1.0
+									} )
+									add( new FormComponent( "javax.swing.JButton" ) {
+										name: "button1"
+										"text": "Записать"
+									}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+										"gridy": 1
+										"hAlign": 4
+									} )
+								}, new FormLayoutConstraints( null ) {
+									"title": "Результат"
+								} )
 							} )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"weightx": 1.0
@@ -88,11 +157,70 @@ new FormModel {
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "scrollPane4"
 							"preferredSize": new java.awt.Dimension( 0, 300 )
-							"background": new java.awt.Color( 153, 153, 153, 255 )
 							"verticalScrollBarPolicy": 22
 							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
-							add( new FormComponent( "javax.swing.JFormattedTextField" ) {
-								name: "formattedTextField1"
+							add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+								name: "tabbedPane1"
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+									"$columnSpecs": "0"
+									"$rowSpecs": "0"
+									"$hGap": 5
+									"$vGap": 5
+									"$alignLeft": true
+									"$alignTop": true
+								} ) {
+									name: "panel5"
+								}, new FormLayoutConstraints( null ) {
+									"title": "Бинарное"
+								} )
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+									"$columnSpecs": "0"
+									"$rowSpecs": "0"
+									"$hGap": 5
+									"$vGap": 5
+									"$alignLeft": true
+									"$alignTop": true
+								} ) {
+									name: "panel6"
+								}, new FormLayoutConstraints( null ) {
+									"title": "Хаф"
+								} )
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+									"$columnSpecs": "0"
+									"$rowSpecs": "0"
+									"$hGap": 5
+									"$vGap": 5
+									"$alignLeft": true
+									"$alignTop": true
+								} ) {
+									name: "panel7"
+								}, new FormLayoutConstraints( null ) {
+									"title": "Устранённое"
+								} )
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+									"$columnSpecs": "0"
+									"$rowSpecs": "0"
+									"$hGap": 5
+									"$vGap": 5
+									"$alignLeft": true
+									"$alignTop": true
+								} ) {
+									name: "panel9"
+								}, new FormLayoutConstraints( null ) {
+									"title": "Таблица"
+								} )
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+									"$columnSpecs": "0"
+									"$rowSpecs": "0"
+									"$hGap": 5
+									"$vGap": 5
+									"$alignLeft": true
+									"$alignTop": true
+								} ) {
+									name: "panel10"
+								}, new FormLayoutConstraints( null ) {
+									"title": "Клетки"
+								} )
 							} )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"weightx": 1.0
@@ -119,34 +247,53 @@ new FormModel {
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 						"$columnSpecs": "left:0:1.0"
-						"$rowSpecs": "0, 0, 0, 0, 0"
+						"$rowSpecs": "0, 0"
 					} ) {
 						name: "panel2"
 						"preferredSize": new java.awt.Dimension( 150, 440 )
 						"border": sfield com.jgoodies.forms.factories.Borders DLU2_BORDER
 						"minimumSize": new java.awt.Dimension( 150, 450 )
 						"maximumSize": new java.awt.Dimension( 300, 2147483647 )
-						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-							name: "scrollFormat"
-							"border": new javax.swing.border.TitledBorder( "Форматы" )
-							"minimumSize": new java.awt.Dimension( 31, 40 )
-							"maximumSize": new java.awt.Dimension( 300, 32767 )
-							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
-								name: "panel4"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0"
+							"$rowSpecs": "0, 0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel4"
+							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
+							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+								name: "scrollPane6"
 								add( new FormComponent( "javax.swing.JList" ) {
-									name: "listFormat"
-									"selectionMode": 0
-									auxiliary() {
-										"JavaCodeGenerator.customCreateCode": "new JList(formatNameListModel = getFormatList());"
-									}
-									addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "listFormatValueChanged", true ) )
-								}, new FormLayoutConstraints( class java.lang.String ) {
-									"value": "Center"
+									name: "list1"
 								} )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridwidth": 2
+								"hAlign": 5
+								"weightx": 1.0
+								"weighty": 1.0
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "button5"
+								"text": "text"
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"hAlign": 4
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "button6"
+								"text": "text"
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+								"gridy": 1
+								"hAlign": 4
 							} )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"weighty": 5.0
 							"hAlign": 5
+							"weightx": 1.0
+							"weighty": 1.0
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "scrollPane1"
@@ -161,35 +308,7 @@ new FormModel {
 							} )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 1
-							"weighty": 2.0
-							"hAlign": 5
-						} )
-						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-							name: "scrollDatabase"
-							"border": new javax.swing.border.TitledBorder( "БД" )
-							"minimumSize": new java.awt.Dimension( 31, 40 )
-							"maximumSize": new java.awt.Dimension( 300, 32767 )
-							add( new FormComponent( "javax.swing.JList" ) {
-								name: "listDatabase"
-							} )
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 2
-							"weighty": 5.0
-							"hAlign": 5
-						} )
-						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-							name: "scrollPane5"
-							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
-							"preferredSize": new java.awt.Dimension( 109, 100 )
-							"minimumSize": new java.awt.Dimension( 0, 50 )
-							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "label5"
-								"text": "<html> <b>База данных</b>: <br/> <b>Таблица</b>: <br/> <b>Столбцы</b>: <br/> </html>"
-								"verticalAlignment": 1
-							} )
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 3
-							"weighty": 2.0
+							"weighty": 1.0
 							"hAlign": 5
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
@@ -204,51 +323,8 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "menu1"
 					"text": "Файл"
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem1"
-						"text": "Откыть проект"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem2"
-						"text": "Сохранить проект"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "FileView.floppyDriveIcon" )
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem3"
-						"text": "Сохранить как"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "FileView.floppyDriveIcon" )
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem4"
-						"text": "Закрыть проект"
-					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
 						name: "separator1"
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem5"
-						"text": "Создать проект"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "FileView.directoryIcon" )
-					} )
-					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
-						name: "separator2"
-					} )
-					add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
-						name: "menu2"
-						"text": "Экспортировать"
-						add( new FormComponent( "javax.swing.JMenuItem" ) {
-							name: "menuItem6"
-							"text": "CSS"
-						} )
-						add( new FormComponent( "javax.swing.JMenuItem" ) {
-							name: "menuItem7"
-							"text": "База данных"
-						} )
-						add( new FormComponent( "javax.swing.JMenuItem" ) {
-							name: "menuItem8"
-							"text": "CSV"
-						} )
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
 						name: "separator3"
@@ -270,40 +346,12 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuCreateFormat"
-						"text": "Созадать формат"
+						"text": "Созадать табличный формат"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuCreateFormatActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuEditFormat"
-						"text": "Редактировать формат"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuEditFormatActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuDeleteFormat"
-						"text": "Удалить формать"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuDeleteFormatActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
-						name: "separator5"
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem14"
-						"text": "Создать БД"
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem15"
-						"text": "Редактировать БД"
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem16"
-						"text": "Удалить БД"
-					} )
-					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
-						name: "separator6"
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem21"
-						"text": "Связывать"
+						name: "menuItem1"
+						"text": "Создать текстовой формат"
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
@@ -333,7 +381,7 @@ new FormModel {
 			}
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 15 )
-			"size": new java.awt.Dimension( 755, 550 )
+			"size": new java.awt.Dimension( 855, 720 )
 		} )
 	}
 }

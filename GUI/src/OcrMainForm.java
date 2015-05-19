@@ -5,8 +5,6 @@ import java.awt.event.*;
 import java.io.File;
 import java.util.regex.Pattern;
 import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
 
@@ -29,31 +27,6 @@ public class OcrMainForm  {
         frame.setVisible(true);
     }
 
-    private void menuEditFormatActionPerformed(ActionEvent e) {
-        Chooser chooser = new Chooser(
-                Serializer.listFormat(),
-                Chooser.FORMAT,
-                false
-        );
-        GUIUtil.createFrameForPanel(chooser);
-    }
-
-    private void menuDeleteFormatActionPerformed(ActionEvent e) {
-        Chooser chooser = new Chooser(
-                Serializer.listFormat(),
-                Chooser.FORMAT,
-                true
-        );
-        GUIUtil.createFrameForPanel(chooser);
-    }
-
-    private void listFormatValueChanged(ListSelectionEvent e) {
-        int index = listFormat.getSelectedIndex();
-        String name = formatNameListModel.get(index);
-        CellPanel cp = Serializer.loadFormat(name);
-
-    }
-
     private void createUIComponents() {
         // TODO: add custom component creation code here
     }
@@ -64,56 +37,52 @@ public class OcrMainForm  {
         mainFrame = new JFrame();
         menuBar1 = new JMenuBar();
         menu1 = new JMenu();
-        menuItem1 = new JMenuItem();
-        menuItem2 = new JMenuItem();
-        menuItem3 = new JMenuItem();
-        menuItem4 = new JMenuItem();
-        menuItem5 = new JMenuItem();
-        menu2 = new JMenu();
-        menuItem6 = new JMenuItem();
-        menuItem7 = new JMenuItem();
-        menuItem8 = new JMenuItem();
         menuItem9 = new JMenuItem();
         menu3 = new JMenu();
         menuItem10 = new JMenuItem();
         menuCreateFormat = new JMenuItem();
-        menuEditFormat = new JMenuItem();
-        menuDeleteFormat = new JMenuItem();
-        menuItem14 = new JMenuItem();
-        menuItem15 = new JMenuItem();
-        menuItem16 = new JMenuItem();
-        menuItem21 = new JMenuItem();
+        menuItem1 = new JMenuItem();
         menu5 = new JMenu();
         menuItem18 = new JMenuItem();
         menuItem19 = new JMenuItem();
-        menuItem20 = new JMenuItem();
         menu4 = new JMenu();
         menuItem17 = new JMenuItem();
         splitPane2 = new JSplitPane();
         panel1 = new JPanel();
         splitPane4 = new JSplitPane();
-        screllTree = new JScrollPane();
-        projectTreeView = new JTree(openDownToPath(paramater.getProjectPath()));
+        panel14 = new JPanel();
+        scrollPane5 = new JScrollPane();
+        listProject = new JList();
+        button2 = new JButton();
+        button4 = new JButton();
+        button3 = new JButton();
         scrollPane2 = new JScrollPane();
         label3 = new JLabel();
         splitPane3 = new JSplitPane();
         panel3 = new JPanel();
         scrollPane3 = new JScrollPane();
-        panel8 = new JPanel();
+        tabbedPane2 = new JTabbedPane();
+        panel11 = new JPanel();
+        panel12 = new JPanel();
+        panel13 = new JPanel();
+        button1 = new JButton();
         scrollPane4 = new JScrollPane();
-        formattedTextField1 = new JFormattedTextField();
+        tabbedPane1 = new JTabbedPane();
+        panel5 = new JPanel();
+        panel6 = new JPanel();
+        panel7 = new JPanel();
+        panel9 = new JPanel();
+        panel10 = new JPanel();
         label4 = new JLabel();
         progressBar1 = new JProgressBar();
         panel2 = new JPanel();
-        scrollFormat = new JScrollPane();
         panel4 = new JPanel();
-        listFormat = new JList(formatNameListModel = getFormatList());
+        scrollPane6 = new JScrollPane();
+        list1 = new JList();
+        button5 = new JButton();
+        button6 = new JButton();
         scrollPane1 = new JScrollPane();
         label2 = new JLabel();
-        scrollDatabase = new JScrollPane();
-        listDatabase = new JList();
-        scrollPane5 = new JScrollPane();
-        label5 = new JLabel();
 
         //======== mainFrame ========
         {
@@ -127,50 +96,7 @@ public class OcrMainForm  {
                 //======== menu1 ========
                 {
                     menu1.setText("\u0424\u0430\u0439\u043b");
-
-                    //---- menuItem1 ----
-                    menuItem1.setText("\u041e\u0442\u043a\u044b\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442");
-                    menuItem1.setIcon(UIManager.getIcon("Tree.openIcon"));
-                    menu1.add(menuItem1);
-
-                    //---- menuItem2 ----
-                    menuItem2.setText("\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442");
-                    menuItem2.setIcon(UIManager.getIcon("FileView.floppyDriveIcon"));
-                    menu1.add(menuItem2);
-
-                    //---- menuItem3 ----
-                    menuItem3.setText("\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u043a\u0430\u043a");
-                    menuItem3.setIcon(UIManager.getIcon("FileView.floppyDriveIcon"));
-                    menu1.add(menuItem3);
-
-                    //---- menuItem4 ----
-                    menuItem4.setText("\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442");
-                    menu1.add(menuItem4);
                     menu1.addSeparator();
-
-                    //---- menuItem5 ----
-                    menuItem5.setText("\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442");
-                    menuItem5.setIcon(UIManager.getIcon("FileView.directoryIcon"));
-                    menu1.add(menuItem5);
-                    menu1.addSeparator();
-
-                    //======== menu2 ========
-                    {
-                        menu2.setText("\u042d\u043a\u0441\u043f\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c");
-
-                        //---- menuItem6 ----
-                        menuItem6.setText("CSS");
-                        menu2.add(menuItem6);
-
-                        //---- menuItem7 ----
-                        menuItem7.setText("\u0411\u0430\u0437\u0430 \u0434\u0430\u043d\u043d\u044b\u0445");
-                        menu2.add(menuItem7);
-
-                        //---- menuItem8 ----
-                        menuItem8.setText("CSV");
-                        menu2.add(menuItem8);
-                    }
-                    menu1.add(menu2);
                     menu1.addSeparator();
 
                     //---- menuItem9 ----
@@ -189,7 +115,7 @@ public class OcrMainForm  {
                     menu3.addSeparator();
 
                     //---- menuCreateFormat ----
-                    menuCreateFormat.setText("\u0421\u043e\u0437\u0430\u0434\u0430\u0442\u044c \u0444\u043e\u0440\u043c\u0430\u0442");
+                    menuCreateFormat.setText("\u0421\u043e\u0437\u0430\u0434\u0430\u0442\u044c \u0442\u0430\u0431\u043b\u0438\u0447\u043d\u044b\u0439 \u0444\u043e\u0440\u043c\u0430\u0442");
                     menuCreateFormat.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -198,43 +124,9 @@ public class OcrMainForm  {
                     });
                     menu3.add(menuCreateFormat);
 
-                    //---- menuEditFormat ----
-                    menuEditFormat.setText("\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0444\u043e\u0440\u043c\u0430\u0442");
-                    menuEditFormat.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            menuEditFormatActionPerformed(e);
-                        }
-                    });
-                    menu3.add(menuEditFormat);
-
-                    //---- menuDeleteFormat ----
-                    menuDeleteFormat.setText("\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0444\u043e\u0440\u043c\u0430\u0442\u044c");
-                    menuDeleteFormat.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            menuDeleteFormatActionPerformed(e);
-                        }
-                    });
-                    menu3.add(menuDeleteFormat);
-                    menu3.addSeparator();
-
-                    //---- menuItem14 ----
-                    menuItem14.setText("\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0411\u0414");
-                    menu3.add(menuItem14);
-
-                    //---- menuItem15 ----
-                    menuItem15.setText("\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0411\u0414");
-                    menu3.add(menuItem15);
-
-                    //---- menuItem16 ----
-                    menuItem16.setText("\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0411\u0414");
-                    menu3.add(menuItem16);
-                    menu3.addSeparator();
-
-                    //---- menuItem21 ----
-                    menuItem21.setText("\u0421\u0432\u044f\u0437\u044b\u0432\u0430\u0442\u044c");
-                    menu3.add(menuItem21);
+                    //---- menuItem1 ----
+                    menuItem1.setText("\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u043e\u0439 \u0444\u043e\u0440\u043c\u0430\u0442");
+                    menu3.add(menuItem1);
                 }
                 menuBar1.add(menu3);
 
@@ -289,16 +181,44 @@ public class OcrMainForm  {
                     //======== splitPane4 ========
                     {
                         splitPane4.setOrientation(JSplitPane.VERTICAL_SPLIT);
-                        splitPane4.setResizeWeight(0.7);
 
-                        //======== screllTree ========
+                        //======== panel14 ========
                         {
-                            screllTree.setBorder(new TitledBorder("\u041f\u0440\u043e\u0435\u043a\u0442"));
-                            screllTree.setMinimumSize(new Dimension(150, 350));
-                            screllTree.setPreferredSize(new Dimension(150, 500));
-                            screllTree.setViewportView(projectTreeView);
+                            panel14.setBorder(Borders.DLU4);
+                            panel14.setPreferredSize(new Dimension(169, 400));
+                            panel14.setLayout(new GridBagLayout());
+                            ((GridBagLayout)panel14.getLayout()).columnWidths = new int[] {0, 73, 0, 0};
+                            ((GridBagLayout)panel14.getLayout()).rowHeights = new int[] {0, 0, 0};
+                            ((GridBagLayout)panel14.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+                            ((GridBagLayout)panel14.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+
+                            //======== scrollPane5 ========
+                            {
+                                scrollPane5.setViewportView(listProject);
+                            }
+                            panel14.add(scrollPane5, new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 5, 0), 0, 0));
+
+                            //---- button2 ----
+                            button2.setText("Edit");
+                            panel14.add(button2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                            //---- button4 ----
+                            button4.setText("Add");
+                            panel14.add(button4, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                            //---- button3 ----
+                            button3.setText("Del");
+                            panel14.add(button3, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                new Insets(0, 0, 0, 0), 0, 0));
                         }
-                        splitPane4.setTopComponent(screllTree);
+                        splitPane4.setTopComponent(panel14);
 
                         //======== scrollPane2 ========
                         {
@@ -321,7 +241,6 @@ public class OcrMainForm  {
 
                     //======== panel3 ========
                     {
-                        panel3.setBackground(new Color(153, 153, 153));
                         panel3.setBorder(Borders.DLU2);
                         panel3.setMinimumSize(new Dimension(300, 79));
                         panel3.setPreferredSize(new Dimension(300, 300));
@@ -339,16 +258,48 @@ public class OcrMainForm  {
                             scrollPane3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
                             scrollPane3.setBorder(Borders.DLU4);
 
-                            //======== panel8 ========
+                            //======== tabbedPane2 ========
                             {
-                                panel8.setBackground(new Color(153, 153, 153));
-                                panel8.setLayout(new GridBagLayout());
-                                ((GridBagLayout)panel8.getLayout()).columnWidths = new int[] {0, 0};
-                                ((GridBagLayout)panel8.getLayout()).rowHeights = new int[] {0, 0};
-                                ((GridBagLayout)panel8.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                                ((GridBagLayout)panel8.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+
+                                //======== panel11 ========
+                                {
+                                    panel11.setLayout(new GridBagLayout());
+                                    ((GridBagLayout)panel11.getLayout()).columnWidths = new int[] {0, 0};
+                                    ((GridBagLayout)panel11.getLayout()).rowHeights = new int[] {0, 0};
+                                    ((GridBagLayout)panel11.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout)panel11.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                }
+                                tabbedPane2.addTab("\u0418\u0441\u0445\u043e\u0434\u043d\u043e\u0435", panel11);
+
+                                //======== panel12 ========
+                                {
+                                    panel12.setLayout(new GridBagLayout());
+                                    ((GridBagLayout)panel12.getLayout()).columnWidths = new int[] {0, 0};
+                                    ((GridBagLayout)panel12.getLayout()).rowHeights = new int[] {0, 0, 0};
+                                    ((GridBagLayout)panel12.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout)panel12.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+
+                                    //======== panel13 ========
+                                    {
+                                        panel13.setLayout(new GridBagLayout());
+                                        ((GridBagLayout)panel13.getLayout()).columnWidths = new int[] {0, 0};
+                                        ((GridBagLayout)panel13.getLayout()).rowHeights = new int[] {0, 0};
+                                        ((GridBagLayout)panel13.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                                        ((GridBagLayout)panel13.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                    }
+                                    panel12.add(panel13, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
+                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                        new Insets(0, 0, 5, 0), 0, 0));
+
+                                    //---- button1 ----
+                                    button1.setText("\u0417\u0430\u043f\u0438\u0441\u0430\u0442\u044c");
+                                    panel12.add(button1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                        new Insets(0, 0, 0, 0), 0, 0));
+                                }
+                                tabbedPane2.addTab("\u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442", panel12);
                             }
-                            scrollPane3.setViewportView(panel8);
+                            scrollPane3.setViewportView(tabbedPane2);
                         }
                         panel3.add(scrollPane3, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -357,10 +308,63 @@ public class OcrMainForm  {
                         //======== scrollPane4 ========
                         {
                             scrollPane4.setPreferredSize(new Dimension(0, 300));
-                            scrollPane4.setBackground(new Color(153, 153, 153));
                             scrollPane4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
                             scrollPane4.setBorder(Borders.DLU4);
-                            scrollPane4.setViewportView(formattedTextField1);
+
+                            //======== tabbedPane1 ========
+                            {
+
+                                //======== panel5 ========
+                                {
+                                    panel5.setLayout(new GridBagLayout());
+                                    ((GridBagLayout)panel5.getLayout()).columnWidths = new int[] {0, 0};
+                                    ((GridBagLayout)panel5.getLayout()).rowHeights = new int[] {0, 0};
+                                    ((GridBagLayout)panel5.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout)panel5.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                }
+                                tabbedPane1.addTab("\u0411\u0438\u043d\u0430\u0440\u043d\u043e\u0435", panel5);
+
+                                //======== panel6 ========
+                                {
+                                    panel6.setLayout(new GridBagLayout());
+                                    ((GridBagLayout)panel6.getLayout()).columnWidths = new int[] {0, 0};
+                                    ((GridBagLayout)panel6.getLayout()).rowHeights = new int[] {0, 0};
+                                    ((GridBagLayout)panel6.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout)panel6.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                }
+                                tabbedPane1.addTab("\u0425\u0430\u0444", panel6);
+
+                                //======== panel7 ========
+                                {
+                                    panel7.setLayout(new GridBagLayout());
+                                    ((GridBagLayout)panel7.getLayout()).columnWidths = new int[] {0, 0};
+                                    ((GridBagLayout)panel7.getLayout()).rowHeights = new int[] {0, 0};
+                                    ((GridBagLayout)panel7.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout)panel7.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                }
+                                tabbedPane1.addTab("\u0423\u0441\u0442\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435", panel7);
+
+                                //======== panel9 ========
+                                {
+                                    panel9.setLayout(new GridBagLayout());
+                                    ((GridBagLayout)panel9.getLayout()).columnWidths = new int[] {0, 0};
+                                    ((GridBagLayout)panel9.getLayout()).rowHeights = new int[] {0, 0};
+                                    ((GridBagLayout)panel9.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout)panel9.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                }
+                                tabbedPane1.addTab("\u0422\u0430\u0431\u043b\u0438\u0446\u0430", panel9);
+
+                                //======== panel10 ========
+                                {
+                                    panel10.setLayout(new GridBagLayout());
+                                    ((GridBagLayout)panel10.getLayout()).columnWidths = new int[] {0, 0};
+                                    ((GridBagLayout)panel10.getLayout()).rowHeights = new int[] {0, 0};
+                                    ((GridBagLayout)panel10.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout)panel10.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                }
+                                tabbedPane1.addTab("\u041a\u043b\u0435\u0442\u043a\u0438", panel10);
+                            }
+                            scrollPane4.setViewportView(tabbedPane1);
                         }
                         panel3.add(scrollPane4, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -386,29 +390,36 @@ public class OcrMainForm  {
                         panel2.setLayout(new GridBagLayout());
                         ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {1.0};
 
-                        //======== scrollFormat ========
+                        //======== panel4 ========
                         {
-                            scrollFormat.setBorder(new TitledBorder("\u0424\u043e\u0440\u043c\u0430\u0442\u044b"));
-                            scrollFormat.setMinimumSize(new Dimension(31, 40));
-                            scrollFormat.setMaximumSize(new Dimension(300, 32767));
+                            panel4.setBorder(Borders.DLU4);
+                            panel4.setLayout(new GridBagLayout());
+                            ((GridBagLayout)panel4.getLayout()).columnWidths = new int[] {0, 0, 0};
+                            ((GridBagLayout)panel4.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+                            ((GridBagLayout)panel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+                            ((GridBagLayout)panel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
-                            //======== panel4 ========
+                            //======== scrollPane6 ========
                             {
-                                panel4.setLayout(new BorderLayout());
-
-                                //---- listFormat ----
-                                listFormat.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                                listFormat.addListSelectionListener(new ListSelectionListener() {
-                                    @Override
-                                    public void valueChanged(ListSelectionEvent e) {
-                                        listFormatValueChanged(e);
-                                    }
-                                });
-                                panel4.add(listFormat, BorderLayout.CENTER);
+                                scrollPane6.setViewportView(list1);
                             }
-                            scrollFormat.setViewportView(panel4);
+                            panel4.add(scrollPane6, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 5, 0), 0, 0));
+
+                            //---- button5 ----
+                            button5.setText("text");
+                            panel4.add(button5, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                new Insets(0, 0, 5, 5), 0, 0));
+
+                            //---- button6 ----
+                            button6.setText("text");
+                            panel4.add(button6, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                new Insets(0, 0, 5, 0), 0, 0));
                         }
-                        panel2.add(scrollFormat, new GridBagConstraints(0, 0, 1, 1, 0.0, 5.0,
+                        panel2.add(panel4, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                             new Insets(0, 0, 0, 0), 0, 0));
 
@@ -424,33 +435,7 @@ public class OcrMainForm  {
                             label2.setVerticalAlignment(SwingConstants.TOP);
                             scrollPane1.setViewportView(label2);
                         }
-                        panel2.add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 2.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
-
-                        //======== scrollDatabase ========
-                        {
-                            scrollDatabase.setBorder(new TitledBorder("\u0411\u0414"));
-                            scrollDatabase.setMinimumSize(new Dimension(31, 40));
-                            scrollDatabase.setMaximumSize(new Dimension(300, 32767));
-                            scrollDatabase.setViewportView(listDatabase);
-                        }
-                        panel2.add(scrollDatabase, new GridBagConstraints(0, 2, 1, 1, 0.0, 5.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
-
-                        //======== scrollPane5 ========
-                        {
-                            scrollPane5.setBorder(Borders.DLU4);
-                            scrollPane5.setPreferredSize(new Dimension(109, 100));
-                            scrollPane5.setMinimumSize(new Dimension(0, 50));
-
-                            //---- label5 ----
-                            label5.setText("<html> <b>\u0411\u0430\u0437\u0430 \u0434\u0430\u043d\u043d\u044b\u0445</b>: <br/> <b>\u0422\u0430\u0431\u043b\u0438\u0446\u0430</b>: <br/> <b>\u0421\u0442\u043e\u043b\u0431\u0446\u044b</b>: <br/> </html>");
-                            label5.setVerticalAlignment(SwingConstants.TOP);
-                            scrollPane5.setViewportView(label5);
-                        }
-                        panel2.add(scrollPane5, new GridBagConstraints(0, 3, 1, 1, 0.0, 2.0,
+                        panel2.add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 1.0,
                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                             new Insets(0, 0, 0, 0), 0, 0));
                     }
@@ -459,7 +444,7 @@ public class OcrMainForm  {
                 splitPane2.setRightComponent(splitPane3);
             }
             mainFrameContentPane.add(splitPane2);
-            mainFrame.setSize(755, 550);
+            mainFrame.setSize(855, 720);
             mainFrame.setLocationRelativeTo(mainFrame.getOwner());
         }
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -470,25 +455,11 @@ public class OcrMainForm  {
     private JFrame mainFrame;
     private JMenuBar menuBar1;
     private JMenu menu1;
-    private JMenuItem menuItem1;
-    private JMenuItem menuItem2;
-    private JMenuItem menuItem3;
-    private JMenuItem menuItem4;
-    private JMenuItem menuItem5;
-    private JMenu menu2;
-    private JMenuItem menuItem6;
-    private JMenuItem menuItem7;
-    private JMenuItem menuItem8;
     private JMenuItem menuItem9;
     private JMenu menu3;
     private JMenuItem menuItem10;
     private JMenuItem menuCreateFormat;
-    private JMenuItem menuEditFormat;
-    private JMenuItem menuDeleteFormat;
-    private JMenuItem menuItem14;
-    private JMenuItem menuItem15;
-    private JMenuItem menuItem16;
-    private JMenuItem menuItem21;
+    private JMenuItem menuItem1;
     private JMenu menu5;
     private JMenuItem menuItem18;
     private JMenuItem menuItem19;
@@ -498,28 +469,39 @@ public class OcrMainForm  {
     private JSplitPane splitPane2;
     private JPanel panel1;
     private JSplitPane splitPane4;
-    private JScrollPane screllTree;
-    private JTree projectTreeView;
+    private JPanel panel14;
+    private JScrollPane scrollPane5;
+    private JList listProject;
+    private JButton button2;
+    private JButton button4;
+    private JButton button3;
     private JScrollPane scrollPane2;
     private JLabel label3;
     private JSplitPane splitPane3;
     private JPanel panel3;
     private JScrollPane scrollPane3;
-    private JPanel panel8;
+    private JTabbedPane tabbedPane2;
+    private JPanel panel11;
+    private JPanel panel12;
+    private JPanel panel13;
+    private JButton button1;
     private JScrollPane scrollPane4;
-    private JFormattedTextField formattedTextField1;
+    private JTabbedPane tabbedPane1;
+    private JPanel panel5;
+    private JPanel panel6;
+    private JPanel panel7;
+    private JPanel panel9;
+    private JPanel panel10;
     private JLabel label4;
     private JProgressBar progressBar1;
     private JPanel panel2;
-    private JScrollPane scrollFormat;
     private JPanel panel4;
-    private JList listFormat;
+    private JScrollPane scrollPane6;
+    private JList list1;
+    private JButton button5;
+    private JButton button6;
     private JScrollPane scrollPane1;
     private JLabel label2;
-    private JScrollPane scrollDatabase;
-    private JList listDatabase;
-    private JScrollPane scrollPane5;
-    private JLabel label5;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 
     private Parameters paramater;
@@ -529,31 +511,6 @@ public class OcrMainForm  {
         super();
         this.paramater = paramater;
         initComponents();
-        projectTreeView.setCellRenderer(new TreeCellRenderer() {
-            @Override
-            public Component getTreeCellRendererComponent(JTree jTree,
-                                                          Object o,
-                                                          boolean selected,
-                                                          boolean expanded,
-                                                          boolean leaf, int i,
-                                                          boolean hasFocus) {
-                if (o instanceof DefaultMutableTreeNode) {
-                    DefaultMutableTreeNode object = (DefaultMutableTreeNode) o;
-                    if (object.getUserObject() instanceof File) {
-                        File f = (File) object.getUserObject();
-                        JLabel label = new JLabel(f.getName());
-                        if (f.isDirectory()) {
-                            label.setIcon(UIManager.getIcon("FileView.directoryIcon"));
-                        } else {
-                            label.setIcon(UIManager.getIcon("FileView.fileIcon"));
-                        }
-                        return label;
-                    }
-                }
-                return null;
-            }
-        });
-
         // launch GUI
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack();
@@ -562,89 +519,6 @@ public class OcrMainForm  {
 
     public JFrame getMainFrame() {
         return this.mainFrame;
-    }
-
-    private DefaultMutableTreeNode openDownToPath(String path) {
-        String[] folders = path.split(Pattern.quote(File.separator));
-        System.out.printf(Arrays.toString(folders));
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new File("/"));
-        int index = 1;
-        DefaultMutableTreeNode current = root;
-        while (index < folders.length) {
-            open(current, 1);
-            Enumeration<DefaultMutableTreeNode> enumeration = current.children();
-            DefaultMutableTreeNode satisfactory = null;
-            while (enumeration.hasMoreElements() && satisfactory == null) {
-                DefaultMutableTreeNode tmpDm = enumeration.nextElement();
-                if (((File) tmpDm.getUserObject()).getName().equals(folders[index])) {
-                    satisfactory = tmpDm;
-                    current = satisfactory;
-                }
-            }
-            index++;
-        }
-        return root;
-    }
-
-    private void open(DefaultMutableTreeNode folder, int depth) {
-        File f = (File) folder.getUserObject();
-//        System.out.println("Opening " + f.getPath());
-        if (f.isDirectory() && depth > 0) {
-            File[] files = f.listFiles();
-            ArrayList<File> ds = new ArrayList<File>();
-            ArrayList<File> fs = new ArrayList<File>();
-            if (files != null) {
-                for (File ff : files) {
-                    if (ff.isHidden()) continue;
-                    if (ff.isDirectory() && ff.listFiles() != null) {
-                        ds.add(ff);
-                    } else {
-                        if (Serializer.isProjectFile(ff.getName())) {
-                            fs.add(ff);
-                        }
-                    }
-                }
-                Collections.sort(ds);
-                Collections.sort(fs);
-                for (File ff : ds) {
-                    DefaultMutableTreeNode df = new DefaultMutableTreeNode(ff);
-                    if (hasAsChildren(folder, df)) continue;
-                    open(df, depth - 1);
-                    folder.add(df);
-                }
-                for (File ff : fs) {
-                    DefaultMutableTreeNode df = new DefaultMutableTreeNode(ff);
-                    if (hasAsChildren(folder, df)) continue;
-                    folder.add(df);
-                }
-            }
-        }
-    }
-
-    private boolean hasAsChildren(DefaultMutableTreeNode parent, DefaultMutableTreeNode element) {
-        Enumeration<DefaultMutableTreeNode> children = parent.children();
-        while (children.hasMoreElements()) {
-            DefaultMutableTreeNode child = children.nextElement();
-            File f1 = (File) child.getUserObject();
-            File f2 = (File) element.getUserObject();
-            try {
-                if (f1.getCanonicalPath().equals(f2.getCanonicalPath())) {
-                    return true;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-        return false;
-    }
-
-    private DefaultListModel getFormatList() {
-        DefaultListModel<String> listModel = new DefaultListModel<String>();
-        for (String format : Serializer.listFormat()) {
-            listModel.addElement(format);
-        }
-        return listModel;
     }
 
 }
