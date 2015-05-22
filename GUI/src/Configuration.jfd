@@ -4,19 +4,20 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-			"$columnSpecs": "0:1.0"
-			"$rowSpecs": "0:1.0, 0"
-			"$alignTop": true
+			"$columnSpecs": "0, 0"
+			"$rowSpecs": "0, 0, 0, 0"
+			"$hGap": 5
+			"$vGap": 5
 			"$alignLeft": true
+			"$alignTop": true
 		} ) {
 			name: "this"
-			"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane1"
-				"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
+				"border": new javax.swing.border.CompoundBorder( new javax.swing.border.EtchedBorder( 1, null, null ), sfield com.jgoodies.forms.factories.Borders DLU4_BORDER )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 					"$columnSpecs": "0, 0"
-					"$rowSpecs": "0, 0"
+					"$rowSpecs": "0, 0, 0"
 					"$hGap": 5
 					"$vGap": 5
 					"$alignLeft": true
@@ -25,149 +26,95 @@ new FormModel {
 					name: "panel1"
 					"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-						"$columnSpecs": "0, 0, 0"
+						"$columnSpecs": "0, 0"
 						"$rowSpecs": "0, 0, 0, 0"
 						"$hGap": 5
 						"$vGap": 5
 						"$alignLeft": true
 						"$alignTop": true
 					} ) {
-						name: "panel5"
-						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "Параметры для подключения к БД" ), sfield com.jgoodies.forms.factories.Borders TABBED_DIALOG_BORDER )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label16"
-							"text": "Порт:"
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"hAlign": 4
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "textField12"
-							"horizontalAlignment": 11
-							"preferredSize": new java.awt.Dimension( 150, 24 )
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridx": 1
-							"gridwidth": 2
-							"hAlign": 5
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label17"
-							"text": "Логин:"
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 1
-							"hAlign": 4
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "textField13"
-							"horizontalAlignment": 11
-							"preferredSize": new java.awt.Dimension( 150, 24 )
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridx": 1
-							"gridy": 1
-							"gridwidth": 2
-							"hAlign": 5
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label18"
-							"text": "Пароль:"
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 2
-							"hAlign": 4
-						} )
-						add( new FormComponent( "javax.swing.JPasswordField" ) {
-							name: "passwordField1"
-							"horizontalAlignment": 11
-							"preferredSize": new java.awt.Dimension( 150, 24 )
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridx": 1
-							"gridy": 2
-							"gridwidth": 2
-							"hAlign": 5
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "button1"
-							"text": "Подключиться"
-						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"gridy": 3
-							"gridx": 2
-							"hAlign": 4
-						} )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 1
-						"hAlign": 5
-						"weightx": 1.0
-						"vAlign": 1
-					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-						"$columnSpecs": "0, 0"
-						"$rowSpecs": "0, 0, 0"
-						"$hGap": 5
-						"$vGap": 5
-						"$alignLeft": true
-						"$alignTop": true
-					} ) {
 						name: "panel4"
-						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.EtchedBorder( 1, null, null ), sfield com.jgoodies.forms.factories.Borders TABBED_DIALOG_BORDER )
+						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "" ), sfield com.jgoodies.forms.factories.Borders DLU4_BORDER )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label2"
 							"text": "DPI:"
+							"horizontalAlignment": 11
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-							"hAlign": 4
+							"weightx": 1.0
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "textField1"
+							name: "txtDPI"
 							"text": "300"
 							"preferredSize": new java.awt.Dimension( 80, 26 )
 							"horizontalAlignment": 11
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
+							"weightx": 1.0
+							"hAlign": 2
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label15"
 							"text": "Язык:"
+							"horizontalAlignment": 11
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 1
-							"hAlign": 4
+							"weightx": 1.0
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
-							name: "comboBox2"
+							name: "comboLang"
 							"model": new javax.swing.DefaultComboBoxModel {
-								selectedItem: "Английский"
-								addElement( "Английский" )
-								addElement( "Русский" )
-								addElement( "Французский" )
+								selectedItem: "eng"
+								addElement( "eng" )
+								addElement( "rus" )
+								addElement( "fra" )
 							}
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"gridy": 1
+							"weightx": 1.0
+							"hAlign": 2
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label19"
+							"text": "Сильное устранение шумы:"
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "checkNoiseRemoveTesseract"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label21"
+							"text": "Допольнительная словарь:"
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "checkDictionary"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 3
 						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"hAlign": 5
 						"weightx": 1.0
 						"vAlign": 1
 					} )
-				}, new FormLayoutConstraints( null ) {
-					"title": "Общее"
-				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-					"$columnSpecs": "0"
-					"$rowSpecs": "0, 0, 0"
-					"$hGap": 5
-					"$vGap": 10
-					"$alignLeft": true
-					"$alignTop": true
-				} ) {
-					name: "panel3"
-					"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 						"$columnSpecs": "0, 0"
-						"$rowSpecs": "0, 0"
+						"$rowSpecs": "0"
 						"$hGap": 5
 						"$vGap": 5
 						"$alignLeft": true
 						"$alignTop": true
 					} ) {
 						name: "panel9"
-						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "Бинаризация" ), sfield com.jgoodies.forms.factories.Borders DLU2_BORDER )
+						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "Перобразование" ), sfield com.jgoodies.forms.factories.Borders DLU4_BORDER )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 							"$columnSpecs": "0"
 							"$rowSpecs": "0, 0"
@@ -195,7 +142,6 @@ new FormModel {
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"weightx": 1.0
 							"hAlign": 4
-							"gridy": 1
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 							"$columnSpecs": "0"
@@ -207,7 +153,7 @@ new FormModel {
 						} ) {
 							name: "panel13"
 							add( new FormComponent( "javax.swing.JComboBox" ) {
-								name: "comboBox1"
+								name: "comboGrayscale"
 								"model": new javax.swing.DefaultComboBoxModel {
 									selectedItem: "Average"
 									addElement( "Average" )
@@ -220,7 +166,7 @@ new FormModel {
 								"weightx": 1.0
 							} )
 							add( new FormComponent( "javax.swing.JCheckBox" ) {
-								name: "checkBox1"
+								name: "checkBinary"
 								"selected": true
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 1
@@ -228,11 +174,71 @@ new FormModel {
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"weightx": 1.0
-							"gridy": 1
 						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"weightx": 1.0
+						"gridy": 1
 					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0"
+						"$rowSpecs": "0, 0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "panel6"
+						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "Наклон" ), sfield com.jgoodies.forms.factories.Borders DLU4_BORDER )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label20"
+							"text": "Исправить наклона документа:"
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"weightx": 0.3
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "checkDeskew"
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"weightx": 1.0
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label14"
+							"text": "Максимальное наклонение линии (град):"
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"hAlign": 4
+							"weighty": 1.0
+							"weightx": 0.3
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "txtMaxAngleTolerance"
+							"minimumSize": new java.awt.Dimension( 50, 27 )
+							"preferredSize": new java.awt.Dimension( 50, 27 )
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"weightx": 1.0
+							"hAlign": 2
+							"gridx": 1
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 2
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Общее"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0"
+					"$rowSpecs": "0, 0, 0"
+					"$hGap": 5
+					"$vGap": 10
+					"$alignLeft": true
+					"$alignTop": true
+				} ) {
+					name: "panel3"
+					"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 						"$columnSpecs": "0, 0"
 						"$rowSpecs": "0"
@@ -242,7 +248,7 @@ new FormModel {
 						"$alignTop": true
 					} ) {
 						name: "panel10"
-						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "Смежность пикселей" ), sfield com.jgoodies.forms.factories.Borders DLU2_BORDER )
+						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "Обнаружение букв" ), sfield com.jgoodies.forms.factories.Borders DLU4_BORDER )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 							"$columnSpecs": "0"
 							"$rowSpecs": "0, 0"
@@ -281,13 +287,15 @@ new FormModel {
 						} ) {
 							name: "panel15"
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField2"
+								name: "txtRadius"
+								"horizontalAlignment": 11
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"hAlign": 5
 								"weightx": 1.0
 							} )
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField3"
+								name: "txtMargin"
+								"horizontalAlignment": 11
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 1
 								"hAlign": 5
@@ -298,8 +306,8 @@ new FormModel {
 							"weightx": 1.0
 						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 1
 						"weightx": 1.0
+						"weighty": 1.0
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 						"$columnSpecs": "0, 0"
@@ -310,7 +318,7 @@ new FormModel {
 						"$alignTop": true
 					} ) {
 						name: "panel11"
-						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "Нахождение линии" ), sfield com.jgoodies.forms.factories.Borders DLU2_BORDER )
+						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "Обнаружение линии" ), sfield com.jgoodies.forms.factories.Borders DLU4_BORDER )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 							"$columnSpecs": "0"
 							"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0"
@@ -369,17 +377,9 @@ new FormModel {
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "label13"
-								"text": "Преобразование Хафа - Максимальное расстояние между линями (px):"
+								"text": "Преобразование Хафа - Максимальное \nрасстояние между линями (px):"
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 6
-								"hAlign": 4
-								"weighty": 1.0
-							} )
-							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "label14"
-								"text": "Максимальное наклонение линии (град):"
-							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-								"gridy": 7
 								"hAlign": 4
 								"weighty": 1.0
 							} )
@@ -396,88 +396,150 @@ new FormModel {
 						} ) {
 							name: "panel18"
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField4"
+								name: "txtThreshold1"
 								"minimumSize": new java.awt.Dimension( 50, 27 )
 								"preferredSize": new java.awt.Dimension( 50, 27 )
+								"horizontalAlignment": 11
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"weightx": 1.0
 								"hAlign": 5
 							} )
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField5"
+								name: "txtThreshold2"
 								"minimumSize": new java.awt.Dimension( 50, 27 )
 								"preferredSize": new java.awt.Dimension( 50, 27 )
+								"horizontalAlignment": 11
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 1
 								"weightx": 1.0
 								"hAlign": 5
 							} )
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField6"
+								name: "txtDistanceAccumulation"
 								"minimumSize": new java.awt.Dimension( 50, 27 )
 								"preferredSize": new java.awt.Dimension( 50, 27 )
+								"horizontalAlignment": 11
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 2
 								"weightx": 1.0
 								"hAlign": 5
 							} )
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField7"
+								name: "txtAngleAccumulation"
 								"minimumSize": new java.awt.Dimension( 50, 27 )
 								"preferredSize": new java.awt.Dimension( 50, 27 )
+								"text": "0.12354569"
+								"horizontalAlignment": 11
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 3
 								"weightx": 1.0
 								"hAlign": 5
 							} )
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField8"
+								name: "txtAccumulationThreshold"
 								"minimumSize": new java.awt.Dimension( 50, 27 )
 								"preferredSize": new java.awt.Dimension( 50, 27 )
+								"horizontalAlignment": 11
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 4
 								"weightx": 1.0
 								"hAlign": 5
 							} )
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField9"
+								name: "txtMinimumLineLength"
 								"minimumSize": new java.awt.Dimension( 50, 27 )
 								"preferredSize": new java.awt.Dimension( 50, 27 )
+								"horizontalAlignment": 11
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 5
 								"weightx": 1.0
 								"hAlign": 5
 							} )
 							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField10"
+								name: "txtMaxGap"
 								"minimumSize": new java.awt.Dimension( 50, 27 )
 								"preferredSize": new java.awt.Dimension( 50, 27 )
+								"horizontalAlignment": 11
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 6
 								"weightx": 1.0
 								"hAlign": 5
 							} )
-							add( new FormComponent( "javax.swing.JTextField" ) {
-								name: "textField11"
-								"minimumSize": new java.awt.Dimension( 50, 27 )
-								"preferredSize": new java.awt.Dimension( 50, 27 )
-							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-								"gridy": 7
-								"weightx": 1.0
-								"hAlign": 5
-							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"weightx": 4.0
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+						"weightx": 1.0
+						"weighty": 1.0
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0"
+						"$rowSpecs": "0, 0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "panel5"
+						"border": new javax.swing.border.CompoundBorder( new javax.swing.border.TitledBorder( "Обнаружение таблиц" ), sfield com.jgoodies.forms.factories.Borders DLU4_BORDER )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label16"
+							"text": "Максимальное растояние между линиями (px):"
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"weightx": 1.0
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "txtMaxLineDistance"
+							"horizontalAlignment": 11
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridx": 1
 							"weightx": 1.0
 						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label17"
+							"text": "Максимальное растояние между смежными линиями (px):"
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+							"weightx": 1.0
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "txtMaxLineGap"
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+							"weightx": 1.0
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label18"
+							"text": "Толщина линии (px):"
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+							"weightx": 1.0
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "txtThickness"
+							"horizontalAlignment": 11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 2
+							"weightx": 1.0
+						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 2
-						"weightx": 1.0
+						"weighty": 1.0
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Препроцессор"
 				} )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 1
+			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 				"$columnSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
 				"$rowSpecs": "0"
@@ -501,24 +563,49 @@ new FormModel {
 					"weightx": 2.0
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "Сохранить"
+					name: "butSaveConfig"
 					"text": "Сохранить"
 					"horizontalAlignment": 11
 					auxiliary() {
 						"JavaCodeGenerator.variableName": "butSave"
 					}
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butSaveConfigActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 11
 					"hAlign": 4
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-				"gridy": 1
+				"gridy": 2
 				"hAlign": 5
 				"weightx": 1.0
 			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0, 0"
+				"$rowSpecs": "0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignLeft": true
+				"$alignTop": true
+			} ) {
+				name: "panel7"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "butDelete"
+					"text": "Удалить"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butDeleteActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "comboConfigList"
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "comboConfigListItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"hAlign": 4
+					"gridx": 1
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"hAlign": 4
+			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 785, 625 )
+			"location": new java.awt.Point( 0, 5 )
+			"size": new java.awt.Dimension( 725, 685 )
 		} )
 	}
 }

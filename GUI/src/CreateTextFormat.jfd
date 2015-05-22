@@ -54,6 +54,7 @@ new FormModel {
 					name: "scrollPane1"
 					add( new FormComponent( "javax.swing.JEditorPane" ) {
 						name: "editorPane1"
+						"preferredSize": new java.awt.Dimension( 309, 300 )
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridy": 1

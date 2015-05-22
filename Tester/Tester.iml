@@ -16,5 +16,6 @@
     <orderEntry type="module" module-name="Tabulated OCR" />
     <orderEntry type="library" name="opencv-300" level="project" />
     <orderEntry type="module" module-name="DBManager" />
+    <orderEntry type="library" name="commons-lang3-3.4" level="project" />
   </component>
 </module>

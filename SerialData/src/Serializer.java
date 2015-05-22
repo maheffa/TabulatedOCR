@@ -52,16 +52,6 @@ public class Serializer<T> {
         return object;
     }
 
-    public static void saveFormat(CellPanel object, String name) {
-        Serializer<CellPanel> cellPanelSerializer = new Serializer<CellPanel>(Serializer.FORMAT_EXTENSION);
-        cellPanelSerializer.writeObject(object, Parameters.getInstance().getProjectPath() + name);
-    }
-
-    public static CellPanel loadFormat(String name) {
-        Serializer<CellPanel> cellPanelSerializer = new Serializer<CellPanel>(Serializer.FORMAT_EXTENSION);
-        return cellPanelSerializer.readObject(Parameters.getInstance().getProjectPath() + name);
-    }
-
     public static void deleteFormat(String name) {
         File f = new File(Parameters.getInstance().getProjectPath() + name + "." + Serializer.FORMAT_EXTENSION);
         if (f.exists()) {

@@ -89,6 +89,9 @@ public class CreateTextFormat extends JPanel {
 
             //======== scrollPane1 ========
             {
+
+                //---- editorPane1 ----
+                editorPane1.setPreferredSize(new Dimension(309, 300));
                 scrollPane1.setViewportView(editorPane1);
             }
             panel2.add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,

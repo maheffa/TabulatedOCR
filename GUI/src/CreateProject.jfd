@@ -48,33 +48,10 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "butChooseImage"
 					"text": "Выбрать"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butChooseImageActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 3
 					"gridy": 1
-				} )
-			} )
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-				"$columnSpecs": "0:1.0, 0:1.0"
-				"$rowSpecs": "4"
-				"$alignTop": true
-				"$hGap": 5
-				"$vGap": 10
-				"$alignLeft": true
-			} ) {
-				name: "panel2"
-				"border": new javax.swing.border.CompoundBorder( new javax.swing.border.EtchedBorder( 1, null, null ), sfield com.jgoodies.forms.factories.Borders DLU2_BORDER )
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label3"
-					"text": "Формат:"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"hAlign": 4
-				} )
-				add( new FormComponent( "javax.swing.JComboBox" ) {
-					name: "comboFormat"
-					"preferredSize": new java.awt.Dimension( 150, 22 )
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 1
-					"hAlign": 2
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
@@ -88,6 +65,7 @@ new FormModel {
 					name: "butCreate"
 					"text": "Создать"
 					"horizontalAlignment": 4
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butCreateActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"hAlign": 4
 				} )

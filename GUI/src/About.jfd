@@ -1,0 +1,78 @@
+JFDML JFormDesigner: "5.2.1.0.138" Java: "1.8.0_05" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0, 0"
+			"$rowSpecs": "0, 0, 0, 0, 0"
+			"$hGap": 10
+			"$vGap": 10
+			"$alignLeft": true
+			"$alignTop": true
+		} ) {
+			name: "this"
+			"border": sfield com.jgoodies.forms.factories.Borders DLU14_BORDER
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "Автор:"
+				"horizontalAlignment": 11
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"weightx": 1.0
+				"hAlign": 5
+				"gridheight": 2
+			} )
+			add( new FormComponent( "javax.swing.JTextArea" ) {
+				name: "textArea2"
+				"text": "Студент: Манитрариву Адама Маэфа\nГруппа: ПВ-51\nВУЗ: БГТУ им. Щухова\nИнститут: ИИТУС\nКафедра: ПОВТиАС"
+				"editable": false
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridheight": 2
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label2"
+				"text": "Версия:"
+				"horizontalAlignment": 11
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 2
+				"weightx": 1.0
+				"hAlign": 5
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "textField2"
+				"editable": false
+				"text": "1.0.0"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 2
+				"weightx": 1.0
+				"hAlign": 5
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label3"
+				"text": "Кратко о приложении:"
+				"horizontalAlignment": 11
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 3
+				"weightx": 1.0
+				"hAlign": 5
+				"gridheight": 2
+			} )
+			add( new FormComponent( "javax.swing.JTextArea" ) {
+				name: "textArea1"
+				"editable": false
+				"text": "Приложение для афтоматического \nраспознования текстов, и исключения\nиз них ключевые информации"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 3
+				"weightx": 1.0
+				"hAlign": 5
+				"gridheight": 2
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 300 )
+		} )
+	}
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 22, 2015 4:03:54 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="Format" table="Format" catalog="TOCR">
+        <id name="idFormat" type="java.lang.Integer">
+            <column name="idFormat" />
+            <generator class="identity" />
+        </id>
+        <property name="type" type="string">
+            <column name="type" length="5" />
+        </property>
+        <property name="name" type="string">
+            <column name="name" length="45" not-null="true" unique="true" />
+        </property>
+        <set name="textFormats" table="TextFormat" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idFormat" />
+            </key>
+            <one-to-many class="TextFormat" />
+        </set>
+        <set name="tableFormats" table="TableFormat" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idFormat" />
+            </key>
+            <one-to-many class="TableFormat" />
+        </set>
+    </class>
+</hibernate-mapping>

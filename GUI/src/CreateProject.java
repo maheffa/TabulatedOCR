@@ -1,10 +1,15 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.jgoodies.forms.factories.*;
 import org.jdesktop.swingx.*;
+import java.io.File;
+import java.util.List;
 /*
- * Created by JFormDesigner on Mon May 04 20:45:28 MSK 2015
+ * Created by JFormDesigner on Tue May 19 20:03:17 MSK 2015
  */
 
 
@@ -13,8 +18,46 @@ import org.jdesktop.swingx.*;
  * @author Mahefa Manitrativo
  */
 public class CreateProject extends JPanel {
-    public CreateProject() {
+
+    private OcrMainForm parent = null;
+
+    public CreateProject(OcrMainForm parent) {
         initComponents();
+        this.parent = parent;
+    }
+
+    private void butChooseImageActionPerformed(ActionEvent e) {
+        JFileChooser fc = new JFileChooser("Выбор рисунок");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Рисунки", "jpg", "jpeg",
+                "png", "PNG", "tiff", "TIFF", "JPG", "JPEG");
+        fc.setFileFilter(filter);
+        int returnVal = fc.showOpenDialog(CreateProject.this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            this.txtProjectImage.setText(file.getAbsolutePath());
+        }
+    }
+
+    private void butCreateActionPerformed(ActionEvent e) {
+        Project p = new Project();
+
+        if (txtProjectName.getText().length() != 0) {
+            p.setName(txtProjectName.getText());
+        } else {
+            JOptionPane.showMessageDialog(this, "Название проекта не задано");
+        }
+        if (txtProjectImage.getText().length() != 0) {
+            p.setInputFilePath(txtProjectImage.getText());
+        } else {
+            JOptionPane.showMessageDialog(this, "Исходное изображение не задано");
+        }
+
+        if (DBAccess.getDbAccess().getProjectByName(p.getName()) != null) {
+            JOptionPane.showMessageDialog(this, "Проект с таким названием уже существует");
+        } else {
+            DBAccess.getDbAccess().addProject(p);
+        }
+        parent.updateProjectList();
     }
 
     private void initComponents() {
@@ -26,9 +69,6 @@ public class CreateProject extends JPanel {
         label2 = new JLabel();
         txtProjectImage = new JTextField();
         butChooseImage = new JButton();
-        panel2 = new JPanel();
-        label3 = new JLabel();
-        comboFormat = new JComboBox();
         panel4 = new JPanel();
         butCreate = new JButton();
 
@@ -78,36 +118,17 @@ public class CreateProject extends JPanel {
 
             //---- butChooseImage ----
             butChooseImage.setText("\u0412\u044b\u0431\u0440\u0430\u0442\u044c");
+            butChooseImage.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    butChooseImageActionPerformed(e);
+                }
+            });
             panel1.add(butChooseImage, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 5), 0, 0));
         }
         add(panel1);
-
-        //======== panel2 ========
-        {
-            panel2.setBorder(new CompoundBorder(
-                new EtchedBorder(),
-                Borders.DLU2));
-            panel2.setLayout(new GridBagLayout());
-            ((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0};
-            ((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {4, 0};
-            ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {1.0, 1.0, 1.0E-4};
-            ((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
-
-            //---- label3 ----
-            label3.setText("\u0424\u043e\u0440\u043c\u0430\u0442:");
-            panel2.add(label3, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                new Insets(0, 0, 0, 5), 0, 0));
-
-            //---- comboFormat ----
-            comboFormat.setPreferredSize(new Dimension(150, 22));
-            panel2.add(comboFormat, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.WEST, GridBagConstraints.VERTICAL,
-                new Insets(0, 0, 0, 0), 0, 0));
-        }
-        add(panel2);
 
         //======== panel4 ========
         {
@@ -120,6 +141,12 @@ public class CreateProject extends JPanel {
             //---- butCreate ----
             butCreate.setText("\u0421\u043e\u0437\u0434\u0430\u0442\u044c");
             butCreate.setHorizontalAlignment(SwingConstants.RIGHT);
+            butCreate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    butCreateActionPerformed(e);
+                }
+            });
             panel4.add(butCreate, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
                 GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
                 new Insets(0, 0, 0, 0), 0, 0));
@@ -136,9 +163,6 @@ public class CreateProject extends JPanel {
     private JLabel label2;
     private JTextField txtProjectImage;
     private JButton butChooseImage;
-    private JPanel panel2;
-    private JLabel label3;
-    private JComboBox comboFormat;
     private JPanel panel4;
     private JButton butCreate;
     // JFormDesigner - End of variables declaration  //GEN-END:variables

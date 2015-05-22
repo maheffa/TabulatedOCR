@@ -16,7 +16,7 @@ new FormModel {
 			"preferredSize": new java.awt.Dimension( 450, 380 )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 				"$columnSpecs": "0, 0"
-				"$rowSpecs": "0, 0, 0"
+				"$rowSpecs": "0"
 				"$hGap": 5
 				"$vGap": 5
 				"$alignLeft": true
@@ -29,7 +29,7 @@ new FormModel {
 					"text": "Название:"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textField2"
+					name: "txtFormatName"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
 					"weightx": 1.0
@@ -37,7 +37,7 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 				"$columnSpecs": "0, 0"
-				"$rowSpecs": "0, 0, 0"
+				"$rowSpecs": "0, 0"
 				"$hGap": 5
 				"$vGap": 5
 				"$alignLeft": true
@@ -52,21 +52,19 @@ new FormModel {
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"weightx": 1.0
 					"hAlign": 4
-					"gridy": 1
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "txtColNumber"
+					name: "txtColumnNumber"
 					"preferredSize": new java.awt.Dimension( 50, 27 )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
 					"weightx": 1.0
-					"gridy": 1
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label5"
 					"text": "Исключить первую строку"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 2
+					"gridy": 1
 					"hAlign": 4
 				} )
 				add( new FormComponent( "javax.swing.JCheckBox" ) {
@@ -74,7 +72,7 @@ new FormModel {
 					"selected": true
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
-					"gridy": 2
+					"gridy": 1
 					"hAlign": 2
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
@@ -85,7 +83,7 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 				"$columnSpecs": "0, 0"
-				"$rowSpecs": "0, 0, 0"
+				"$rowSpecs": "0, 0, 0, 0"
 				"$hGap": 5
 				"$vGap": 5
 				"$alignLeft": true
@@ -100,7 +98,7 @@ new FormModel {
 					"hAlign": 4
 				} )
 				add( new FormComponent( "javax.swing.JComboBox" ) {
-					name: "comboBox3"
+					name: "comboColumn"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
 				} )
@@ -113,7 +111,7 @@ new FormModel {
 					"hAlign": 4
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textField1"
+					name: "columnName"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
 					"gridy": 1
@@ -128,7 +126,7 @@ new FormModel {
 					"hAlign": 4
 				} )
 				add( new FormComponent( "javax.swing.JComboBox" ) {
-					name: "comboBox2"
+					name: "comboType"
 					"model": new javax.swing.DefaultComboBoxModel {
 						selectedItem: "TEXT"
 						addElement( "TEXT" )
@@ -139,6 +137,14 @@ new FormModel {
 					"gridx": 1
 					"gridy": 2
 					"weightx": 1.0
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "butSaveColumn"
+					"text": "Сохранить"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 3
+					"hAlign": 4
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridy": 2
@@ -156,11 +162,11 @@ new FormModel {
 			} ) {
 				name: "panel3"
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button2"
+					name: "butCancel"
 					"text": "Отменить"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button1"
+					name: "butCreate"
 					"text": "Создать"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
@@ -173,7 +179,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 400, 300 )
+			"size": new java.awt.Dimension( 400, 405 )
 		} )
 	}
 }
