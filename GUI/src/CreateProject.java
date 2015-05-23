@@ -20,10 +20,22 @@ import java.util.List;
 public class CreateProject extends JPanel {
 
     private OcrMainForm parent = null;
+    private boolean update = false;
+    private Project project = null;
 
     public CreateProject(OcrMainForm parent) {
         initComponents();
         this.parent = parent;
+    }
+
+    public CreateProject(OcrMainForm parent, Project project) {
+        initComponents();
+        update = true;
+        this.parent = parent;
+        this.project = project;
+        this.txtProjectImage.setText(project.getInputFilePath());
+        this.txtProjectName.setText(project.getName());
+        this.butCreate.setText("Сохранить");
     }
 
     private void butChooseImageActionPerformed(ActionEvent e) {
@@ -40,7 +52,9 @@ public class CreateProject extends JPanel {
 
     private void butCreateActionPerformed(ActionEvent e) {
         Project p = new Project();
-
+        if (update) {
+            p = project;
+        }
         if (txtProjectName.getText().length() != 0) {
             p.setName(txtProjectName.getText());
         } else {
@@ -52,12 +66,17 @@ public class CreateProject extends JPanel {
             JOptionPane.showMessageDialog(this, "Исходное изображение не задано");
         }
 
-        if (DBAccess.getDbAccess().getProjectByName(p.getName()) != null) {
-            JOptionPane.showMessageDialog(this, "Проект с таким названием уже существует");
+        if (update) {
+            DBAccess.getDbAccess().updateEntry(p);
         } else {
-            DBAccess.getDbAccess().addProject(p);
+            if (DBAccess.getDbAccess().getProjectByName(p.getName()) != null) {
+                JOptionPane.showMessageDialog(this, "Проект с таким названием уже существует");
+            } else {
+                DBAccess.getDbAccess().addEntry(p);
+            }
         }
         parent.updateProjectList();
+        GUIUtil.close(this);
     }
 
     private void initComponents() {

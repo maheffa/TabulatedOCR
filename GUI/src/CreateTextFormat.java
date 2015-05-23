@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.event.*;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.*;
 import javax.swing.border.*;
 import com.jgoodies.forms.factories.*;
@@ -12,8 +15,58 @@ import com.jgoodies.forms.factories.*;
  * @author Mahefa Manitrativo
  */
 public class CreateTextFormat extends JPanel {
-    public CreateTextFormat() {
+    private OcrMainForm parent;
+    private boolean update = false;
+    private Format format;
+    private TextFormat textFormat;
+
+    public CreateTextFormat(OcrMainForm parent) {
         initComponents();
+        this.parent = parent;
+        format = new Format();
+        textFormat = new TextFormat();
+        Set set = new HashSet();
+        set.add(textFormat);
+        format.setTextFormats(set);
+    }
+
+    public CreateTextFormat(OcrMainForm parent, Format format) {
+        this(parent);
+        update = true;
+        this.format = format;
+        // setting GUI
+        this.txtFormatName.setText(format.getName());
+        for (TextFormat textFormat : (Set<TextFormat>) format.getTextFormats()) {
+            this.textFormat = textFormat;
+        }
+        this.txtFormatContent.setText(textFormat.getContent());
+    }
+
+    private void butSaveActionPerformed(ActionEvent e) {
+        // error checking
+        if (txtFormatName.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Название формата не задано");
+        }
+        if (!update && DBAccess.getDbAccess().getFormatByName(format.getName()) != null) {
+            JOptionPane.showMessageDialog(this, "Формат с таким названием уже существует");
+        }
+
+        // setting values
+        format.setName(txtFormatName.getText());
+        format.setType("TEXT");
+        textFormat.setContent(txtFormatContent.getText());
+        textFormat.setFormat(format);
+
+        // inserting to database
+        DBAccess access = DBAccess.getDbAccess();
+        if (update) {
+            access.updateEntry(format);
+        } else {
+            access.addEntry(format);
+        }
+
+        parent.updateFormatList();
+        GUIUtil.close(this);
     }
 
     private void initComponents() {
@@ -21,14 +74,13 @@ public class CreateTextFormat extends JPanel {
         // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
         panel1 = new JPanel();
         label2 = new JLabel();
-        textField1 = new JTextField();
+        txtFormatName = new JTextField();
         panel2 = new JPanel();
         label1 = new JLabel();
         scrollPane1 = new JScrollPane();
-        editorPane1 = new JEditorPane();
+        txtFormatContent = new JEditorPane();
         panel3 = new JPanel();
-        button2 = new JButton();
-        button1 = new JButton();
+        butSave = new JButton();
 
         //======== this ========
         setBorder(Borders.DLU4);
@@ -62,7 +114,7 @@ public class CreateTextFormat extends JPanel {
             panel1.add(label2, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
-            panel1.add(textField1, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+            panel1.add(txtFormatName, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
         }
@@ -90,9 +142,9 @@ public class CreateTextFormat extends JPanel {
             //======== scrollPane1 ========
             {
 
-                //---- editorPane1 ----
-                editorPane1.setPreferredSize(new Dimension(309, 300));
-                scrollPane1.setViewportView(editorPane1);
+                //---- txtFormatContent ----
+                txtFormatContent.setPreferredSize(new Dimension(309, 300));
+                scrollPane1.setViewportView(txtFormatContent);
             }
             panel2.add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -110,15 +162,15 @@ public class CreateTextFormat extends JPanel {
             ((GridBagLayout)panel3.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
             ((GridBagLayout)panel3.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
-            //---- button2 ----
-            button2.setText("\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c");
-            panel3.add(button2, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- button1 ----
-            button1.setText("\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c");
-            panel3.add(button1, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            //---- butSave ----
+            butSave.setText("\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c");
+            butSave.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    butSaveActionPerformed(e);
+                }
+            });
+            panel3.add(butSave, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
         }
@@ -132,13 +184,12 @@ public class CreateTextFormat extends JPanel {
     // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
     private JPanel panel1;
     private JLabel label2;
-    private JTextField textField1;
+    private JTextField txtFormatName;
     private JPanel panel2;
     private JLabel label1;
     private JScrollPane scrollPane1;
-    private JEditorPane editorPane1;
+    private JEditorPane txtFormatContent;
     private JPanel panel3;
-    private JButton button2;
-    private JButton button1;
+    private JButton butSave;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

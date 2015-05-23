@@ -15,9 +15,11 @@ public class TestHibernate {
 //        Project p2 = new Project("Ino", "tada");
 //        dbAccess.addProject(p);
 //        dbAccess.addProject(p2);
-        Project p3 = dbAccess.getProjectByName("Bro");
-        p3.setInputFilePath("Bazinga");
-        dbAccess.updateProject(p3);
+        Ocrconfig c = dbAccess.getConfigurationByName("test0");
+//        System.out.println("Got config : " + ToStringBuilder.reflectionToString(c));
+//        c.setMargin(15);
+//        Project p = dbAccess.getProjectByName("test0");
+        dbAccess.deleteEntry(c);
         dbAccess.close();
     }
 }

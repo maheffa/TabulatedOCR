@@ -14,13 +14,13 @@
         <property name="name" type="string">
             <column name="name" length="45" not-null="true" unique="true" />
         </property>
-        <set name="textFormats" table="TextFormat" inverse="true" lazy="true" fetch="select">
+        <set name="textFormats" table="TextFormat" inverse="true" lazy="false" fetch="select" cascade="all">
             <key>
                 <column name="idFormat" />
             </key>
             <one-to-many class="TextFormat" />
         </set>
-        <set name="tableFormats" table="TableFormat" inverse="true" lazy="true" fetch="select">
+        <set name="tableFormats" table="TableFormat" inverse="true" lazy="false" fetch="select" cascade="all">
             <key>
                 <column name="idFormat" />
             </key>

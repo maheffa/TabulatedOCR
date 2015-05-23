@@ -48,25 +48,27 @@ new FormModel {
 							} ) {
 								name: "panel5"
 								add( new FormComponent( "javax.swing.JButton" ) {
-									name: "butEditProject"
-									"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
-									"preferredSize": new java.awt.Dimension( 35, 25 )
-								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-									"hAlign": 4
-									"weightx": 1.0
-								} )
-								add( new FormComponent( "javax.swing.JButton" ) {
 									name: "butAddProject"
 									"preferredSize": new java.awt.Dimension( 35, 25 )
 									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butAddProjectActionPerformed", true ) )
 								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-									"gridx": 1
 									"hAlign": 4
 									"weightx": 1.0
 								} )
 								add( new FormComponent( "javax.swing.JButton" ) {
+									name: "butEditProject"
+									"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": new java.awt.Dimension( 35, 25 )
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butEditProjectActionPerformed", true ) )
+								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+									"hAlign": 4
+									"weightx": 1.0
+									"gridx": 1
+								} )
+								add( new FormComponent( "javax.swing.JButton" ) {
 									name: "butDeleteProject"
 									"preferredSize": new java.awt.Dimension( 35, 25 )
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butDeleteProjectActionPerformed", true ) )
 								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 									"gridx": 2
 									"hAlign": 4
@@ -281,7 +283,7 @@ new FormModel {
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 								name: "scrollPane6"
 								add( new FormComponent( "javax.swing.JList" ) {
-									name: "list1"
+									name: "listFormat"
 								} )
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridwidth": 2
@@ -293,6 +295,7 @@ new FormModel {
 								name: "butEditFormat"
 								"horizontalAlignment": 2
 								"preferredSize": new java.awt.Dimension( 35, 25 )
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butEditFormatActionPerformed", true ) )
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 1
 								"hAlign": 4

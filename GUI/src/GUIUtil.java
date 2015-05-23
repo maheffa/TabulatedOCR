@@ -16,6 +16,12 @@ public class GUIUtil {
     public GUIUtil() {
     }
 
+    public static void close(JPanel panel) {
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+        frame.setVisible(false);
+        frame.dispose();
+    }
+
     public static JFrame createFrameForPanel(String title, JPanel panel) {
         JFrame frame = new JFrame(title);
         frame.add(panel);
@@ -26,7 +32,7 @@ public class GUIUtil {
     }
 
     public static void setButtonIcon(JButton btn, String iconPath) {
-        Image icon = null;
+        Image icon;
         try {
             icon = ImageIO.read(new File(iconPath));
             Image scaled = icon.getScaledInstance(15, 15, java.awt.Image.SCALE_SMOOTH);

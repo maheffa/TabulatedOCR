@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -44,7 +43,7 @@ public class Configuration extends JPanel {
         // setting language
         ComboBoxModel<String> langModel = this.comboLang.getModel();
         for (int i = 0; i < langModel.getSize(); i++) {
-            if (((String) langModel.getElementAt(i)).contentEquals(conf.getLanguage())) {
+            if ((langModel.getElementAt(i)).contentEquals(conf.getLanguage())) {
                 this.comboLang.setSelectedIndex(i);
                 break;
             }
@@ -88,8 +87,8 @@ public class Configuration extends JPanel {
     }
 
     private void butSaveConfigActionPerformed(ActionEvent e) {
-        Ocrconfig conf = null;
-        boolean update = false;
+        Ocrconfig conf;
+        boolean update;
         if (this.txtConfigurationName.getText().contentEquals((String)this.comboConfigList.getSelectedItem())) {
             conf = this.listConfig.get(this.comboConfigList.getSelectedIndex());
             update = true;
@@ -104,7 +103,7 @@ public class Configuration extends JPanel {
         // setting language
         conf.setLanguage((String) comboLang.getSelectedItem());
         //  setting grayscale method
-        conf.setGrayscale(Integer.valueOf(comboGrayscale.getSelectedIndex()));
+        conf.setGrayscale(comboGrayscale.getSelectedIndex());
         // setting binary
         conf.setBinarisation(checkBinary.isSelected());
         // setting radius
@@ -142,13 +141,12 @@ public class Configuration extends JPanel {
 
         DBAccess dbAccess = DBAccess.getDbAccess();
         if (update) {
-            dbAccess.updateConfiguration(conf);
+            dbAccess.updateEntry(conf);
         } else {
-            dbAccess.addConfiguration(conf);
+            dbAccess.addEntry(conf);
         }
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        frame.setVisible(false);
-        frame.dispose();
+        DBAccess.setCurrentConfiguration(conf);
+        GUIUtil.close(this);
     }
 
     private void comboConfigListItemStateChanged(ItemEvent e) {
@@ -157,7 +155,7 @@ public class Configuration extends JPanel {
 
     private void butDeleteActionPerformed(ActionEvent e) {
         Ocrconfig conf = listConfig.get(comboConfigList.getSelectedIndex());
-        DBAccess.getDbAccess().deleteConfiguration(conf);
+        DBAccess.getDbAccess().deleteEntry(conf);
         comboBoxModel.removeElementAt(comboConfigList.getSelectedIndex());
         comboConfigList.setSelectedIndex(0);
         listConfig = DBAccess.getDbAccess().listConfiguration();

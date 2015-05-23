@@ -1,15 +1,8 @@
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.util.List;
-import java.util.regex.Pattern;
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeCellRenderer;
 import com.jgoodies.forms.factories.*;
 /*
  * Created by JFormDesigner on Sun Apr 26 16:23:28 MSK 2015
@@ -27,7 +20,7 @@ public class OcrMainForm  {
     }
 
     private void menuCreateFormatActionPerformed(ActionEvent e) {
-        GUIUtil.createFrameForPanel("Создание табличного формата", new CreateTableFormat());
+        GUIUtil.createFrameForPanel("Создание табличного формата", new CreateTableFormat(this));
     }
 
     private void menuQuitActionPerformed(ActionEvent e) {
@@ -39,7 +32,7 @@ public class OcrMainForm  {
     }
 
     private void menuCreateTextFormatActionPerformed(ActionEvent e) {
-        GUIUtil.createFrameForPanel("Создание текстового формата", new CreateTextFormat());
+        GUIUtil.createFrameForPanel("Создание текстового формата", new CreateTextFormat(this));
     }
 
     private void menuLaunchActionPerformed(ActionEvent e) {
@@ -60,6 +53,26 @@ public class OcrMainForm  {
 
     private void butAddProjectActionPerformed(ActionEvent e) {
         GUIUtil.createFrameForPanel("Создать проект", new CreateProject(this));
+    }
+
+    private void butEditProjectActionPerformed(ActionEvent e) {
+        Project p = projectList.get(listProject.getSelectedIndex());
+        GUIUtil.createFrameForPanel("Изменить проект", new CreateProject(this, p));
+    }
+
+    private void butDeleteProjectActionPerformed(ActionEvent e) {
+        Project p = projectList.get(listProject.getSelectedIndex());
+        dbAccess.deleteEntry(p);
+        updateProjectList();
+    }
+
+    private void butEditFormatActionPerformed(ActionEvent e) {
+        Format f = DBAccess.getDbAccess().getFormatByName((String) listFormat.getSelectedValue());
+        if (f.getType().equalsIgnoreCase("table")) {
+            GUIUtil.createFrameForPanel("Изменить формат", new CreateTableFormat(this, f));
+        } else {
+            GUIUtil.createFrameForPanel("Изменить формат", new CreateTextFormat(this, f));
+        }
     }
 
 	private void initComponents() {
@@ -86,8 +99,8 @@ public class OcrMainForm  {
         scrollPane5 = new JScrollPane();
         listProject = new JList();
         panel5 = new JPanel();
-        butEditProject = new JButton();
         butAddProject = new JButton();
+        butEditProject = new JButton();
         butDeleteProject = new JButton();
         scrollPane2 = new JScrollPane();
         label3 = new JLabel();
@@ -111,7 +124,7 @@ public class OcrMainForm  {
         panel2 = new JPanel();
         panel4 = new JPanel();
         scrollPane6 = new JScrollPane();
-        list1 = new JList();
+        listFormat = new JList();
         butEditFormat = new JButton();
         butDeleteFormat = new JButton();
         scrollPane1 = new JScrollPane();
@@ -284,13 +297,6 @@ public class OcrMainForm  {
                                 ((GridBagLayout)panel5.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
                                 ((GridBagLayout)panel5.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
-                                //---- butEditProject ----
-                                butEditProject.setIcon(null);
-                                butEditProject.setPreferredSize(new Dimension(35, 25));
-                                panel5.add(butEditProject, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
-                                    GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                                    new Insets(0, 0, 5, 5), 0, 0));
-
                                 //---- butAddProject ----
                                 butAddProject.setPreferredSize(new Dimension(35, 25));
                                 butAddProject.addActionListener(new ActionListener() {
@@ -299,12 +305,31 @@ public class OcrMainForm  {
                                         butAddProjectActionPerformed(e);
                                     }
                                 });
-                                panel5.add(butAddProject, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
+                                panel5.add(butAddProject, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
+                                    GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                    new Insets(0, 0, 5, 5), 0, 0));
+
+                                //---- butEditProject ----
+                                butEditProject.setIcon(null);
+                                butEditProject.setPreferredSize(new Dimension(35, 25));
+                                butEditProject.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        butEditProjectActionPerformed(e);
+                                    }
+                                });
+                                panel5.add(butEditProject, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
                                     GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
                                     new Insets(0, 0, 5, 5), 0, 0));
 
                                 //---- butDeleteProject ----
                                 butDeleteProject.setPreferredSize(new Dimension(35, 25));
+                                butDeleteProject.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        butDeleteProjectActionPerformed(e);
+                                    }
+                                });
                                 panel5.add(butDeleteProject, new GridBagConstraints(2, 0, 1, 1, 1.0, 0.0,
                                     GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
                                     new Insets(0, 0, 5, 0), 0, 0));
@@ -496,7 +521,7 @@ public class OcrMainForm  {
 
                             //======== scrollPane6 ========
                             {
-                                scrollPane6.setViewportView(list1);
+                                scrollPane6.setViewportView(listFormat);
                             }
                             panel4.add(scrollPane6, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
                                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -505,6 +530,12 @@ public class OcrMainForm  {
                             //---- butEditFormat ----
                             butEditFormat.setHorizontalAlignment(SwingConstants.LEFT);
                             butEditFormat.setPreferredSize(new Dimension(35, 25));
+                            butEditFormat.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    butEditFormatActionPerformed(e);
+                                }
+                            });
                             panel4.add(butEditFormat, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
                                 GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
                                 new Insets(0, 0, 5, 5), 0, 0));
@@ -570,8 +601,8 @@ public class OcrMainForm  {
     private JScrollPane scrollPane5;
     private JList listProject;
     private JPanel panel5;
-    private JButton butEditProject;
     private JButton butAddProject;
+    private JButton butEditProject;
     private JButton butDeleteProject;
     private JScrollPane scrollPane2;
     private JLabel label3;
@@ -595,14 +626,13 @@ public class OcrMainForm  {
     private JPanel panel2;
     private JPanel panel4;
     private JScrollPane scrollPane6;
-    private JList list1;
+    private JList listFormat;
     private JButton butEditFormat;
     private JButton butDeleteFormat;
     private JScrollPane scrollPane1;
     private JLabel label2;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 
-    private Parameters paramater;
     private DefaultListModel<String> formatListModel = null;
     private DefaultListModel<String> projectListModel = null;
     private List<Format> formatList = null;
@@ -611,7 +641,6 @@ public class OcrMainForm  {
 
     public OcrMainForm(Parameters paramater) {
         super();
-        this.paramater = paramater;
         initComponents();
         // launch GUI
         dbAccess = DBAccess.getDbAccess();
@@ -648,7 +677,9 @@ public class OcrMainForm  {
         projectListModel.clear();
         for (Project project : projectList) {
             projectListModel.addElement(project.getName());
+//            System.out.println("Adding " + project.getName());
         }
+        listProject.setModel(projectListModel);
     }
 
     public void updateFormatList() {
@@ -657,5 +688,6 @@ public class OcrMainForm  {
         for (Format format : formatList) {
             formatListModel.addElement(format.getName());
         }
+        listFormat.setModel(formatListModel);
     }
 }

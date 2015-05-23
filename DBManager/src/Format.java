@@ -1,6 +1,8 @@
 // default package
 // Generated May 22, 2015 4:03:54 PM by Hibernate Tools 3.4.0.CR1
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -69,4 +71,9 @@ public class Format implements java.io.Serializable {
 		this.tableFormats = tableFormats;
 	}
 
+    @Override
+    public String toString() {
+
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

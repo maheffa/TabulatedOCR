@@ -63,4 +63,13 @@ public class ColumnCharacteristic implements java.io.Serializable {
 		this.type = type;
 	}
 
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("{Column: position=").append(position)
+                .append(", name=").append(name)
+                .append(", type=").append(type)
+                .append("}");
+        return str.toString();
+    }
 }

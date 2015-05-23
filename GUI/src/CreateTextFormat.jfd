@@ -28,7 +28,7 @@ new FormModel {
 					"text": "Название:"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textField1"
+					name: "txtFormatName"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
 					"weightx": 1.0
@@ -53,7 +53,7 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "scrollPane1"
 					add( new FormComponent( "javax.swing.JEditorPane" ) {
-						name: "editorPane1"
+						name: "txtFormatContent"
 						"preferredSize": new java.awt.Dimension( 309, 300 )
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
@@ -77,12 +77,9 @@ new FormModel {
 			} ) {
 				name: "panel3"
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button2"
-					"text": "Отменить"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button1"
+					name: "butSave"
 					"text": "Сохранить"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "butSaveActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
 				} )

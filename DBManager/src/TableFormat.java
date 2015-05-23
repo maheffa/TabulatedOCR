@@ -66,4 +66,12 @@ public class TableFormat implements java.io.Serializable {
 		this.columnCharacteristics = columnCharacteristics;
 	}
 
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("{TableFormat: ncolumns=").append(columnCount)
+                .append(", read first line=").append(readFirstLine ? "yes" : "no")
+                .append("}");
+        return str.toString();
+    }
 }

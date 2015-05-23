@@ -17,7 +17,7 @@
         <property name="readFirstLine" type="java.lang.Boolean">
             <column name="readFirstLine" />
         </property>
-        <set name="columnCharacteristics" table="ColumnCharacteristic" inverse="true" lazy="true" fetch="select">
+        <set name="columnCharacteristics" table="ColumnCharacteristic" inverse="true" lazy="false" fetch="select" cascade="all">
             <key>
                 <column name="idTableFormat" />
             </key>
