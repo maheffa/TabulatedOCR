@@ -84,6 +84,9 @@ public class Configuration extends JPanel {
         this.checkNoiseRemoveTesseract.setSelected(conf.getDenoise());
         // setting user dictionary use
         this.checkDictionary.setSelected(conf.getUserDictionary());
+
+        // saving current configuration
+        DBAccess.setCurrentConfiguration(conf);
     }
 
     private void butSaveConfigActionPerformed(ActionEvent e) {
@@ -351,7 +354,7 @@ public class Configuration extends JPanel {
                             new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- label4 ----
-                        label4.setText("\u041f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u0442\u044c \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435 \u0432 \u0431\u0438\u043d\u0430\u0440\u043d\u043e\u0435");
+                        label4.setText("\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0438\u0437\u0430\u0446\u0438\u0438");
                         panel12.add(label4, new GridBagConstraints(0, 1, 1, 1, 0.0, 1.0,
                             GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
                             new Insets(0, 0, 0, 0), 0, 0));

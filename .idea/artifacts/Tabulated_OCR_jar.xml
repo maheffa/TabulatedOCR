@@ -1,0 +1,42 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Tabulated OCR:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Tabulated_OCR_jar</output-path>
+    <root id="archive" name="Tabulated OCR.jar">
+      <element id="module-output" name="DBManager" />
+      <element id="module-output" name="GUI" />
+      <element id="module-output" name="SerialData" />
+      <element id="module-output" name="ImageProcessing" />
+      <element id="module-output" name="Tabulated OCR" />
+      <element id="module-output" name="Tester" />
+      <element id="module-output" name="TextExtraction" />
+      <element id="module-output" name="NeuralNetwork" />
+      <element id="module-output" name="TableStructureDetection" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/antlr-2.7.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/dom4j-1.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/jandex-1.1.0.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/javassist-3.18.1-GA.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/jboss-logging-3.1.3.GA.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/hibernate-core-4.3.10.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/hibernate-jpa-2.1-api-1.0.0.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/jboss-logging-annotations-1.2.0.Beta1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/hibernate-commons-annotations-4.0.5.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Hibernate/jboss-transaction-api_1.2_spec-1.0.0.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/opencv-300.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-lang3-3.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../LIBRARIES/seaglasslookandfeel-0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mysql-connector-java-5.1.35-bin.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../LIBRARIES/log4j-api-2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../LIBRARIES/JTattoo-1.6.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/swingx-1.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/encog-core-3.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-math3-3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jgoodies-looks-2.8.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jgoodies-forms-1.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jgoodies-common-1.9.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/tess4j.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jna.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jai_imageio.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ghost4j-0.5.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -46,4 +46,11 @@ public class Project implements java.io.Serializable {
 		this.inputFilePath = inputFilePath;
 	}
 
+    public String toStringHTML() {
+        StringBuilder str = new StringBuilder();
+        str.append("<b>Name: </b>").append(name).append("<br/>");
+        str.append("<b>Path: </b>").append(inputFilePath).append("<br/>");
+        return str.toString();
+    }
+
 }

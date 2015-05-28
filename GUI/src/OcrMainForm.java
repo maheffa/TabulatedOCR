@@ -1,8 +1,10 @@
 import java.awt.image.BufferedImage;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.event.*;
 import com.jgoodies.forms.factories.*;
 /*
  * Created by JFormDesigner on Sun Apr 26 16:23:28 MSK 2015
@@ -14,10 +16,6 @@ import com.jgoodies.forms.factories.*;
  * @author Boubakar Tilojab
  */
 public class OcrMainForm  {
-
-    private void createUIComponents() {
-        // TODO: add custom component creation code here
-    }
 
     private void menuCreateFormatActionPerformed(ActionEvent e) {
         GUIUtil.createFrameForPanel("Создание табличного формата", new CreateTableFormat(this));
@@ -36,7 +34,14 @@ public class OcrMainForm  {
     }
 
     private void menuLaunchActionPerformed(ActionEvent e) {
-        // TODO: implement launching process
+        if (listFormat.getSelectedIndex() < 0) {
+            JOptionPane.showMessageDialog(this.mainFrame, "Формат не указан");
+        } else if (listProject.getSelectedIndex() < 0) {
+            JOptionPane.showMessageDialog(this.mainFrame, "Проект не указан");
+        } else {
+            runner = new Runner(this);
+            SwingUtilities.invokeLater(runner);
+        }
     }
 
     private void menuRelaunchActionPerformed(ActionEvent e) {
@@ -44,7 +49,7 @@ public class OcrMainForm  {
     }
 
     private void menuStopActionPerformed(ActionEvent e) {
-        // TODO: implement process stoping
+        runner.stop();
     }
 
     private void menuAboutActionPerformed(ActionEvent e) {
@@ -72,6 +77,76 @@ public class OcrMainForm  {
             GUIUtil.createFrameForPanel("Изменить формат", new CreateTableFormat(this, f));
         } else {
             GUIUtil.createFrameForPanel("Изменить формат", new CreateTextFormat(this, f));
+        }
+    }
+
+    public JPanel getPanelBinary() {
+        return panelBinary;
+    }
+
+    public JPanel getPanelCell() {
+        return panelCell;
+    }
+
+    public JPanel getPanelDeskew() {
+        return panelDeskew;
+    }
+
+    public JPanel getPanelHough() {
+        return panelHough;
+    }
+
+    public JPanel getPanelImage() {
+        return panelImage;
+    }
+
+    public JPanel getPanelTable() {
+        return panelTable;
+    }
+
+    public JProgressBar getProgressbar() {
+        return progressbar;
+    }
+
+    public JLabel getLabelProgress() {
+        return labelProgress;
+    }
+
+    public JPanel getPanelResult() {
+        return panelResult;
+    }
+
+    public JTabbedPane getTabbedPaneData() {
+        return tabbedPaneData;
+    }
+
+    public JTabbedPane getTabbedPaneProgress() {
+        return tabbedPaneProgress;
+    }
+
+    private void createUIComponents() {
+    }
+
+    private void listProjectValueChanged(ListSelectionEvent e) {
+        if (listProject.getSelectedIndex() < 0) {
+            labelInfoProject.setText("");
+            ((ImagePanel) this.panelImage).clear();
+        } else {
+            Project project = projectList.get(listProject.getSelectedIndex());
+            labelInfoProject.setText("<html>" + project.toStringHTML() + "</html>");
+            if (!cacheImage.containsKey(project.getInputFilePath())) {
+                cacheImage.put(project.getInputFilePath(), ImgProcUtil.readImage(project.getInputFilePath()));
+            }
+            ((ImagePanel) this.panelImage).setImage(cacheImage.get(project.getInputFilePath()));
+        }
+    }
+
+    private void listFormatValueChanged(ListSelectionEvent e) {
+        if (listProject.getSelectedIndex() < 0) {
+            labelInfoFormat.setText("");
+        } else {
+            Format format = formatList.get(listFormat.getSelectedIndex());
+            labelInfoFormat.setText("<html>" + format.toStringHTML() + "</html>");
         }
     }
 
@@ -103,24 +178,26 @@ public class OcrMainForm  {
         butEditProject = new JButton();
         butDeleteProject = new JButton();
         scrollPane2 = new JScrollPane();
-        label3 = new JLabel();
+        labelInfoProject = new JLabel();
         splitPane3 = new JSplitPane();
         panel3 = new JPanel();
         scrollPane3 = new JScrollPane();
-        panelResult = new JTabbedPane();
-        panelImage = new JPanel();
+        tabbedPaneData = new JTabbedPane();
+        panelImage = new ImagePanel();
         panel12 = new JPanel();
-        panel13 = new JPanel();
+        panelResult = new ImagePanel();
+        scrollPane7 = new JScrollPane();
+        txtResult = new JTextArea();
         button1 = new JButton();
         scrollPane4 = new JScrollPane();
-        tabbedPane2 = new JTabbedPane();
-        panelBinary = new JPanel();
-        panelHough = new JPanel();
-        panelDeskew = new JPanel();
-        panelTable = new JPanel();
-        panelCell = new JPanel();
-        label4 = new JLabel();
-        progressBar1 = new JProgressBar();
+        tabbedPaneProgress = new JTabbedPane();
+        panelBinary = new ImagePanel();
+        panelHough = new ImagePanel();
+        panelDeskew = new ImagePanel();
+        panelTable = new ImagePanel();
+        panelCell = new ImagePanel();
+        labelProgress = new JLabel();
+        progressbar = new JProgressBar();
         panel2 = new JPanel();
         panel4 = new JPanel();
         scrollPane6 = new JScrollPane();
@@ -128,7 +205,7 @@ public class OcrMainForm  {
         butEditFormat = new JButton();
         butDeleteFormat = new JButton();
         scrollPane1 = new JScrollPane();
-        label2 = new JLabel();
+        labelInfoFormat = new JLabel();
 
         //======== mainFrame ========
         {
@@ -142,11 +219,13 @@ public class OcrMainForm  {
                 //======== menu1 ========
                 {
                     menu1.setText("\u0424\u0430\u0439\u043b");
+                    menu1.setIcon(null);
                     menu1.addSeparator();
                     menu1.addSeparator();
 
                     //---- menuQuit ----
                     menuQuit.setText("\u0412\u044b\u0439\u0442\u0438");
+                    menuQuit.setIcon(new ImageIcon("/home/mahefa/Workspace/Java/Tabulated OCR/icons/exit_small.png"));
                     menuQuit.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -160,9 +239,11 @@ public class OcrMainForm  {
                 //======== menu3 ========
                 {
                     menu3.setText("\u041a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u044f");
+                    menu3.setIcon(null);
 
                     //---- menuConfig ----
                     menuConfig.setText("\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0440\u0430\u0441\u043f\u043e\u0437\u043d\u0430\u0432\u043e\u043d\u0438\u044f");
+                    menuConfig.setIcon(new ImageIcon("/home/mahefa/Workspace/Java/Tabulated OCR/icons/setting_small.png"));
                     menuConfig.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -174,6 +255,7 @@ public class OcrMainForm  {
 
                     //---- menuCreateTableFormat ----
                     menuCreateTableFormat.setText("\u0421\u043e\u0437\u0430\u0434\u0430\u0442\u044c \u0442\u0430\u0431\u043b\u0438\u0447\u043d\u044b\u0439 \u0444\u043e\u0440\u043c\u0430\u0442");
+                    menuCreateTableFormat.setIcon(new ImageIcon("/home/mahefa/Workspace/Java/Tabulated OCR/icons/add_small.png"));
                     menuCreateTableFormat.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -184,6 +266,7 @@ public class OcrMainForm  {
 
                     //---- menuCreateTextFormat ----
                     menuCreateTextFormat.setText("\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u043e\u0439 \u0444\u043e\u0440\u043c\u0430\u0442");
+                    menuCreateTextFormat.setIcon(new ImageIcon("/home/mahefa/Workspace/Java/Tabulated OCR/icons/add_small.png"));
                     menuCreateTextFormat.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -200,6 +283,7 @@ public class OcrMainForm  {
 
                     //---- menuLaunch ----
                     menuLaunch.setText("\u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c");
+                    menuLaunch.setIcon(new ImageIcon("/home/mahefa/Workspace/Java/Tabulated OCR/icons/play_small.png"));
                     menuLaunch.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -210,6 +294,7 @@ public class OcrMainForm  {
 
                     //---- menuStop ----
                     menuStop.setText("\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c");
+                    menuStop.setIcon(new ImageIcon("/home/mahefa/Workspace/Java/Tabulated OCR/icons/stop_small.png"));
                     menuStop.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -220,6 +305,7 @@ public class OcrMainForm  {
 
                     //---- menuRelaunch ----
                     menuRelaunch.setText("\u041f\u0435\u0440\u0435\u0437\u0430\u043f\u0443\u0441\u0442\u044c");
+                    menuRelaunch.setIcon(new ImageIcon("/home/mahefa/Workspace/Java/Tabulated OCR/icons/replay_small.png"));
                     menuRelaunch.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -283,6 +369,14 @@ public class OcrMainForm  {
 
                             //======== scrollPane5 ========
                             {
+
+                                //---- listProject ----
+                                listProject.addListSelectionListener(new ListSelectionListener() {
+                                    @Override
+                                    public void valueChanged(ListSelectionEvent e) {
+                                        listProjectValueChanged(e);
+                                    }
+                                });
                                 scrollPane5.setViewportView(listProject);
                             }
                             panel14.add(scrollPane5, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
@@ -344,10 +438,10 @@ public class OcrMainForm  {
                         {
                             scrollPane2.setBorder(Borders.DLU4);
 
-                            //---- label3 ----
-                            label3.setText("<html>  <b>\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435</b>:<br/>  \u0418\u0441\u0445\u043e\u0434\u043d\u044b\u0439:<br/>  <i>\u0420\u0430\u0437\u043c\u0435\u0440</i>:<br/> </html>");
-                            label3.setVerticalAlignment(SwingConstants.TOP);
-                            scrollPane2.setViewportView(label3);
+                            //---- labelInfoProject ----
+                            labelInfoProject.setText("<html>  <b>\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435</b>:<br/>  \u0418\u0441\u0445\u043e\u0434\u043d\u044b\u0439:<br/>  <i>\u0420\u0430\u0437\u043c\u0435\u0440</i>:<br/> </html>");
+                            labelInfoProject.setVerticalAlignment(SwingConstants.TOP);
+                            scrollPane2.setViewportView(labelInfoProject);
                         }
                         splitPane4.setBottomComponent(scrollPane2);
                     }
@@ -378,7 +472,7 @@ public class OcrMainForm  {
                             scrollPane3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
                             scrollPane3.setBorder(Borders.DLU4);
 
-                            //======== panelResult ========
+                            //======== tabbedPaneData ========
                             {
 
                                 //======== panelImage ========
@@ -389,7 +483,7 @@ public class OcrMainForm  {
                                     ((GridBagLayout)panelImage.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
                                     ((GridBagLayout)panelImage.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
                                 }
-                                panelResult.addTab("\u0418\u0441\u0445\u043e\u0434\u043d\u043e\u0435", panelImage);
+                                tabbedPaneData.addTab("\u0418\u0441\u0445\u043e\u0434\u043d\u043e\u0435", panelImage);
 
                                 //======== panel12 ========
                                 {
@@ -399,15 +493,23 @@ public class OcrMainForm  {
                                     ((GridBagLayout)panel12.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
                                     ((GridBagLayout)panel12.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
-                                    //======== panel13 ========
+                                    //======== panelResult ========
                                     {
-                                        panel13.setLayout(new GridBagLayout());
-                                        ((GridBagLayout)panel13.getLayout()).columnWidths = new int[] {0, 0};
-                                        ((GridBagLayout)panel13.getLayout()).rowHeights = new int[] {0, 0};
-                                        ((GridBagLayout)panel13.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                                        ((GridBagLayout)panel13.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                        panelResult.setLayout(new GridBagLayout());
+                                        ((GridBagLayout)panelResult.getLayout()).columnWidths = new int[] {0, 0};
+                                        ((GridBagLayout)panelResult.getLayout()).rowHeights = new int[] {0, 0};
+                                        ((GridBagLayout)panelResult.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                                        ((GridBagLayout)panelResult.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+
+                                        //======== scrollPane7 ========
+                                        {
+                                            scrollPane7.setViewportView(txtResult);
+                                        }
+                                        panelResult.add(scrollPane7, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
+                                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                            new Insets(0, 0, 0, 0), 0, 0));
                                     }
-                                    panel12.add(panel13, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
+                                    panel12.add(panelResult, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
                                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                                         new Insets(0, 0, 5, 0), 0, 0));
 
@@ -417,9 +519,9 @@ public class OcrMainForm  {
                                         GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
                                         new Insets(0, 0, 0, 0), 0, 0));
                                 }
-                                panelResult.addTab("\u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442", panel12);
+                                tabbedPaneData.addTab("\u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442", panel12);
                             }
-                            scrollPane3.setViewportView(panelResult);
+                            scrollPane3.setViewportView(tabbedPaneData);
                         }
                         panel3.add(scrollPane3, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -431,7 +533,7 @@ public class OcrMainForm  {
                             scrollPane4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
                             scrollPane4.setBorder(Borders.DLU4);
 
-                            //======== tabbedPane2 ========
+                            //======== tabbedPaneProgress ========
                             {
 
                                 //======== panelBinary ========
@@ -442,7 +544,7 @@ public class OcrMainForm  {
                                     ((GridBagLayout)panelBinary.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
                                     ((GridBagLayout)panelBinary.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
                                 }
-                                tabbedPane2.addTab("\u0411\u0438\u043d\u0430\u0440\u043d\u043e\u0435", panelBinary);
+                                tabbedPaneProgress.addTab("\u0411\u0438\u043d\u0430\u0440\u043d\u043e\u0435", panelBinary);
 
                                 //======== panelHough ========
                                 {
@@ -452,7 +554,7 @@ public class OcrMainForm  {
                                     ((GridBagLayout)panelHough.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
                                     ((GridBagLayout)panelHough.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
                                 }
-                                tabbedPane2.addTab("\u0425\u0430\u0444", panelHough);
+                                tabbedPaneProgress.addTab("\u0425\u0430\u0444", panelHough);
 
                                 //======== panelDeskew ========
                                 {
@@ -462,7 +564,7 @@ public class OcrMainForm  {
                                     ((GridBagLayout)panelDeskew.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
                                     ((GridBagLayout)panelDeskew.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
                                 }
-                                tabbedPane2.addTab("\u0423\u0441\u0442\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435", panelDeskew);
+                                tabbedPaneProgress.addTab("\u0423\u0441\u0442\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435", panelDeskew);
 
                                 //======== panelTable ========
                                 {
@@ -472,7 +574,7 @@ public class OcrMainForm  {
                                     ((GridBagLayout)panelTable.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
                                     ((GridBagLayout)panelTable.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
                                 }
-                                tabbedPane2.addTab("\u0422\u0430\u0431\u043b\u0438\u0446\u0430", panelTable);
+                                tabbedPaneProgress.addTab("\u0422\u0430\u0431\u043b\u0438\u0446\u0430", panelTable);
 
                                 //======== panelCell ========
                                 {
@@ -482,20 +584,24 @@ public class OcrMainForm  {
                                     ((GridBagLayout)panelCell.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
                                     ((GridBagLayout)panelCell.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
                                 }
-                                tabbedPane2.addTab("\u041a\u043b\u0435\u0442\u043a\u0438", panelCell);
+                                tabbedPaneProgress.addTab("\u041a\u043b\u0435\u0442\u043a\u0438", panelCell);
                             }
-                            scrollPane4.setViewportView(tabbedPane2);
+                            scrollPane4.setViewportView(tabbedPaneProgress);
                         }
                         panel3.add(scrollPane4, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                             new Insets(0, 0, 0, 0), 0, 0));
 
-                        //---- label4 ----
-                        label4.setText("<html><i>progress ...</i></html>");
-                        panel3.add(label4, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+                        //---- labelProgress ----
+                        labelProgress.setText("<html><i>progress ...</i></html>");
+                        labelProgress.setVisible(false);
+                        panel3.add(labelProgress, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                             new Insets(0, 0, 0, 0), 0, 0));
-                        panel3.add(progressBar1, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+
+                        //---- progressbar ----
+                        progressbar.setVisible(false);
+                        panel3.add(progressbar, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                             new Insets(0, 0, 0, 0), 0, 0));
                     }
@@ -521,6 +627,14 @@ public class OcrMainForm  {
 
                             //======== scrollPane6 ========
                             {
+
+                                //---- listFormat ----
+                                listFormat.addListSelectionListener(new ListSelectionListener() {
+                                    @Override
+                                    public void valueChanged(ListSelectionEvent e) {
+                                        listFormatValueChanged(e);
+                                    }
+                                });
                                 scrollPane6.setViewportView(listFormat);
                             }
                             panel4.add(scrollPane6, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
@@ -558,10 +672,10 @@ public class OcrMainForm  {
                             scrollPane1.setPreferredSize(new Dimension(156, 100));
                             scrollPane1.setMaximumSize(new Dimension(300, 32767));
 
-                            //---- label2 ----
-                            label2.setText("<html> <b>\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435<b>:   <br/> <i>\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u043a\u043b\u0435\u0442\u043e\u043a</i>:  <br/> <i>\u0421\u043f\u0438\u0441\u043e\u043a \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445</i>: <br/> </html>");
-                            label2.setVerticalAlignment(SwingConstants.TOP);
-                            scrollPane1.setViewportView(label2);
+                            //---- labelInfoFormat ----
+                            labelInfoFormat.setText("<html> <b>\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435<b>:   <br/> <i>\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u043a\u043b\u0435\u0442\u043e\u043a</i>:  <br/> <i>\u0421\u043f\u0438\u0441\u043e\u043a \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445</i>: <br/> </html>");
+                            labelInfoFormat.setVerticalAlignment(SwingConstants.TOP);
+                            scrollPane1.setViewportView(labelInfoFormat);
                         }
                         panel2.add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 1.0,
                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -605,24 +719,26 @@ public class OcrMainForm  {
     private JButton butEditProject;
     private JButton butDeleteProject;
     private JScrollPane scrollPane2;
-    private JLabel label3;
+    private JLabel labelInfoProject;
     private JSplitPane splitPane3;
     private JPanel panel3;
     private JScrollPane scrollPane3;
-    private JTabbedPane panelResult;
+    private JTabbedPane tabbedPaneData;
     private JPanel panelImage;
     private JPanel panel12;
-    private JPanel panel13;
+    private JPanel panelResult;
+    private JScrollPane scrollPane7;
+    private JTextArea txtResult;
     private JButton button1;
     private JScrollPane scrollPane4;
-    private JTabbedPane tabbedPane2;
+    private JTabbedPane tabbedPaneProgress;
     private JPanel panelBinary;
     private JPanel panelHough;
     private JPanel panelDeskew;
     private JPanel panelTable;
     private JPanel panelCell;
-    private JLabel label4;
-    private JProgressBar progressBar1;
+    private JLabel labelProgress;
+    private JProgressBar progressbar;
     private JPanel panel2;
     private JPanel panel4;
     private JScrollPane scrollPane6;
@@ -630,7 +746,7 @@ public class OcrMainForm  {
     private JButton butEditFormat;
     private JButton butDeleteFormat;
     private JScrollPane scrollPane1;
-    private JLabel label2;
+    private JLabel labelInfoFormat;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 
     private DefaultListModel<String> formatListModel = null;
@@ -638,8 +754,10 @@ public class OcrMainForm  {
     private List<Format> formatList = null;
     private List<Project> projectList = null;
     private DBAccess dbAccess;
+    private HashMap<String, BufferedImage> cacheImage = null;
+    private Runner runner;
 
-    public OcrMainForm(Parameters paramater) {
+    public OcrMainForm() {
         super();
         initComponents();
         // launch GUI
@@ -655,6 +773,8 @@ public class OcrMainForm  {
         formatListModel = new DefaultListModel<String>();
         updateProjectList();
         updateFormatList();
+        // create memory cache
+        cacheImage = new HashMap<String, BufferedImage>();
     }
 
     public void close() {
@@ -677,7 +797,6 @@ public class OcrMainForm  {
         projectListModel.clear();
         for (Project project : projectList) {
             projectListModel.addElement(project.getName());
-//            System.out.println("Adding " + project.getName());
         }
         listProject.setModel(projectListModel);
     }
@@ -689,5 +808,31 @@ public class OcrMainForm  {
             formatListModel.addElement(format.getName());
         }
         listFormat.setModel(formatListModel);
+    }
+
+    public void showProgress() {
+        this.labelProgress.setVisible(true);
+        this.progressbar.setVisible(true);
+    }
+
+    public void hideProgress() {
+        this.labelProgress.setVisible(false);
+        this.progressbar.setVisible(false);
+    }
+
+    public void setResult(String result) {
+        this.txtResult.setText(result);
+    }
+
+    public Project getCurrentProject() {
+        return projectList.get(listProject.getSelectedIndex());
+    }
+
+    public Format getCurrentFormat() {
+        return formatList.get(listFormat.getSelectedIndex());
+    }
+
+    public Ocrconfig getCurrentConfiguration() {
+        return DBAccess.getCurrentConfiguration();
     }
 }

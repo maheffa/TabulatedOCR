@@ -8,9 +8,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ImageProcessing" />
-    <orderEntry type="module" module-name="NeuralNetwork" />
-    <orderEntry type="module" module-name="SerialData" />
     <orderEntry type="library" name="tess4j" level="project" />
     <orderEntry type="library" name="commons-lang3-3.4" level="project" />
+    <orderEntry type="module" module-name="DBManager" />
   </component>
 </module>

@@ -54,9 +54,6 @@ public class GUIUtil {
     }
 
     public static void drawImageOnPanel(JPanel pane, BufferedImage img) {
-//        JLabel picLabel = new JLabel(new ImageIcon(img));
-//        pane.add(picLabel);
-//        pane.repaint();
         Graphics g = pane.getGraphics();
         g.drawImage(img, 0, 0, pane.getWidth(), pane.getHeight(), Color.WHITE, null);
     }

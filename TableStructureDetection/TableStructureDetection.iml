@@ -9,10 +9,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ImageProcessing" />
     <orderEntry type="module" module-name="GUI" />
-    <orderEntry type="module" module-name="SerialData" />
     <orderEntry type="module" module-name="TextExtraction" />
     <orderEntry type="library" name="opencv-300" level="project" />
     <orderEntry type="library" name="log4j-api-2.2" level="project" />
     <orderEntry type="library" name="commons-lang3-3.4" level="project" />
+    <orderEntry type="module" module-name="DBManager" />
   </component>
 </module>

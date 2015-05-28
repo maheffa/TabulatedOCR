@@ -24,25 +24,24 @@ import javax.imageio.ImageIO;
 public class TableDetector {
 
 //    private IplImage iplImage = null;
-    private BufferedImage binaryImage = null;
+private BufferedImage binaryImage = null;
     private String filePath = "";
     private int threshold1 = 20;
     private int threshold2 = 60;
-    private int aperatureSize = 3;
     private double distanceAccumulator = 1;
     private double angleAccumulator = Math.PI / 180;
     private int thresholdAccumulator = 40;
     private int minimumLineLenght = 50;
     private int maximumLineGap = 100;
-//    private CvSeq detectedLines = null;
+    //    private CvSeq detectedLines = null;
     private int minimumTableArea = 100 * 100;
     private double documentSkew = 0;
     private LineApproximation lineApproximation;
+    private double toleranceAngle;
 
 
     public TableDetector(BufferedImage binaryImage) {
         this.binaryImage = binaryImage;
-//        this.iplImage = IplImage.createFrom(binaryImage);
         lineApproximation = new LineApproximation(50);
     }
 
@@ -55,7 +54,7 @@ public class TableDetector {
         BufferedImage res = applyHoughLineProbabilistic();
         String filePath = this.filePath.equals("") ? "res.png" : this.filePath;
         if (writeIntoFile) {
-            String[] pbe = SerializerUtil.getPathBaseExtension(filePath);
+            String[] pbe = ImgProcUtil.getPathBaseExtension(filePath);
             ImgProcUtil.writeImage(pbe[0] + File.separator + pbe[1] + ".hough." + pbe[2], res);
         }
         return res;
@@ -66,14 +65,19 @@ public class TableDetector {
     }
 
     public BufferedImage applyHoughLineProbabilistic(BufferedImage image) {
+        System.out.println("Starting hough probabilistic process");
         double sumLenght = 0;
         double sumMult = 0;
+        System.out.println("reading on\n" + ImgProcUtil.getImageInfoHTML(image));
         Mat src = bufferedImageToMat(image);
         Mat dst = new Mat();
         Mat cdst = new Mat();
         Mat lines = new Mat();
+        System.out.println("Canny");
         Canny(src, dst, threshold1, threshold2);
+        System.out.println("Converting color");
         cvtColor(dst, cdst, COLOR_GRAY2BGR);
+        System.out.println("HoughLinesP");
         HoughLinesP(dst, lines, distanceAccumulator, angleAccumulator, thresholdAccumulator,
                 minimumLineLenght, maximumLineGap);
         System.out.println("Detected " + lines.rows() + " lines");
@@ -93,8 +97,8 @@ public class TableDetector {
                 } else if (angle < -45) {
                     angle += 90;
                 }
-//                System.out.println("\t " + pt1 + " - " + pt2 + "; angle: " + (int)angle + ", distance: " + (int)distance);
-                if (angle > 10 || angle < -10) continue;
+                System.out.println("\t " + pt1 + " - " + pt2 + "; angle: " + (int)angle + ", distance: " + (int)distance);
+                if (angle > toleranceAngle || angle < -toleranceAngle) continue;
                 sumLenght += distance * distance;
                 sumMult += angle * distance * distance;
                 line(cdst, pt1, pt2, new Scalar(255, 0, 0), 3);
@@ -175,7 +179,7 @@ public class TableDetector {
         return binaryImage.rasterize();
     }
 
-    public BufferedImage writeLargestTable(ArrayList<ConnectedPixel> connectedPixels) {
+    public BufferedImage getLargestTable(ArrayList<ConnectedPixel> connectedPixels) {
         int maxArea = Integer.MIN_VALUE;
         ConnectedPixel pixels = null;
         for (ConnectedPixel connectedPixel : connectedPixels) {
@@ -193,7 +197,7 @@ public class TableDetector {
     }
 
     public double getDocumentSkew() {
-        return documentSkew == Double.NaN ? 0 : documentSkew;
+        return Double.isNaN(documentSkew) || Double.isInfinite(documentSkew) ? 0 : documentSkew;
     }
 
     public BufferedImage deskewDocument(BufferedImage img) {
@@ -262,6 +266,17 @@ public class TableDetector {
         return getDistance(A.x, A.y, B.x, B.y);
     }
 
+    public void setConfiguration(Ocrconfig conf) {
+        this.threshold1 = conf.getThreshold1();
+        this.threshold2 = conf.getThreshold2();
+        this.distanceAccumulator = conf.getDistanceAccumulation();
+        this.angleAccumulator = conf.getAngleAccumulation();
+        this.thresholdAccumulator = conf.getThresholdAccumulation();
+        this.minimumLineLenght = conf.getMinLenght();
+        this.maximumLineGap = conf.getMaxGap();
+        this.toleranceAngle = conf.getTolerableSkewAngle();
+    }
+
     public LineApproximation getLineApproximation() {
         return lineApproximation;
     }
@@ -278,14 +293,9 @@ public class TableDetector {
         this.threshold2 = threshold2;
     }
 
-    public void setAperatureSize(int aperatureSize) {
-        this.aperatureSize = aperatureSize;
-    }
-
-    public void setCannyParameter(int threshold1, int threshold2, int aperatureSize) {
+    public void setCannyParameter(int threshold1, int threshold2) {
         this.threshold1 = threshold1;
         this.threshold2 = threshold2;
-        this.aperatureSize = aperatureSize;
     }
 
     public void setDistanceAccumulator(double distanceAccumulator) {

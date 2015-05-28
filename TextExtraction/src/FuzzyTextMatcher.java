@@ -1,15 +1,9 @@
 // File:    FuzzyTextMatcher.java
 // Created: 07/05/2015
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -119,9 +113,7 @@ public class FuzzyTextMatcher {
         HashMap<String, String> map = new HashMap<String, String>();
         Pattern pattern = Pattern.compile("(\\$[a-zA-Z_0-9]+)");
         Matcher matcher = pattern.matcher(formatted);
-        char[] txtChar = txt.toCharArray();
-        char[] formatedChar = formatted.toCharArray();
-        int begin = 0;
+        int begin;
         int end = 0;
         while(matcher.find()) {
             String var = matcher.group();
@@ -134,8 +126,104 @@ public class FuzzyTextMatcher {
         return map;
     }
 
+    public static ArrayList<int[]> getBeginEndOfVariables(String formatted) {
+        ArrayList<int[]> beginEnds = new ArrayList<int[]>();
+        Pattern pattern = Pattern.compile("(\\$[a-zA-Z_0-9]+)");
+        Matcher matcher = pattern.matcher(formatted);
+        while (matcher.find()) {
+            beginEnds.add(new int[]{matcher.start(), matcher.end()});
+        }
+        return beginEnds;
+    }
+
+    public static HashMap<String, String> matchWholeVariables(String text, String format) {
+        System.out.println("matching variables");
+        System.out.println("Input:\n" + text);
+        System.out.println("Format:\n" + format);
+        HashMap<String, String> map = new HashMap<String, String>();
+        ArrayList<int[]> beginEndOfVariables = getBeginEndOfVariables(format);
+        int pt = 0;
+        for (int i = 0; i < beginEndOfVariables.size(); i++) {
+            boolean last = i == beginEndOfVariables.size() - 1;
+            int[] beVar0 = beginEndOfVariables.get(i);
+            int[] beVar1;
+            if (!last) {
+                beVar1 = beginEndOfVariables.get(i + 1);
+            } else {
+                beVar1 = new int[]{format.length(), format.length()};
+            }
+            int[] txt0 = substringMatch(text, format.substring(pt, beVar0[0]));
+            txt0[1]--;
+            int[] txt1 = substringMatch(text, format.substring(
+                    beVar0[1],
+                    last ? format.length() : beVar1[0]));
+            txt1[1]--;
+            getExtendedBegEnd(text, txt0);
+            getExtendedBegEnd(text, txt1);
+            int a = txt0[1];
+            int b = txt1[0] < a ? text.length() : txt1[0];
+            map.put(
+                    getVarIn(format, beVar0[0]+1, beVar0[1]),
+                    getVarIn(text, a, b)
+            );
+            pt = beVar0[1];
+        }
+        System.out.println("Matched variables: ");
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            System.out.println("\t" + entry.getKey() + " : " + entry.getValue());
+        }
+        return map;
+    }
+
+    public static String getVarIn(String text, int a, int b) {
+        StringBuilder variable = new StringBuilder();
+        boolean gotSpace = true;
+        while (a < b && a < text.length()) {
+            char s = text.charAt(a);
+            if (gotSpace) {
+                if (s == ' ') {
+                    a++;
+                } else {
+                    variable.append(s);
+                    a++;
+                    gotSpace = false;
+                }
+            } else {
+                if (s == '\n') {
+                    break;
+                } else if (s == ' ') {
+                    gotSpace = true;
+                }
+                variable.append(s);
+                a++;
+            }
+        }
+        if (gotSpace && variable.length() > 0) {
+            variable.deleteCharAt(variable.length() - 1);
+        }
+        return variable.toString();
+    }
+
+    public static String clean(String str) {
+        return str.replaceAll("\\s+", " ");
+    }
+
+    public static void getExtendedBegEnd(String text, int[] beginEnd) {
+        int begin = beginEnd[0];
+        int end = beginEnd[1];
+        while (begin >= 0 && text.charAt(begin) != ' ' && text.charAt(begin) != '\n') {
+            begin--;
+        }
+        begin++;
+        while (end >= 0 && end < text.length() && text.charAt(end) != ' ' && text.charAt(end) != '\n') {
+            end++;
+        }
+        beginEnd[0] = begin;
+        beginEnd[1] = end;
+    }
+
     public static String findNextWordFrom(String str, int i) {
-        int beg = -1;
+        int beg;
         while(i < str.length() && !Character.isWhitespace(str.charAt(i))) {
             i++;
         }
@@ -178,14 +266,24 @@ public class FuzzyTextMatcher {
 //        System.out.println("searching: " + c);
 //        System.out.println("in: " + b);
 //        System.out.println(/*"(" + v[0] + ", " + v[1] + ") = "*/ "Closest match: " + b.substring(v[0], v[1]));
-//        String txt = "My name is Karine and I'm from Antananarivo , I'm a fan of Metallica and I like to read";
-        String txt = "Меня на самм деле звут Карина я приехала из Экатеринбурга и я сейчас живу в Петере мней 21";
-//        String fmt = "My name is $name I'm from $city I like to $activity";
-        String fmt = " я из $origin меня зовут $name я живу в $city мне $age";
+        String txt = "\n" +
+                "Namee: Manitrarivo Adama Mahefa\n" +
+                "Profe$sion: Student\n" +
+                "Adress: Kostyukov 44, Belgorod 308012\n" +
+                "Activity: Drinking\n";
+        String txt2 = "My name is Manitrarivo Adama Mahefa , I live in Kostyukov 44, Belgorod 308012";
+//        String txt = "Меня на самм деле звут Карина я приехала из Экатеринбурга и я сейчас живу в Петере мней 21";
+        String fmt = "Name: $name\n" +
+                "Profession: $profession\n" +
+                "Adress: $adress\n" +
+                "Activity: $activity";
+        String fmt2 = "My name is $name , I live in $adress";
+//        String fmt = " я из $origin меня зовут $name я живу в $city мне $age";
         System.out.println("Source text: " + txt);
         System.out.println("Format : " + fmt);
         System.out.println("Extracting variable value from text ...");
-        HashMap<String, String> map = matchVariables(txt, fmt);
+//        HashMap<String, String> map = matchVariables(txt, fmt);
+        HashMap<String, String> map = matchWholeVariables(txt, fmt);
         System.out.println("Found: ");
         for (Map.Entry<String, String> entry : map.entrySet()) {
             System.out.println("\t " + entry.getKey() + " = " + entry.getValue());

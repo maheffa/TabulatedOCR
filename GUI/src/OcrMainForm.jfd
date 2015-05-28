@@ -32,6 +32,7 @@ new FormModel {
 								name: "scrollPane5"
 								add( new FormComponent( "javax.swing.JList" ) {
 									name: "listProject"
+									addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "listProjectValueChanged", true ) )
 								} )
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"hAlign": 5
@@ -85,7 +86,7 @@ new FormModel {
 							name: "scrollPane2"
 							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "label3"
+								name: "labelInfoProject"
 								"text": "<html>  <b>Название</b>:<br/>  Исходный:<br/>  <i>Размер</i>:<br/> </html>"
 								"verticalAlignment": 1
 							} )
@@ -117,7 +118,7 @@ new FormModel {
 							"verticalScrollBarPolicy": 22
 							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 							add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
-								name: "panelResult"
+								name: "tabbedPaneData"
 								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 									"$columnSpecs": "0"
 									"$rowSpecs": "0"
@@ -127,6 +128,9 @@ new FormModel {
 									"$alignTop": true
 								} ) {
 									name: "panelImage"
+									auxiliary() {
+										"JavaCodeGenerator.customCreateCode": "new ImagePanel();"
+									}
 								}, new FormLayoutConstraints( null ) {
 									"title": "Исходное"
 								} )
@@ -147,11 +151,26 @@ new FormModel {
 										"$alignLeft": true
 										"$alignTop": true
 									} ) {
-										name: "panel13"
+										name: "panelResult"
+										auxiliary() {
+											"JavaCodeGenerator.customCreateCode": "new ImagePanel();"
+										}
+										add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+											name: "scrollPane7"
+											add( new FormComponent( "javax.swing.JTextArea" ) {
+												name: "txtResult"
+											} )
+										}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+											"hAlign": 5
+											"vAlign": 5
+											"weightx": 1.0
+											"weighty": 1.0
+										} )
 									}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 										"hAlign": 5
 										"weightx": 1.0
 										"weighty": 1.0
+										"vAlign": 5
 									} )
 									add( new FormComponent( "javax.swing.JButton" ) {
 										name: "button1"
@@ -176,7 +195,7 @@ new FormModel {
 							"verticalScrollBarPolicy": 22
 							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 							add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
-								name: "tabbedPane2"
+								name: "tabbedPaneProgress"
 								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 									"$columnSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0"
 									"$rowSpecs": "0, 0, 0, 0, 0, 0"
@@ -186,6 +205,9 @@ new FormModel {
 									"$alignTop": true
 								} ) {
 									name: "panelBinary"
+									auxiliary() {
+										"JavaCodeGenerator.customCreateCode": "new ImagePanel();"
+									}
 								}, new FormLayoutConstraints( null ) {
 									"title": "Бинарное"
 								} )
@@ -198,6 +220,9 @@ new FormModel {
 									"$alignTop": true
 								} ) {
 									name: "panelHough"
+									auxiliary() {
+										"JavaCodeGenerator.customCreateCode": "new ImagePanel();"
+									}
 								}, new FormLayoutConstraints( null ) {
 									"title": "Хаф"
 								} )
@@ -210,6 +235,9 @@ new FormModel {
 									"$alignTop": true
 								} ) {
 									name: "panelDeskew"
+									auxiliary() {
+										"JavaCodeGenerator.customCreateCode": "new ImagePanel();"
+									}
 								}, new FormLayoutConstraints( null ) {
 									"title": "Устранённое"
 								} )
@@ -222,6 +250,9 @@ new FormModel {
 									"$alignTop": true
 								} ) {
 									name: "panelTable"
+									auxiliary() {
+										"JavaCodeGenerator.customCreateCode": "new ImagePanel();"
+									}
 								}, new FormLayoutConstraints( null ) {
 									"title": "Таблица"
 								} )
@@ -234,6 +265,9 @@ new FormModel {
 									"$alignTop": true
 								} ) {
 									name: "panelCell"
+									auxiliary() {
+										"JavaCodeGenerator.customCreateCode": "new ImagePanel();"
+									}
 								}, new FormLayoutConstraints( null ) {
 									"title": "Клетки"
 								} )
@@ -246,14 +280,16 @@ new FormModel {
 							"vAlign": 5
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label4"
+							name: "labelProgress"
 							"text": "<html><i>progress ...</i></html>"
+							"visible": false
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 2
 							"hAlign": 5
 						} )
 						add( new FormComponent( "javax.swing.JProgressBar" ) {
-							name: "progressBar1"
+							name: "progressbar"
+							"visible": false
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 							"gridy": 3
 							"hAlign": 5
@@ -284,6 +320,7 @@ new FormModel {
 								name: "scrollPane6"
 								add( new FormComponent( "javax.swing.JList" ) {
 									name: "listFormat"
+									addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "listFormatValueChanged", true ) )
 								} )
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridwidth": 2
@@ -321,7 +358,7 @@ new FormModel {
 							"preferredSize": new java.awt.Dimension( 156, 100 )
 							"maximumSize": new java.awt.Dimension( 300, 32767 )
 							add( new FormComponent( "javax.swing.JLabel" ) {
-								name: "label2"
+								name: "labelInfoFormat"
 								"text": "<html> <b>Название<b>:   <br/> <i>Количество клеток</i>:  <br/> <i>Список переменных</i>: <br/> </html>"
 								"verticalAlignment": 1
 							} )
@@ -342,6 +379,7 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "menu1"
 					"text": "Файл"
+					"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
 						name: "separator1"
 					} )
@@ -351,15 +389,18 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuQuit"
 						"text": "Выйти"
+						"icon": new com.jformdesigner.model.SwingIcon( 1, "/home/mahefa/Workspace/Java/Tabulated OCR/icons/exit_small.png" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuQuitActionPerformed", true ) )
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "menu3"
 					"text": "Конфигурация"
+					"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuConfig"
 						"text": "Параметры распознавония"
+						"icon": new com.jformdesigner.model.SwingIcon( 1, "/home/mahefa/Workspace/Java/Tabulated OCR/icons/setting_small.png" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuConfigActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
@@ -368,11 +409,13 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuCreateTableFormat"
 						"text": "Созадать табличный формат"
+						"icon": new com.jformdesigner.model.SwingIcon( 1, "/home/mahefa/Workspace/Java/Tabulated OCR/icons/add_small.png" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuCreateFormatActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuCreateTextFormat"
 						"text": "Создать текстовой формат"
+						"icon": new com.jformdesigner.model.SwingIcon( 1, "/home/mahefa/Workspace/Java/Tabulated OCR/icons/add_small.png" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuCreateTextFormatActionPerformed", true ) )
 					} )
 				} )
@@ -382,16 +425,19 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuLaunch"
 						"text": "Запустить"
+						"icon": new com.jformdesigner.model.SwingIcon( 1, "/home/mahefa/Workspace/Java/Tabulated OCR/icons/play_small.png" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuLaunchActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuStop"
 						"text": "Остановить"
+						"icon": new com.jformdesigner.model.SwingIcon( 1, "/home/mahefa/Workspace/Java/Tabulated OCR/icons/stop_small.png" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuStopActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuRelaunch"
 						"text": "Перезапусть"
+						"icon": new com.jformdesigner.model.SwingIcon( 1, "/home/mahefa/Workspace/Java/Tabulated OCR/icons/replay_small.png" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuRelaunchActionPerformed", true ) )
 					} )
 				} )

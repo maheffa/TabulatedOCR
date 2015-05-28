@@ -133,7 +133,7 @@ new FormModel {
 							} )
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "label4"
-								"text": "Преобразовать изображение в бинарное"
+								"text": "Использовать кластеризации"
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 								"gridy": 1
 								"hAlign": 4

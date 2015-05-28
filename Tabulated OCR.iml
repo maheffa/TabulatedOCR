@@ -7,13 +7,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Tester" />
+    <orderEntry type="module" module-name="DBManager" exported="" />
     <orderEntry type="module" module-name="ImageProcessing" />
-    <orderEntry type="module" module-name="SerialData" />
     <orderEntry type="module" module-name="GUI" />
     <orderEntry type="module" module-name="TextExtraction" />
     <orderEntry type="module" module-name="TableStructureDetection" />
     <orderEntry type="library" name="commons-lang3-3.4" level="project" />
     <orderEntry type="library" name="jgoodies-looks-2.8.0" level="project" />
+    <orderEntry type="library" name="opencv-300" level="project" />
   </component>
 </module>

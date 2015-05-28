@@ -15,14 +15,41 @@ public class Extractor {
 
     Tesseract tesseract = null;
 
-    public Extractor(String language) {
+    public Extractor() {
         tesseract = new Tesseract();
-        tesseract.setLanguage(language);
+    }
+
+    public void setLanguage(String lang) {
+        tesseract.setLanguage(lang);
+    }
+
+    public void setTreatCell(boolean val) {
+        if (val) {
+            tesseract.setPageSegMode(7);
+        } else {
+            tesseract.setPageSegMode(3);
+        }
+    }
+
+    public void setUserDictionary(boolean val) {
+        if (val) {
+            tesseract.setTessVariable("user_words_suffix", "user-words");
+        } else {
+            tesseract.setTessVariable("user_words_suffix", "");
+        }
+    }
+
+    public void setApplyNoiseRemoval(boolean val) {
+        if (val) {
+            tesseract.setTessVariable("textord_heavy_nr", "1");
+        } else {
+            tesseract.setTessVariable("textord_heavy_nr", "0");
+        }
     }
 
     public String extractText(BufferedImage img) {
         try {
-            return tesseract.doOCR(img);
+            return FuzzyTextMatcher.clean(tesseract.doOCR(img));
         } catch (TesseractException e) {
             e.printStackTrace();
             return "";

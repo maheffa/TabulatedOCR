@@ -71,9 +71,31 @@ public class Format implements java.io.Serializable {
 		this.tableFormats = tableFormats;
 	}
 
+    public TableFormat getTableFormat() {
+        TableFormat tableFormat = null;
+        for (TableFormat format : (Set<TableFormat>) tableFormats) {
+            tableFormat = format;
+        }
+        return tableFormat;
+    }
+
+    public TextFormat getTextFormat() {
+        TextFormat textFormat = null;
+        for (TextFormat format : (Set<TextFormat>) textFormats) {
+            textFormat = format;
+        }
+        return textFormat;
+    }
+
     @Override
     public String toString() {
-
         return ToStringBuilder.reflectionToString(this);
+    }
+
+    public String toStringHTML() {
+        StringBuilder str = new StringBuilder();
+        str.append("<b>Name: </b>").append(name).append("<br/>");
+        str.append("<b>Type: </b>").append(type).append("<br/>");
+        return str.toString();
     }
 }

@@ -8,11 +8,12 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="swingx-1.6.1" level="project" />
-    <orderEntry type="module" module-name="SerialData" />
     <orderEntry type="library" name="seaglasslookandfeel-0.2" level="project" />
     <orderEntry type="library" name="JTattoo-1.6.11" level="project" />
     <orderEntry type="library" name="commons-lang3-3.4" level="project" />
     <orderEntry type="module" module-name="DBManager" />
     <orderEntry type="library" name="jgoodies-looks-2.8.0" level="project" />
+    <orderEntry type="module" module-name="ImageProcessing" />
+    <orderEntry type="module" module-name="Tabulated OCR" />
   </component>
 </module>

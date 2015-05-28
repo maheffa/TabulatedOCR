@@ -16,6 +16,10 @@ public class CellContainer {
     private TreeSet<CellImage> treeSet;
     private int lineThickness;
 
+    private int lineIndex = 0;
+    private ArrayList<CellImage> cellImages;
+
+
     public CellContainer(int lineThickness) {
         this.lineThickness = lineThickness;
         comparator = new CellImageComparator(lineThickness);
@@ -25,6 +29,7 @@ public class CellContainer {
     public void add(CellImage e) {
         // do not add cell with height or width less than double the line thickness
         if (e.getWidth() <= 2 * lineThickness || e.getHeight() <= 2 * lineThickness) return;
+        System.out.println("Adding cell " + e);
         treeSet.add(e);
     }
 
@@ -66,12 +71,55 @@ public class CellContainer {
         }
     }
 
+    public ArrayList<String> extractLine(Extractor extractor, BufferedImage original) {
+        System.out.println("Recognizing line: ");
+        ArrayList<String> textLine = null;
+        if (hasNextLine()) {
+            ArrayList<CellImage> lineImage = getNextLine();
+            textLine = new ArrayList<String>();
+            for (CellImage cellImage : lineImage) {
+                String txt;
+                textLine.add(txt = extractor.extractText(cellImage.getFromImage(original)));
+                System.out.println(txt);
+            }
+        }
+        return textLine;
+    }
+
     public ArrayList<String> getCellText(Extractor extractor) {
         ArrayList<String> texts = new ArrayList<String>();
         for (CellImage cellImage : treeSet) {
             texts.add(cellImage.getText(extractor));
         }
         return texts;
+    }
+
+    public void initLines() {
+        this.lineIndex = 0;
+        cellImages = new ArrayList<CellImage>();
+        for (CellImage cellImage : treeSet) {
+            cellImages.add(cellImage);
+        }
+    }
+
+    public double percentage() {
+        return 1.0 * lineIndex / treeSet.size();
+    }
+
+    public boolean hasNextLine() {
+        return lineIndex < cellImages.size();
+    }
+
+    public ArrayList<CellImage> getNextLine() {
+        ArrayList<CellImage> line = new ArrayList<CellImage>();
+        int h = cellImages.get(lineIndex).getY();
+        CellImage c;
+        while (lineIndex < cellImages.size() && Math.abs((c = cellImages.get(lineIndex)).getY() - h) < lineThickness) {
+            System.out.println("Getting cell " + lineIndex);
+            line.add(c);
+            lineIndex++;
+        }
+        return line;
     }
 
     public int getSize() {
