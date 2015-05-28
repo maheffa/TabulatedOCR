@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 22, 2015 4:03:54 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.maheffa.TabulatedOCR.DBManager.Ocrconfig" table="OCRConfig" catalog="TOCR">
+        <id name="idOcrconfig" type="java.lang.Integer">
+            <column name="idOCRConfig" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="dpi" type="java.lang.Integer">
+            <column name="dpi" />
+        </property>
+        <property name="language" type="string">
+            <column name="language" length="3" />
+        </property>
+        <property name="grayscale" type="java.lang.Integer">
+            <column name="grayscale" />
+        </property>
+        <property name="binarisation" type="java.lang.Boolean">
+            <column name="binarisation" />
+        </property>
+        <property name="margin" type="java.lang.Integer">
+            <column name="margin" />
+        </property>
+        <property name="radius" type="java.lang.Integer">
+            <column name="radius" />
+        </property>
+        <property name="threshold1" type="java.lang.Integer">
+            <column name="threshold1" />
+        </property>
+        <property name="threshold2" type="java.lang.Integer">
+            <column name="threshold2" />
+        </property>
+        <property name="distanceAccumulation" type="java.lang.Integer">
+            <column name="distanceAccumulation" />
+        </property>
+        <property name="angleAccumulation" type="java.lang.Double">
+            <column name="angleAccumulation" precision="22" scale="0" />
+        </property>
+        <property name="thresholdAccumulation" type="java.lang.Integer">
+            <column name="thresholdAccumulation" />
+        </property>
+        <property name="minLenght" type="java.lang.Integer">
+            <column name="minLenght" />
+        </property>
+        <property name="maxGap" type="java.lang.Integer">
+            <column name="maxGap" />
+        </property>
+        <property name="tolerableSkewAngle" type="java.lang.Double">
+            <column name="tolerableSkewAngle" precision="22" scale="0" />
+        </property>
+        <property name="maxLineDistance" type="java.lang.Integer">
+            <column name="maxLineDistance" />
+        </property>
+        <property name="maxLineGap" type="java.lang.Integer">
+            <column name="maxLineGap" />
+        </property>
+        <property name="lineThickness" type="java.lang.Integer">
+            <column name="lineThickness" />
+        </property>
+        <property name="deskew" type="java.lang.Boolean">
+            <column name="deskew" />
+        </property>
+        <property name="denoise" type="java.lang.Boolean">
+            <column name="denoise" />
+        </property>
+        <property name="userDictionary" type="java.lang.Boolean">
+            <column name="userDictionary" />
+        </property>
+    </class>
+</hibernate-mapping>

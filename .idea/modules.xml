@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DBManager/DBManager.iml" filepath="$PROJECT_DIR$/DBManager/DBManager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/GUI/GUI.iml" filepath="$PROJECT_DIR$/GUI/GUI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ImageProcessing/ImageProcessing.iml" filepath="$PROJECT_DIR$/ImageProcessing/ImageProcessing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TableStructureDetection/TableStructureDetection.iml" filepath="$PROJECT_DIR$/TableStructureDetection/TableStructureDetection.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tabulated OCR.iml" filepath="$PROJECT_DIR$/Tabulated OCR.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TextExtraction/TextExtraction.iml" filepath="$PROJECT_DIR$/TextExtraction/TextExtraction.iml" />
     </modules>
   </component>
 </project>
