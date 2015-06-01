@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR;// File:    com.maheffa.TabulatedOCR.RunnerProgress.java
+package com.maheffa.TabulatedOCR;
+// File:    com.maheffa.TabulatedOCR.RunnerProgress.java
 // Created: 23/05/2015
 
 import java.awt.image.BufferedImage;

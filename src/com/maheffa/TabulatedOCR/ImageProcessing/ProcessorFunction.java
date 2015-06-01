@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR.ImageProcessing;// File:    com.maheffa.TabulatedOCR.ImageProcessing.ProcessorFunction.java
+package com.maheffa.TabulatedOCR.ImageProcessing;
+// File:    com.maheffa.TabulatedOCR.ImageProcessing.ProcessorFunction.java
 // Created: 19/02/2015
 
 /**

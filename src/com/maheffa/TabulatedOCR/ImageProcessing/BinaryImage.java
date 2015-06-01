@@ -1,7 +1,9 @@
-package com.maheffa.TabulatedOCR.ImageProcessing;// File:    com.maheffa.TabulatedOCR.ImageProcessing.BinaryImage.java
+package com.maheffa.TabulatedOCR.ImageProcessing;
+// File:    com.maheffa.TabulatedOCR.ImageProcessing.BinaryImage.java
 // Created: 19/02/2015
 
 import org.apache.commons.math3.fraction.Fraction;
+
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 

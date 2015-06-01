@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR.ImageProcessing;// File:    com.maheffa.TabulatedOCR.ImageProcessing.ImageProcessor.java
+package com.maheffa.TabulatedOCR.ImageProcessing;
+// File:    com.maheffa.TabulatedOCR.ImageProcessing.ImageProcessor.java
 // Created: 19/02/2015
 
 import java.util.ArrayList;
@@ -11,6 +12,27 @@ import java.util.concurrent.Future;
  * @author mahefa
  */
 public class ImageProcessor {
+
+    private static int CHUNK_SIZE = 50000;
+
+    public void process(int[] src, int[] dst, int height, int width, int area, ProcessorFunction pf) {
+//        ExecutorService service = Executors.newFixedThreadPool(1);
+        ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ArrayList<Future> futureList = new ArrayList<Future>();
+        for (int i = 0; i < dst.length; i += CHUNK_SIZE) {
+            futureList.add(service.submit(new ParallelProcessor(i, src, dst, height, width, area, pf)));
+        }
+        service.shutdown();
+        for (Future f : futureList) {
+            try {
+                f.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private class ParallelProcessor implements Runnable {
 
@@ -36,27 +58,6 @@ public class ImageProcessor {
             System.out.println("Processing " + begin + " - " + end);
             for (int i = begin; i < end; i++) {
                 dst[i] = pf.processPoint(i, src, height, width, area);
-            }
-        }
-    }
-
-    private static int CHUNK_SIZE = 50000;
-
-    public void process(int[] src, int[] dst, int height, int width, int area,ProcessorFunction pf) {
-//        ExecutorService service = Executors.newFixedThreadPool(1);
-        ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        ArrayList<Future> futureList = new ArrayList<Future>();
-        for (int i = 0; i < dst.length; i += CHUNK_SIZE) {
-            futureList.add(service.submit(new ParallelProcessor(i, src, dst, height, width, area, pf)));
-        }
-        service.shutdown();
-        for (Future f : futureList) {
-            try {
-                f.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
             }
         }
     }

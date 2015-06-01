@@ -12,9 +12,10 @@ new FormModel {
 			"$alignTop": true
 		} ) {
 			name: "this"
+			"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "tabbedPane1"
-				"border": new javax.swing.border.CompoundBorder( new javax.swing.border.EtchedBorder( 1, null, null ), sfield com.jgoodies.forms.factories.Borders DLU4_BORDER )
+				"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 					"$columnSpecs": "0, 0"
 					"$rowSpecs": "0, 0, 0"

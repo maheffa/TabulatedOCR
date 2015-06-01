@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR.DBManager;// File:    ConnectionManager.java
+package com.maheffa.TabulatedOCR.DBManager;
+// File:    ConnectionManager.java
 // Created: 14/05/2015
 
 import org.apache.commons.lang3.builder.ToStringBuilder;

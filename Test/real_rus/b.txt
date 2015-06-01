@@ -1,0 +1,4 @@
+It's good to understand the need for object/relational mapping (ORM) in Java
+applications, but you're probably eager to see Hibernate in action. We'll start by
+showing you a simple example that demonstrates some of its power.
+

@@ -1,14 +1,15 @@
-package com.maheffa.TabulatedOCR.TableStructureDetection;// File:    com.maheffa.TabulatedOCR.TableStructureDetection.CellExtractor.java
+package com.maheffa.TabulatedOCR.TableStructureDetection;
+// File:    com.maheffa.TabulatedOCR.TableStructureDetection.CellExtractor.java
 // Created: 10/05/2015
+
+import com.maheffa.TabulatedOCR.ImageProcessing.BinaryImage;
+import org.opencv.core.Point;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeSet;
-
-import com.maheffa.TabulatedOCR.ImageProcessing.BinaryImage;
-import org.opencv.core.Point;
 
 /**
  * @author mahefa

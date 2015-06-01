@@ -12,7 +12,7 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
 					name: "panel1"
 					"preferredSize": new java.awt.Dimension( 250, 449 )
-					"border": sfield com.jgoodies.forms.factories.Borders DLU2_BORDER
+					"border": new javax.swing.border.TitledBorder( "Проекты" )
 					"minimumSize": new java.awt.Dimension( 150, 447 )
 					add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
 						name: "splitPane4"
@@ -87,8 +87,6 @@ new FormModel {
 							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "labelInfoProject"
-								"text": "<html>  <b>Название</b>:<br/>  Исходный:<br/>  <i>Размер</i>:<br/> </html>"
-								"verticalAlignment": 1
 							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
 							"value": "right"
@@ -308,14 +306,14 @@ new FormModel {
 						"maximumSize": new java.awt.Dimension( 300, 2147483647 )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 							"$columnSpecs": "0, 0"
-							"$rowSpecs": "0, 0, 0"
+							"$rowSpecs": "0, 0"
 							"$hGap": 5
 							"$vGap": 5
 							"$alignLeft": true
 							"$alignTop": true
 						} ) {
 							name: "panel4"
-							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
+							"border": new javax.swing.border.TitledBorder( "Форматы" )
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 								name: "scrollPane6"
 								add( new FormComponent( "javax.swing.JList" ) {

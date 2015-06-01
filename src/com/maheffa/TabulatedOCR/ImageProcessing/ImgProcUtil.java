@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR.ImageProcessing;// File:    com.maheffa.TabulatedOCR.ImageProcessing.ImgProcUtil.java
+package com.maheffa.TabulatedOCR.ImageProcessing;
+// File:    com.maheffa.TabulatedOCR.ImageProcessing.ImgProcUtil.java
 // Created: 19/02/2015
 
 import javax.imageio.ImageIO;

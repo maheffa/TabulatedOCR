@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR.TextExtraction;// File:    TextExtractor.java
+package com.maheffa.TabulatedOCR.TextExtraction;
+// File:    TextExtractor.java
 // Created: 07/05/2015
 
 import net.sourceforge.tess4j.Tesseract;
@@ -17,6 +18,15 @@ public class Extractor {
 
     public Extractor() {
         tesseract = new Tesseract();
+    }
+
+    public static String showInformation(HashMap<String, String> map) {
+        StringBuilder str = new StringBuilder();
+        str.append("Variables:\n");
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            str.append("\t " + entry.getKey() + ": " + entry.getValue() + "\n");
+        }
+        return str.toString();
     }
 
     public void setLanguage(String lang) {
@@ -58,14 +68,5 @@ public class Extractor {
 
     public HashMap<String, String> extractInformations(BufferedImage img, String fmt) {
         return FuzzyTextMatcher.matchVariables(extractText(img), fmt);
-    }
-
-    public static String showInformation(HashMap<String, String> map) {
-        StringBuilder str = new StringBuilder();
-        str.append("Variables:\n");
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            str.append("\t " + entry.getKey() + ": " + entry.getValue() + "\n");
-        }
-        return str.toString();
     }
 }

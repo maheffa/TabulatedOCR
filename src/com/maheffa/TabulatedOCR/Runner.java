@@ -1,26 +1,36 @@
-package com.maheffa.TabulatedOCR;// File:    com.maheffa.TabulatedOCR.Runner.java
+package com.maheffa.TabulatedOCR;
+// File:    com.maheffa.TabulatedOCR.Runner.java
 // Created: 23/05/2015
+
+import com.maheffa.TabulatedOCR.DBManager.*;
+import com.maheffa.TabulatedOCR.GUI.ImagePanel;
+import com.maheffa.TabulatedOCR.GUI.OcrMainForm;
+import com.maheffa.TabulatedOCR.ImageProcessing.BinaryImage;
+import com.maheffa.TabulatedOCR.ImageProcessing.ImgProcUtil;
+import com.maheffa.TabulatedOCR.TableStructureDetection.CellContainer;
+import com.maheffa.TabulatedOCR.TableStructureDetection.CellExtractor;
+import com.maheffa.TabulatedOCR.TableStructureDetection.TableDetector;
+import com.maheffa.TabulatedOCR.TextExtraction.ConnectedPixel;
+import com.maheffa.TabulatedOCR.TextExtraction.Extractor;
+import com.maheffa.TabulatedOCR.TextExtraction.FuzzyTextMatcher;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.image.BufferedImage;
 import java.io.StringWriter;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-
-import com.maheffa.TabulatedOCR.GUI.*;
-import com.maheffa.TabulatedOCR.DBManager.*;
-import com.maheffa.TabulatedOCR.ImageProcessing.*;
-import com.maheffa.TabulatedOCR.TableStructureDetection.*;
-import com.maheffa.TabulatedOCR.TextExtraction.*;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * @author mahefa
@@ -93,47 +103,56 @@ class TOCRWorker extends SwingWorker<HashMap<String, Object>, RunnerProgress> {
         );
         publish(RunnerProgress.createMessenger(-1, "Done connected pixel ..."));
 
+        TableDetector tableDetector = null;
+        BufferedImage largeTable = null;
         if (format.getType().equalsIgnoreCase("TABLE")) {
 //                STATE_GETTING_LARGEST_CONNECTED_PIXELS
-            TableDetector tableDetector = new TableDetector(workingImage);
+            tableDetector = new TableDetector(workingImage);
             tableDetector.setConfiguration(conf);
             publish(RunnerProgress.createMessenger((int) (100.0 * 4 / nStep), "Getting largest connected pixel ..."));
-            BufferedImage largeTable = tableDetector.getLargestTable(connectedPixels);
+            largeTable = tableDetector.getLargestTable(connectedPixels);
+        }
 
 //                STATE_APPLYING_HOUGH
-            publish(RunnerProgress.createMessenger((int) (100.0 * 5 / nStep), "Applying Hough transform ..."));
-            BufferedImage tmpHough = tableDetector.applyHoughLineProbabilistic(TableDetector.deepCopy(workingImage));
-            BufferedImage houghTable = tableDetector.applyHoughLineProbabilistic(largeTable);
-//            publish(com.maheffa.TabulatedOCR.RunnerProgress.createImageShower(com.maheffa.TabulatedOCR.RunnerProgress.STATE_APPLYING_HOUGH, houghTable));
-            publish(RunnerProgress.createImageShower(RunnerProgress.STATE_APPLYING_HOUGH, tmpHough));
+        publish(RunnerProgress.createMessenger((int) (100.0 * 5 / nStep), "Applying Hough transform ..."));
+        TableDetector tmpTableDetector = new TableDetector(workingImage);
+        tmpTableDetector.setConfiguration(conf);
+        BufferedImage tmpHough = tmpTableDetector.applyHoughLineProbabilistic();
+        double skew = tmpTableDetector.getDocumentSkew();
+        publish(RunnerProgress.createImageShower(RunnerProgress.STATE_APPLYING_HOUGH, tmpHough));
 
-            if (conf.getDeskew()) {
-                publish(RunnerProgress.createMessenger(-1, "Checking image skew"));
-                if (tableDetector.getDocumentSkew() < conf.getTolerableSkewAngle()) {
-                    publish(RunnerProgress.createMessenger(-1, "Document doesn't need deskewing"));
-                } else {
+        if (conf.getDeskew()) {
+            publish(RunnerProgress.createMessenger(-1, "Checking image skew"));
+            if (skew < conf.getTolerableSkewAngle()) {
+                publish(RunnerProgress.createMessenger(-1, "Document doesn't need deskewing"));
+                System.out.println("Image doesn't need deskewing");
+            } else {
 //                STATE_DESKEWING_IMAGE
-                    publish(RunnerProgress.createMessenger((int) (100.0 * 6 / nStep), "Deskewing image"));
-                    workingImage = tableDetector.deskewDocument(workingImage);
-                    publish(RunnerProgress.createImageShower(RunnerProgress.STATE_DESKEWING_IMAGE, workingImage));
-                    binaryImage = new BinaryImage(workingImage, 100);
+                System.out.println("Deskewing image");
+                publish(RunnerProgress.createMessenger((int) (100.0 * 6 / nStep), "Deskewing image"));
+                workingImage = tmpTableDetector.deskewDocument(workingImage);
+                publish(RunnerProgress.createImageShower(RunnerProgress.STATE_DESKEWING_IMAGE, workingImage));
+                binaryImage = new BinaryImage(workingImage, 100);
 
 //                STATE_GRAYSCALING_2
 //                STATE_BINARISING_2
 
-//                STATE_GETTING_LARGEST_TABLE
-                    publish(RunnerProgress.createMessenger((int) (100.0 * 9 / nStep), "Getting table"));
-                    connectedPixels = ConnectedPixel.getConnectedPixels(
-                            conf.getRadius(),
-                            conf.getMargin(),
-                            binaryImage
-                    );
-                    largeTable = tableDetector.getLargestTable(connectedPixels);
-                    tableDetector = new TableDetector(largeTable);
-                    tableDetector.setConfiguration(conf);
-                    tableDetector.applyHoughLineProbabilistic();
-                }
             }
+        }
+
+        if (format.getType().equalsIgnoreCase("TABLE")) {
+            BufferedImage houghTable = tableDetector.applyHoughLineProbabilistic(largeTable);
+//            STATE_GETTING_LARGEST_TABLE
+            publish(RunnerProgress.createMessenger((int) (100.0 * 9 / nStep), "Getting table"));
+            connectedPixels = ConnectedPixel.getConnectedPixels(
+                    conf.getRadius(),
+                    conf.getMargin(),
+                    binaryImage
+            );
+            largeTable = tableDetector.getLargestTable(connectedPixels);
+            tableDetector = new TableDetector(largeTable);
+            tableDetector.setConfiguration(conf);
+            tableDetector.applyHoughLineProbabilistic();
 
 //                STATE_GETTING_PERFECT_TABLE
             publish(RunnerProgress.createMessenger((int) (100.0 * 10 / nStep), "Getting perfect table"));

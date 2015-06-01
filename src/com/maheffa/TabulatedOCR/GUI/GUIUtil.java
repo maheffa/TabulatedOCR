@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR.GUI;// File:    GUIUtil.java
+package com.maheffa.TabulatedOCR.GUI;
+// File:    GUIUtil.java
 // Created: 02/05/2015
 
 import javax.imageio.ImageIO;

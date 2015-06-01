@@ -1,21 +1,18 @@
 package com.maheffa.TabulatedOCR.GUI;
 
 import com.jgoodies.forms.factories.Borders;
+import com.maheffa.TabulatedOCR.DBManager.DBAccess;
+import com.maheffa.TabulatedOCR.DBManager.Ocrconfig;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
 import java.util.List;
-
-import com.maheffa.TabulatedOCR.DBManager.*;
 /*
  * Created by JFormDesigner on Tue May 19 22:56:23 MSK 2015
  */
@@ -27,7 +24,70 @@ import com.maheffa.TabulatedOCR.DBManager.*;
 public class Configuration extends JPanel {
     private List<Ocrconfig> listConfig = null;
     private DefaultComboBoxModel<String> comboBoxModel = null;
-
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
+    private JTabbedPane tabbedPane1;
+    private JPanel panel1;
+    private JPanel panel4;
+    private JLabel label2;
+    private JTextField txtDPI;
+    private JLabel label15;
+    private JComboBox comboLang;
+    private JLabel label19;
+    private JCheckBox checkNoiseRemoveTesseract;
+    private JLabel label21;
+    private JCheckBox checkDictionary;
+    private JPanel panel9;
+    private JPanel panel12;
+    private JLabel label3;
+    private JLabel label4;
+    private JPanel panel13;
+    private JComboBox comboGrayscale;
+    private JCheckBox checkBinary;
+    private JPanel panel6;
+    private JLabel label20;
+    private JCheckBox checkDeskew;
+    private JLabel label14;
+    private JTextField txtMaxAngleTolerance;
+    private JPanel panel3;
+    private JPanel panel10;
+    private JPanel panel14;
+    private JLabel label5;
+    private JLabel label6;
+    private JPanel panel15;
+    private JTextField txtRadius;
+    private JTextField txtMargin;
+    private JPanel panel11;
+    private JPanel panel17;
+    private JLabel label7;
+    private JLabel label8;
+    private JLabel label9;
+    private JLabel label10;
+    private JLabel label11;
+    private JLabel label12;
+    private JLabel label13;
+    private JPanel panel18;
+    private JTextField txtThreshold1;
+    private JTextField txtThreshold2;
+    private JTextField txtDistanceAccumulation;
+    private JTextField txtAngleAccumulation;
+    private JTextField txtAccumulationThreshold;
+    private JTextField txtMinimumLineLength;
+    private JTextField txtMaxGap;
+    private JPanel panel5;
+    private JLabel label16;
+    private JTextField txtMaxLineDistance;
+    private JLabel label17;
+    private JTextField txtMaxLineGap;
+    private JLabel label18;
+    private JTextField txtThickness;
+    private JPanel panel2;
+    private JLabel label1;
+    private JTextField txtConfigurationName;
+    private JButton butSave;
+    private JPanel panel7;
+    private JButton butDelete;
+    private JComboBox comboConfigList;
     public Configuration() {
         initComponents();
 
@@ -243,13 +303,19 @@ public class Configuration extends JPanel {
         comboConfigList = new JComboBox();
 
         //======== this ========
+        setBorder(Borders.DLU4);
 
         // JFormDesigner evaluation mark
-        setBorder(new CompoundBorder(
-            new TitledBorder(new EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", TitledBorder.CENTER,
-                TitledBorder.BOTTOM, new Font("Dialog", Font.BOLD, 12),
-                Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(
+                new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                        "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                        javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                        java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName())) throw new RuntimeException();
+            }
+        });
 
         setLayout(new GridBagLayout());
         ((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0, 0};
@@ -259,9 +325,7 @@ public class Configuration extends JPanel {
 
         //======== tabbedPane1 ========
         {
-            tabbedPane1.setBorder(new CompoundBorder(
-                new EtchedBorder(),
-                Borders.DLU4));
+            tabbedPane1.setBorder(Borders.DLU4);
 
             //======== panel1 ========
             {
@@ -794,70 +858,5 @@ public class Configuration extends JPanel {
             new Insets(0, 0, 5, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
-    private JTabbedPane tabbedPane1;
-    private JPanel panel1;
-    private JPanel panel4;
-    private JLabel label2;
-    private JTextField txtDPI;
-    private JLabel label15;
-    private JComboBox comboLang;
-    private JLabel label19;
-    private JCheckBox checkNoiseRemoveTesseract;
-    private JLabel label21;
-    private JCheckBox checkDictionary;
-    private JPanel panel9;
-    private JPanel panel12;
-    private JLabel label3;
-    private JLabel label4;
-    private JPanel panel13;
-    private JComboBox comboGrayscale;
-    private JCheckBox checkBinary;
-    private JPanel panel6;
-    private JLabel label20;
-    private JCheckBox checkDeskew;
-    private JLabel label14;
-    private JTextField txtMaxAngleTolerance;
-    private JPanel panel3;
-    private JPanel panel10;
-    private JPanel panel14;
-    private JLabel label5;
-    private JLabel label6;
-    private JPanel panel15;
-    private JTextField txtRadius;
-    private JTextField txtMargin;
-    private JPanel panel11;
-    private JPanel panel17;
-    private JLabel label7;
-    private JLabel label8;
-    private JLabel label9;
-    private JLabel label10;
-    private JLabel label11;
-    private JLabel label12;
-    private JLabel label13;
-    private JPanel panel18;
-    private JTextField txtThreshold1;
-    private JTextField txtThreshold2;
-    private JTextField txtDistanceAccumulation;
-    private JTextField txtAngleAccumulation;
-    private JTextField txtAccumulationThreshold;
-    private JTextField txtMinimumLineLength;
-    private JTextField txtMaxGap;
-    private JPanel panel5;
-    private JLabel label16;
-    private JTextField txtMaxLineDistance;
-    private JLabel label17;
-    private JTextField txtMaxLineGap;
-    private JLabel label18;
-    private JTextField txtThickness;
-    private JPanel panel2;
-    private JLabel label1;
-    private JTextField txtConfigurationName;
-    private JButton butSave;
-    private JPanel panel7;
-    private JButton butDelete;
-    private JComboBox comboConfigList;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

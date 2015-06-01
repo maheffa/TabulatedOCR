@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR.ImageProcessing;// File:    Cluster.java
+package com.maheffa.TabulatedOCR.ImageProcessing;
+// File:    Cluster.java
 // Created: 15/04/2015
 
 import java.util.ArrayList;
@@ -14,6 +15,18 @@ public class KMeanCluster{
     public KMeanCluster() {
         data = new ArrayList<Integer>();
         sum = 0;
+    }
+
+    public static int closestMean(int val, int[] means) {
+        int min = Integer.MAX_VALUE;
+        int imin = -1;
+        for (int i = 0; i < means.length; i++) {
+            if (Math.abs(val - means[i]) < min) {
+                imin = i;
+                min = Math.abs(val - means[i]);
+            }
+        }
+        return imin;
     }
 
     public void add(int val) {
@@ -89,18 +102,6 @@ public class KMeanCluster{
         } while (iterations < maxIterations);
 //        System.out.println("Number of iterations: " + iterations);
         return clusters0;
-    }
-
-    public static int closestMean(int val, int[] means) {
-        int min = Integer.MAX_VALUE;
-        int imin = -1;
-        for (int i = 0; i < means.length; i++) {
-            if (Math.abs(val - means[i]) < min) {
-                imin = i;
-                min = Math.abs(val - means[i]);
-            }
-        }
-        return imin;
     }
 
     public String toString() {

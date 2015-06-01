@@ -1,14 +1,15 @@
-package com.maheffa.TabulatedOCR.TableStructureDetection;// File:    com.maheffa.TabulatedOCR.TableStructureDetection.CellContainer.java
+package com.maheffa.TabulatedOCR.TableStructureDetection;
+// File:    com.maheffa.TabulatedOCR.TableStructureDetection.CellContainer.java
 // Created: 10/05/2015
 
 import com.maheffa.TabulatedOCR.ImageProcessing.ImgProcUtil;
 import com.maheffa.TabulatedOCR.TextExtraction.Extractor;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.TreeSet;
-import java.io.File;
 
 /**
  * @author mahefa

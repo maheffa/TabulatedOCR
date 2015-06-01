@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR.TextExtraction;// File:    com.maheffa.TabulatedOCR.TextExtraction.FuzzyTextMatcher.java
+package com.maheffa.TabulatedOCR.TextExtraction;
+// File:    com.maheffa.TabulatedOCR.TextExtraction.FuzzyTextMatcher.java
 // Created: 07/05/2015
 
 import java.util.ArrayList;
@@ -251,53 +252,4 @@ public class FuzzyTextMatcher {
         return false;
     }
 
-    public static void main(String[] args) {
-        String a = "город";
-        String b = "I went down and I found some kuten in the living room";
-        String c = "гора";
-//        System.out.println(a.length() + " vs " + a.toCharArray().length);
-//        System.out.println(LevenshteinDistance(a, b));
-//        System.out.println(LevenshteinDistance(b, c));
-//        System.out.println(LevenshteinDistance(c, a));
-//        System.out.println(LevenshteinDistance(a.toCharArray(), b.toCharArray(), 0, a.length(), 3, b.length() - 1));
-//        System.out.println(LevenshteinDistance(c.toCharArray(), b.toCharArray(), 0, c.length(), 0, b.length()));
-//        System.out.println(LevenshteinDistance(a.toCharArray(), c.toCharArray(), 0, a.length(), 0, c.length()));
-        int[] v = substringMatch(b, c);
-//        System.out.println("searching: " + c);
-//        System.out.println("in: " + b);
-//        System.out.println(/*"(" + v[0] + ", " + v[1] + ") = "*/ "Closest match: " + b.substring(v[0], v[1]));
-        String txt = "\n" +
-                "Namee: Manitrarivo Adama Mahefa\n" +
-                "Profe$sion: Student\n" +
-                "Adress: Kostyukov 44, Belgorod 308012\n" +
-                "Activity: Drinking\n";
-        String txt2 = "My name is Manitrarivo Adama Mahefa , I live in Kostyukov 44, Belgorod 308012";
-//        String txt = "Меня на самм деле звут Карина я приехала из Экатеринбурга и я сейчас живу в Петере мней 21";
-        String fmt = "Name: $name\n" +
-                "Profession: $profession\n" +
-                "Adress: $adress\n" +
-                "Activity: $activity";
-        String fmt2 = "My name is $name , I live in $adress";
-//        String fmt = " я из $origin меня зовут $name я живу в $city мне $age";
-        System.out.println("Source text: " + txt);
-        System.out.println("Format : " + fmt);
-        System.out.println("Extracting variable value from text ...");
-//        HashMap<String, String> map = matchVariables(txt, fmt);
-        HashMap<String, String> map = matchWholeVariables(txt, fmt);
-        System.out.println("Found: ");
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            System.out.println("\t " + entry.getKey() + " = " + entry.getValue());
-        }
-//        try {
-//            String txt = new String(
-//                    Files.readAllBytes(new File("Test/real/6.txt").toPath()),
-//                    StandardCharsets.UTF_8);
-//            System.out.println(txt);
-//            System.out.println("\n\n*** reduced ***\n");
-//            System.out.println(reduceSpace(txt));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-    }
 }

@@ -1,10 +1,15 @@
 package com.maheffa.TabulatedOCR.GUI;
 
 import com.jgoodies.forms.factories.Borders;
+import com.maheffa.TabulatedOCR.DBManager.DBAccess;
+import com.maheffa.TabulatedOCR.DBManager.Format;
+import com.maheffa.TabulatedOCR.DBManager.Ocrconfig;
+import com.maheffa.TabulatedOCR.DBManager.Project;
 import com.maheffa.TabulatedOCR.ImageProcessing.ImgProcUtil;
 import com.maheffa.TabulatedOCR.Runner;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -13,7 +18,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
-import com.maheffa.TabulatedOCR.DBManager.*;
 /*
  * Created by JFormDesigner on Sun Apr 26 16:23:28 MSK 2015
  */
@@ -23,6 +27,89 @@ import com.maheffa.TabulatedOCR.DBManager.*;
  * @author Boubakar Tilojab
  */
 public class OcrMainForm  {
+
+	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
+    private JFrame mainFrame;
+    private JMenuBar menuBar1;
+    private JMenu menu1;
+    private JMenuItem menuQuit;
+    private JMenu menu3;
+    private JMenuItem menuConfig;
+    private JMenuItem menuCreateTableFormat;
+    private JMenuItem menuCreateTextFormat;
+    private JMenu menu5;
+    private JMenuItem menuLaunch;
+    private JMenuItem menuStop;
+    private JMenuItem menuRelaunch;
+    private JMenu menu4;
+    private JMenuItem menuAbout;
+    private JSplitPane splitPane2;
+    private JPanel panel1;
+    private JSplitPane splitPane4;
+    private JPanel panel14;
+    private JScrollPane scrollPane5;
+    private JList listProject;
+    private JPanel panel5;
+    private JButton butAddProject;
+    private JButton butEditProject;
+    private JButton butDeleteProject;
+    private JScrollPane scrollPane2;
+    private JLabel labelInfoProject;
+    private JSplitPane splitPane3;
+    private JPanel panel3;
+    private JScrollPane scrollPane3;
+    private JTabbedPane tabbedPaneData;
+    private JPanel panelImage;
+    private JPanel panel12;
+    private JPanel panelResult;
+    private JScrollPane scrollPane7;
+    private JTextArea txtResult;
+    private JButton button1;
+    private JScrollPane scrollPane4;
+    private JTabbedPane tabbedPaneProgress;
+    private JPanel panelBinary;
+    private JPanel panelHough;
+    private JPanel panelDeskew;
+    private JPanel panelTable;
+    private JPanel panelCell;
+    private JLabel labelProgress;
+    private JProgressBar progressbar;
+    private JPanel panel2;
+    private JPanel panel4;
+    private JScrollPane scrollPane6;
+    private JList listFormat;
+    private JButton butEditFormat;
+    private JButton butDeleteFormat;
+    private JScrollPane scrollPane1;
+    private JLabel labelInfoFormat;
+    private DefaultListModel<String> formatListModel = null;
+    private DefaultListModel<String> projectListModel = null;
+    private List<Format> formatList = null;
+    private List<Project> projectList = null;
+    private DBAccess dbAccess;
+    private HashMap<String, BufferedImage> cacheImage = null;
+    private Runner runner;
+
+    public OcrMainForm() {
+        super();
+        initComponents();
+        // launch GUI
+        dbAccess = DBAccess.getDbAccess();
+        // setting button icons
+        GUIUtil.setButtonIcon(this.butEditProject, "icons/edit.png");
+        GUIUtil.setButtonIcon(this.butAddProject, "icons/add.png");
+        GUIUtil.setButtonIcon(this.butDeleteProject, "icons/delete.png");
+        GUIUtil.setButtonIcon(this.butEditFormat, "icons/edit.png");
+        GUIUtil.setButtonIcon(this.butDeleteFormat, "icons/delete.png");
+        // updating lists
+        projectListModel = new DefaultListModel<String>();
+        formatListModel = new DefaultListModel<String>();
+        updateProjectList();
+        updateFormatList();
+        // create memory cache
+        cacheImage = new HashMap<String, BufferedImage>();
+    }
 
     private void menuCreateFormatActionPerformed(ActionEvent e) {
         GUIUtil.createFrameForPanel("Создание табличного формата", new CreateTableFormat(this));
@@ -114,6 +201,7 @@ public class OcrMainForm  {
     public JProgressBar getProgressbar() {
         return progressbar;
     }
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     public JLabel getLabelProgress() {
         return labelProgress;
@@ -140,6 +228,9 @@ public class OcrMainForm  {
             ((ImagePanel) this.panelImage).clear();
         } else {
             Project project = projectList.get(listProject.getSelectedIndex());
+            StringBuilder str = new StringBuilder();
+            str.append(project.toStringHTML());
+            str.append(ImgProcUtil.getImageInfoHTML(((ImagePanel) panelImage).getImage()));
             labelInfoProject.setText("<html>" + project.toStringHTML() + "</html>");
             if (!cacheImage.containsKey(project.getInputFilePath())) {
                 cacheImage.put(project.getInputFilePath(), ImgProcUtil.readImage(project.getInputFilePath()));
@@ -157,8 +248,8 @@ public class OcrMainForm  {
         }
     }
 
-	private void initComponents() {
-		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+    private void initComponents() {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
         mainFrame = new JFrame();
         menuBar1 = new JMenuBar();
@@ -347,15 +438,20 @@ public class OcrMainForm  {
                 //======== panel1 ========
                 {
                     panel1.setPreferredSize(new Dimension(250, 449));
-                    panel1.setBorder(Borders.DLU2);
+                    panel1.setBorder(new TitledBorder("\u041f\u0440\u043e\u0435\u043a\u0442\u044b"));
                     panel1.setMinimumSize(new Dimension(150, 447));
 
                     // JFormDesigner evaluation mark
                     panel1.setBorder(new javax.swing.border.CompoundBorder(
-                        new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                            "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                            javax.swing.border.TitledBorder.BOTTOM, new Font("Dialog", Font.BOLD, 12),
-                            Color.red), panel1.getBorder())); panel1.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+                            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                                    "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                                    javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                                    java.awt.Color.red), panel1.getBorder()));
+                    panel1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+                        public void propertyChange(java.beans.PropertyChangeEvent e) {
+                            if ("border".equals(e.getPropertyName())) throw new RuntimeException();
+                        }
+                    });
 
                     panel1.setLayout(new GridLayout());
 
@@ -369,10 +465,10 @@ public class OcrMainForm  {
                             panel14.setBorder(Borders.DLU4);
                             panel14.setPreferredSize(new Dimension(169, 400));
                             panel14.setLayout(new GridBagLayout());
-                            ((GridBagLayout)panel14.getLayout()).columnWidths = new int[] {71, 0};
-                            ((GridBagLayout)panel14.getLayout()).rowHeights = new int[] {0, 0, 0};
-                            ((GridBagLayout)panel14.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                            ((GridBagLayout)panel14.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+                            ((GridBagLayout) panel14.getLayout()).columnWidths = new int[]{71, 0};
+                            ((GridBagLayout) panel14.getLayout()).rowHeights = new int[]{0, 0, 0};
+                            ((GridBagLayout) panel14.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
+                            ((GridBagLayout) panel14.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
 
                             //======== scrollPane5 ========
                             {
@@ -387,16 +483,16 @@ public class OcrMainForm  {
                                 scrollPane5.setViewportView(listProject);
                             }
                             panel14.add(scrollPane5, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                    new Insets(0, 0, 5, 0), 0, 0));
 
                             //======== panel5 ========
                             {
                                 panel5.setLayout(new GridBagLayout());
-                                ((GridBagLayout)panel5.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-                                ((GridBagLayout)panel5.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-                                ((GridBagLayout)panel5.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-                                ((GridBagLayout)panel5.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+                                ((GridBagLayout) panel5.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
+                                ((GridBagLayout) panel5.getLayout()).rowHeights = new int[]{0, 0, 0, 0};
+                                ((GridBagLayout) panel5.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
+                                ((GridBagLayout) panel5.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
 
                                 //---- butAddProject ----
                                 butAddProject.setPreferredSize(new Dimension(35, 25));
@@ -407,8 +503,8 @@ public class OcrMainForm  {
                                     }
                                 });
                                 panel5.add(butAddProject, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
-                                    GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                                    new Insets(0, 0, 5, 5), 0, 0));
+                                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                        new Insets(0, 0, 5, 5), 0, 0));
 
                                 //---- butEditProject ----
                                 butEditProject.setIcon(null);
@@ -420,8 +516,8 @@ public class OcrMainForm  {
                                     }
                                 });
                                 panel5.add(butEditProject, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0,
-                                    GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                                    new Insets(0, 0, 5, 5), 0, 0));
+                                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                        new Insets(0, 0, 5, 5), 0, 0));
 
                                 //---- butDeleteProject ----
                                 butDeleteProject.setPreferredSize(new Dimension(35, 25));
@@ -432,22 +528,18 @@ public class OcrMainForm  {
                                     }
                                 });
                                 panel5.add(butDeleteProject, new GridBagConstraints(2, 0, 1, 1, 1.0, 0.0,
-                                    GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                                    new Insets(0, 0, 5, 0), 0, 0));
+                                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                        new Insets(0, 0, 5, 0), 0, 0));
                             }
                             panel14.add(panel5, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                                    GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                    new Insets(0, 0, 0, 0), 0, 0));
                         }
                         splitPane4.setTopComponent(panel14);
 
                         //======== scrollPane2 ========
                         {
                             scrollPane2.setBorder(Borders.DLU4);
-
-                            //---- labelInfoProject ----
-                            labelInfoProject.setText("<html>  <b>\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435</b>:<br/>  \u0418\u0441\u0445\u043e\u0434\u043d\u044b\u0439:<br/>  <i>\u0420\u0430\u0437\u043c\u0435\u0440</i>:<br/> </html>");
-                            labelInfoProject.setVerticalAlignment(SwingConstants.TOP);
                             scrollPane2.setViewportView(labelInfoProject);
                         }
                         splitPane4.setBottomComponent(scrollPane2);
@@ -466,10 +558,10 @@ public class OcrMainForm  {
                         panel3.setMinimumSize(new Dimension(300, 79));
                         panel3.setPreferredSize(new Dimension(300, 300));
                         panel3.setLayout(new GridBagLayout());
-                        ((GridBagLayout)panel3.getLayout()).columnWidths = new int[] {0, 0};
-                        ((GridBagLayout)panel3.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
-                        ((GridBagLayout)panel3.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
-                        ((GridBagLayout)panel3.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout) panel3.getLayout()).columnWidths = new int[]{0, 0};
+                        ((GridBagLayout) panel3.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0};
+                        ((GridBagLayout) panel3.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+                        ((GridBagLayout) panel3.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                         //======== scrollPane3 ========
                         {
@@ -485,54 +577,54 @@ public class OcrMainForm  {
                                 //======== panelImage ========
                                 {
                                     panelImage.setLayout(new GridBagLayout());
-                                    ((GridBagLayout)panelImage.getLayout()).columnWidths = new int[] {0, 0};
-                                    ((GridBagLayout)panelImage.getLayout()).rowHeights = new int[] {0, 0};
-                                    ((GridBagLayout)panelImage.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                                    ((GridBagLayout)panelImage.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout) panelImage.getLayout()).columnWidths = new int[]{0, 0};
+                                    ((GridBagLayout) panelImage.getLayout()).rowHeights = new int[]{0, 0};
+                                    ((GridBagLayout) panelImage.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
+                                    ((GridBagLayout) panelImage.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
                                 }
                                 tabbedPaneData.addTab("\u0418\u0441\u0445\u043e\u0434\u043d\u043e\u0435", panelImage);
 
                                 //======== panel12 ========
                                 {
                                     panel12.setLayout(new GridBagLayout());
-                                    ((GridBagLayout)panel12.getLayout()).columnWidths = new int[] {0, 0};
-                                    ((GridBagLayout)panel12.getLayout()).rowHeights = new int[] {0, 0, 0};
-                                    ((GridBagLayout)panel12.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                                    ((GridBagLayout)panel12.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+                                    ((GridBagLayout) panel12.getLayout()).columnWidths = new int[]{0, 0};
+                                    ((GridBagLayout) panel12.getLayout()).rowHeights = new int[]{0, 0, 0};
+                                    ((GridBagLayout) panel12.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
+                                    ((GridBagLayout) panel12.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
 
                                     //======== panelResult ========
                                     {
                                         panelResult.setLayout(new GridBagLayout());
-                                        ((GridBagLayout)panelResult.getLayout()).columnWidths = new int[] {0, 0};
-                                        ((GridBagLayout)panelResult.getLayout()).rowHeights = new int[] {0, 0};
-                                        ((GridBagLayout)panelResult.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                                        ((GridBagLayout)panelResult.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                        ((GridBagLayout) panelResult.getLayout()).columnWidths = new int[]{0, 0};
+                                        ((GridBagLayout) panelResult.getLayout()).rowHeights = new int[]{0, 0};
+                                        ((GridBagLayout) panelResult.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
+                                        ((GridBagLayout) panelResult.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
 
                                         //======== scrollPane7 ========
                                         {
                                             scrollPane7.setViewportView(txtResult);
                                         }
                                         panelResult.add(scrollPane7, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
-                                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                            new Insets(0, 0, 0, 0), 0, 0));
+                                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                                new Insets(0, 0, 0, 0), 0, 0));
                                     }
                                     panel12.add(panelResult, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
-                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                        new Insets(0, 0, 5, 0), 0, 0));
+                                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                            new Insets(0, 0, 5, 0), 0, 0));
 
                                     //---- button1 ----
                                     button1.setText("\u042d\u043a\u0441\u043f\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c");
                                     panel12.add(button1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                                        GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                                        new Insets(0, 0, 0, 0), 0, 0));
+                                            GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                            new Insets(0, 0, 0, 0), 0, 0));
                                 }
                                 tabbedPaneData.addTab("\u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442", panel12);
                             }
                             scrollPane3.setViewportView(tabbedPaneData);
                         }
                         panel3.add(scrollPane3, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
 
                         //======== scrollPane4 ========
                         {
@@ -546,71 +638,71 @@ public class OcrMainForm  {
                                 //======== panelBinary ========
                                 {
                                     panelBinary.setLayout(new GridBagLayout());
-                                    ((GridBagLayout)panelBinary.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-                                    ((GridBagLayout)panelBinary.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0};
-                                    ((GridBagLayout)panelBinary.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-                                    ((GridBagLayout)panelBinary.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                                    ((GridBagLayout) panelBinary.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                                    ((GridBagLayout) panelBinary.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+                                    ((GridBagLayout) panelBinary.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                                    ((GridBagLayout) panelBinary.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
                                 }
                                 tabbedPaneProgress.addTab("\u0411\u0438\u043d\u0430\u0440\u043d\u043e\u0435", panelBinary);
 
                                 //======== panelHough ========
                                 {
                                     panelHough.setLayout(new GridBagLayout());
-                                    ((GridBagLayout)panelHough.getLayout()).columnWidths = new int[] {0, 0};
-                                    ((GridBagLayout)panelHough.getLayout()).rowHeights = new int[] {0, 0};
-                                    ((GridBagLayout)panelHough.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                                    ((GridBagLayout)panelHough.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout) panelHough.getLayout()).columnWidths = new int[]{0, 0};
+                                    ((GridBagLayout) panelHough.getLayout()).rowHeights = new int[]{0, 0};
+                                    ((GridBagLayout) panelHough.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
+                                    ((GridBagLayout) panelHough.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
                                 }
                                 tabbedPaneProgress.addTab("\u0425\u0430\u0444", panelHough);
 
                                 //======== panelDeskew ========
                                 {
                                     panelDeskew.setLayout(new GridBagLayout());
-                                    ((GridBagLayout)panelDeskew.getLayout()).columnWidths = new int[] {0, 0};
-                                    ((GridBagLayout)panelDeskew.getLayout()).rowHeights = new int[] {0, 0};
-                                    ((GridBagLayout)panelDeskew.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                                    ((GridBagLayout)panelDeskew.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout) panelDeskew.getLayout()).columnWidths = new int[]{0, 0};
+                                    ((GridBagLayout) panelDeskew.getLayout()).rowHeights = new int[]{0, 0};
+                                    ((GridBagLayout) panelDeskew.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
+                                    ((GridBagLayout) panelDeskew.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
                                 }
                                 tabbedPaneProgress.addTab("\u0423\u0441\u0442\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435", panelDeskew);
 
                                 //======== panelTable ========
                                 {
                                     panelTable.setLayout(new GridBagLayout());
-                                    ((GridBagLayout)panelTable.getLayout()).columnWidths = new int[] {0, 0};
-                                    ((GridBagLayout)panelTable.getLayout()).rowHeights = new int[] {0, 0};
-                                    ((GridBagLayout)panelTable.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                                    ((GridBagLayout)panelTable.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout) panelTable.getLayout()).columnWidths = new int[]{0, 0};
+                                    ((GridBagLayout) panelTable.getLayout()).rowHeights = new int[]{0, 0};
+                                    ((GridBagLayout) panelTable.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
+                                    ((GridBagLayout) panelTable.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
                                 }
                                 tabbedPaneProgress.addTab("\u0422\u0430\u0431\u043b\u0438\u0446\u0430", panelTable);
 
                                 //======== panelCell ========
                                 {
                                     panelCell.setLayout(new GridBagLayout());
-                                    ((GridBagLayout)panelCell.getLayout()).columnWidths = new int[] {0, 0};
-                                    ((GridBagLayout)panelCell.getLayout()).rowHeights = new int[] {0, 0};
-                                    ((GridBagLayout)panelCell.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                                    ((GridBagLayout)panelCell.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout) panelCell.getLayout()).columnWidths = new int[]{0, 0};
+                                    ((GridBagLayout) panelCell.getLayout()).rowHeights = new int[]{0, 0};
+                                    ((GridBagLayout) panelCell.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
+                                    ((GridBagLayout) panelCell.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
                                 }
                                 tabbedPaneProgress.addTab("\u041a\u043b\u0435\u0442\u043a\u0438", panelCell);
                             }
                             scrollPane4.setViewportView(tabbedPaneProgress);
                         }
                         panel3.add(scrollPane4, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
 
                         //---- labelProgress ----
                         labelProgress.setText("<html><i>progress ...</i></html>");
                         labelProgress.setVisible(false);
                         panel3.add(labelProgress, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
 
                         //---- progressbar ----
                         progressbar.setVisible(false);
                         panel3.add(progressbar, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
                     }
                     splitPane3.setLeftComponent(panel3);
 
@@ -621,16 +713,16 @@ public class OcrMainForm  {
                         panel2.setMinimumSize(new Dimension(150, 450));
                         panel2.setMaximumSize(new Dimension(300, 2147483647));
                         panel2.setLayout(new GridBagLayout());
-                        ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {1.0};
+                        ((GridBagLayout) panel2.getLayout()).columnWeights = new double[]{1.0};
 
                         //======== panel4 ========
                         {
-                            panel4.setBorder(Borders.DLU4);
+                            panel4.setBorder(new TitledBorder("\u0424\u043e\u0440\u043c\u0430\u0442\u044b"));
                             panel4.setLayout(new GridBagLayout());
-                            ((GridBagLayout)panel4.getLayout()).columnWidths = new int[] {0, 0, 0};
-                            ((GridBagLayout)panel4.getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-                            ((GridBagLayout)panel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-                            ((GridBagLayout)panel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+                            ((GridBagLayout) panel4.getLayout()).columnWidths = new int[]{0, 0, 0};
+                            ((GridBagLayout) panel4.getLayout()).rowHeights = new int[]{0, 0, 0};
+                            ((GridBagLayout) panel4.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
+                            ((GridBagLayout) panel4.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
 
                             //======== scrollPane6 ========
                             {
@@ -645,8 +737,8 @@ public class OcrMainForm  {
                                 scrollPane6.setViewportView(listFormat);
                             }
                             panel4.add(scrollPane6, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                    new Insets(0, 0, 5, 0), 0, 0));
 
                             //---- butEditFormat ----
                             butEditFormat.setHorizontalAlignment(SwingConstants.LEFT);
@@ -658,19 +750,19 @@ public class OcrMainForm  {
                                 }
                             });
                             panel4.add(butEditFormat, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                                new Insets(0, 0, 5, 5), 0, 0));
+                                    GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                    new Insets(0, 0, 0, 5), 0, 0));
 
                             //---- butDeleteFormat ----
                             butDeleteFormat.setHorizontalAlignment(SwingConstants.RIGHT);
                             butDeleteFormat.setPreferredSize(new Dimension(35, 25));
                             panel4.add(butDeleteFormat, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                                    GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
+                                    new Insets(0, 0, 0, 0), 0, 0));
                         }
                         panel2.add(panel4, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
 
                         //======== scrollPane1 ========
                         {
@@ -685,8 +777,8 @@ public class OcrMainForm  {
                             scrollPane1.setViewportView(labelInfoFormat);
                         }
                         panel2.add(scrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 1.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
                     }
                     splitPane3.setRightComponent(panel2);
                 }
@@ -696,92 +788,7 @@ public class OcrMainForm  {
             mainFrame.setSize(855, 720);
             mainFrame.setLocationRelativeTo(mainFrame.getOwner());
         }
-		// JFormDesigner - End of component initialization  //GEN-END:initComponents
-	}
-
-	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Mahefa Manitrativo
-    private JFrame mainFrame;
-    private JMenuBar menuBar1;
-    private JMenu menu1;
-    private JMenuItem menuQuit;
-    private JMenu menu3;
-    private JMenuItem menuConfig;
-    private JMenuItem menuCreateTableFormat;
-    private JMenuItem menuCreateTextFormat;
-    private JMenu menu5;
-    private JMenuItem menuLaunch;
-    private JMenuItem menuStop;
-    private JMenuItem menuRelaunch;
-    private JMenu menu4;
-    private JMenuItem menuAbout;
-    private JSplitPane splitPane2;
-    private JPanel panel1;
-    private JSplitPane splitPane4;
-    private JPanel panel14;
-    private JScrollPane scrollPane5;
-    private JList listProject;
-    private JPanel panel5;
-    private JButton butAddProject;
-    private JButton butEditProject;
-    private JButton butDeleteProject;
-    private JScrollPane scrollPane2;
-    private JLabel labelInfoProject;
-    private JSplitPane splitPane3;
-    private JPanel panel3;
-    private JScrollPane scrollPane3;
-    private JTabbedPane tabbedPaneData;
-    private JPanel panelImage;
-    private JPanel panel12;
-    private JPanel panelResult;
-    private JScrollPane scrollPane7;
-    private JTextArea txtResult;
-    private JButton button1;
-    private JScrollPane scrollPane4;
-    private JTabbedPane tabbedPaneProgress;
-    private JPanel panelBinary;
-    private JPanel panelHough;
-    private JPanel panelDeskew;
-    private JPanel panelTable;
-    private JPanel panelCell;
-    private JLabel labelProgress;
-    private JProgressBar progressbar;
-    private JPanel panel2;
-    private JPanel panel4;
-    private JScrollPane scrollPane6;
-    private JList listFormat;
-    private JButton butEditFormat;
-    private JButton butDeleteFormat;
-    private JScrollPane scrollPane1;
-    private JLabel labelInfoFormat;
-	// JFormDesigner - End of variables declaration  //GEN-END:variables
-
-    private DefaultListModel<String> formatListModel = null;
-    private DefaultListModel<String> projectListModel = null;
-    private List<Format> formatList = null;
-    private List<Project> projectList = null;
-    private DBAccess dbAccess;
-    private HashMap<String, BufferedImage> cacheImage = null;
-    private Runner runner;
-
-    public OcrMainForm() {
-        super();
-        initComponents();
-        // launch GUI
-        dbAccess = DBAccess.getDbAccess();
-        // setting button icons
-        GUIUtil.setButtonIcon(this.butEditProject, "icons/edit.png");
-        GUIUtil.setButtonIcon(this.butAddProject, "icons/add.png");
-        GUIUtil.setButtonIcon(this.butDeleteProject, "icons/delete.png");
-        GUIUtil.setButtonIcon(this.butEditFormat, "icons/edit.png");
-        GUIUtil.setButtonIcon(this.butDeleteFormat, "icons/delete.png");
-        // updating lists
-        projectListModel = new DefaultListModel<String>();
-        formatListModel = new DefaultListModel<String>();
-        updateProjectList();
-        updateFormatList();
-        // create memory cache
-        cacheImage = new HashMap<String, BufferedImage>();
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
     public void close() {

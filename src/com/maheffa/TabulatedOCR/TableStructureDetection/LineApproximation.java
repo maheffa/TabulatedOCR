@@ -1,11 +1,13 @@
-package com.maheffa.TabulatedOCR.TableStructureDetection;// File:    com.maheffa.TabulatedOCR.TableStructureDetection.LineApproximation.java
+package com.maheffa.TabulatedOCR.TableStructureDetection;
+// File:    com.maheffa.TabulatedOCR.TableStructureDetection.LineApproximation.java
 // Created: 10/05/2015
 
 import org.opencv.core.Point;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * @author mahefa
@@ -214,13 +216,6 @@ class Line {
         this.B = new Point(x2, y2);
     }
 
-    public boolean isClose(Line other, int dist) {
-        return (TableDetector.getDistance(this.A, other.A) < dist
-                && TableDetector.getDistance(this.B, other.B) < dist)
-                || (TableDetector.getDistance(this.A, other.B) < dist
-                && TableDetector.getDistance(this.B, other.A) < dist);
-    }
-
     public static Point getProlongedIntersetion(Line l1, Line l2) {
         double x1 = l1.getA().x, y1 = l1.getA().y, x2 = l1.getB().x, y2 = l1.getB().y;
         double x3 = l2.getA().x, y3 = l2.getA().y, x4 = l2.getB().x, y4 = l2.getB().y;
@@ -234,6 +229,13 @@ class Line {
             res = new double[]{-1, -1};
         }
         return new Point(res[0], res[1]);
+    }
+
+    public boolean isClose(Line other, int dist) {
+        return (TableDetector.getDistance(this.A, other.A) < dist
+                && TableDetector.getDistance(this.B, other.B) < dist)
+                || (TableDetector.getDistance(this.A, other.B) < dist
+                && TableDetector.getDistance(this.B, other.A) < dist);
     }
 
     public Point getA() {

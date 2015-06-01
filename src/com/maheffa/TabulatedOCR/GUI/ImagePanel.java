@@ -1,10 +1,13 @@
-package com.maheffa.TabulatedOCR.GUI;// File:    ImagePanel.java
+package com.maheffa.TabulatedOCR.GUI;
+// File:    ImagePanel.java
 // Created: 23/05/2015
 
 import com.maheffa.TabulatedOCR.ImageProcessing.ImgProcUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 /**
@@ -16,6 +19,15 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel() {
         super();
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    ImageViewer view = new ImageViewer(original);
+                    GUIUtil.createFrameForPanel("Просмотр рисунка", view);
+                }
+            }
+        });
     }
 
     public void setImage(String imagePath) {
@@ -23,13 +35,13 @@ public class ImagePanel extends JPanel {
         repaint();
     }
 
+    public BufferedImage getImage() {
+        return this.original;
+    }
+
     public void setImage(BufferedImage image) {
         original = image;
         repaint();
-    }
-
-    public BufferedImage getImage() {
-        return this.original;
     }
 
     public void clear() {

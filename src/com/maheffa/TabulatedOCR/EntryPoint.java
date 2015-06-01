@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR;// File:    com.maheffa.TabulatedOCR.EntryPoint.java
+package com.maheffa.TabulatedOCR;
+// File:    com.maheffa.TabulatedOCR.EntryPoint.java
 // Created: 19/02/2015
 
 
@@ -19,24 +20,6 @@ public class EntryPoint {
         launchGUI();
     }
 
-    private void launchGUI() {
-        final JFrame frame = ocrMainForm.getMainFrame();
-        frame.pack();
-        frame.setVisible(true);
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                if (JOptionPane.showConfirmDialog(frame,
-                        "Вы действительно хотели закрыть?", "Закрыть приложение",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-                    System.exit(0);
-                }
-            }
-        });
-        frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-    }
-
     public static void main(String[] args) {
 //        javax.swing.plaf.nimbus.NimbusLo/okAndFeel
 //        try {
@@ -53,6 +36,24 @@ public class EntryPoint {
 //            e.printStackTrace();
 //        }
         new EntryPoint(new OcrMainForm());
+    }
+
+    private void launchGUI() {
+        final JFrame frame = ocrMainForm.getMainFrame();
+        frame.pack();
+        frame.setVisible(true);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(frame,
+                        "Вы действительно хотели закрыть?", "Закрыть приложение",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+        frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
     }
 
 }

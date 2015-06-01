@@ -8,12 +8,12 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="commons-lang3-3.4" level="project" />
-    <orderEntry type="library" name="jgoodies-looks-2.8.0" level="project" />
     <orderEntry type="library" name="opencv-300" level="project" />
     <orderEntry type="library" name="Hibernate" level="project" />
     <orderEntry type="library" name="tess4j" level="project" />
     <orderEntry type="library" name="encog-core-3.3.0" level="project" />
     <orderEntry type="library" name="swingx-1.6.1" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.35-bin" level="project" />
+    <orderEntry type="library" name="jgoodies-looks-2.8.0" level="project" />
   </component>
 </module>

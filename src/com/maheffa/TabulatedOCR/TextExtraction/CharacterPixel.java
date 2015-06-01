@@ -1,4 +1,5 @@
-package com.maheffa.TabulatedOCR.TextExtraction;// File:    com.maheffa.TabulatedOCR.TextExtraction.CharacterPixel.java
+package com.maheffa.TabulatedOCR.TextExtraction;
+// File:    com.maheffa.TabulatedOCR.TextExtraction.CharacterPixel.java
 // Created: 16/02/2015
 
 import com.maheffa.TabulatedOCR.ImageProcessing.BinaryImage;
@@ -47,12 +48,12 @@ public class CharacterPixel {
         return res;
     }
 
-    public void setData(int[] data) {
-        this.data = data;
-    }
-
     public int[] getData() {
         return this.data;
+    }
+
+    public void setData(int[] data) {
+        this.data = data;
     }
 
     public double[] getNeuralNetworkData() {
