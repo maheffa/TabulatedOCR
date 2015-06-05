@@ -87,6 +87,8 @@ new FormModel {
 							"border": sfield com.jgoodies.forms.factories.Borders DLU4_BORDER
 							add( new FormComponent( "javax.swing.JLabel" ) {
 								name: "labelInfoProject"
+								"text": "<html>  <b>Название</b>:<br/>  Исходный:<br/>  <i>Размер</i>:<br/> </html>"
+								"verticalAlignment": 1
 							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
 							"value": "right"

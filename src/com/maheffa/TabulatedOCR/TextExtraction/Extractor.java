@@ -34,11 +34,11 @@ public class Extractor {
     }
 
     public void setTreatCell(boolean val) {
-        if (val) {
-            tesseract.setPageSegMode(7);
-        } else {
-            tesseract.setPageSegMode(3);
-        }
+//        if (val) {
+//            tesseract.setPageSegMode(7);
+//        } else {
+//            tesseract.setPageSegMode(3);
+//        }
     }
 
     public void setUserDictionary(boolean val) {
@@ -67,6 +67,8 @@ public class Extractor {
     }
 
     public HashMap<String, String> extractInformations(BufferedImage img, String fmt) {
-        return FuzzyTextMatcher.matchVariables(extractText(img), fmt);
+        return FuzzyTextMatcher.matchVariables(
+                FuzzyTextMatcher.clean(extractText(img)),
+                FuzzyTextMatcher.clean(fmt));
     }
 }

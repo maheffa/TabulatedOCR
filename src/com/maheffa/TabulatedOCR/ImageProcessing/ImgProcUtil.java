@@ -67,6 +67,7 @@ public class ImgProcUtil {
 
     public static String getImageInfoHTML(BufferedImage image) {
         StringBuilder str = new StringBuilder();
+        if (image == null) return "";
         str.append("<b>Width: </b>").append(image.getWidth()).append("<br/>");
         str.append("<b>Height: </b>").append(image.getHeight()).append("<br/>");
         ColorModel cm = image.getColorModel();

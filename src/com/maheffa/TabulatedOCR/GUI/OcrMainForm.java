@@ -90,7 +90,6 @@ public class OcrMainForm  {
     private DBAccess dbAccess;
     private HashMap<String, BufferedImage> cacheImage = null;
     private Runner runner;
-
     public OcrMainForm() {
         super();
         initComponents();

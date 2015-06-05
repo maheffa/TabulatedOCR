@@ -97,13 +97,14 @@ public class FuzzyTextMatcher {
         char[] str1 = str.toCharArray();
         char[] str2 = match.toCharArray();
         for (int beg = 0; beg < str.length(); beg++) {
-            for (int end = beg; end <= str.length(); end++) {
+            for (int end = Math.min(str.length(), beg + (int) (0.7 * match.length())); end <= Math.min(str.length(), beg + (int) (1.3 * match.length())); end++) {
                 int val = LevenshteinDistance(str1, str2, beg, end, 0, str2.length);
                 if (val < minDist) {
                     minBeg = beg;
                     minEnd = end;
                     minDist = val;
                 }
+//                System.out.println(beg + " - " + end);
             }
         }
 //        System.out.println("distance " + minDist);
@@ -153,6 +154,7 @@ public class FuzzyTextMatcher {
             } else {
                 beVar1 = new int[]{format.length(), format.length()};
             }
+            System.out.println("Finding value of variable " + format.substring(beVar0[0], beVar0[1]));
             int[] txt0 = substringMatch(text, format.substring(pt, beVar0[0]));
             txt0[1]--;
             int[] txt1 = substringMatch(text, format.substring(
@@ -250,6 +252,74 @@ public class FuzzyTextMatcher {
             }
         }
         return false;
+    }
+
+    public static void main(String[] args) {
+        String text = "Настоящим подверждается, что\n" +
+                "Фамилия: МАНИТРАРИВУ\n" +
+                "Имя, Отчество: АДАМА МАЭФА\n" +
+                "Гражданство: МАДАГАСКАР\n" +
+                "Дата рождения:  число: 27 \tмесяц: 12 \tгод: 1991\tпол: мужской\n" +
+                "Документ, удостоверяющий личности вид: НАЦ. ПАСПОРТ \tсерия:\t    №: A13X02388\n" +
+                "\n" +
+                "в установленном порядке уведомил о прибытии в место пребывания по адресу:\n" +
+                "Область, край, руспублика, АО: БЕЛГОРОДСКАЯ\n" +
+                "Район: БЕЛГОРОДСКИЙ\n" +
+                "Город или населенный пункт: БЕЛГОРОД\n" +
+                "Улица: КОСТЮКОВА\n" +
+                "Дом: 44\tКорпус: \tСтроение:\t\tКвартира:\n" +
+                "Срок пребывания до:\tчисло: 21\tмесяц: 21\tгод: 2015\n" +
+                "\n" +
+                "Для принимающей стороны\n" +
+                "дата убытия инностранного гражданина\n" +
+                "число:\t\tмесяц:\t\tгод:\n" +
+                "\n" +
+                "Фамилия: БГТУ ИМЕНИ ВГ ШУХОВА\n" +
+                "Имя, Отчество: ЛЕСОВИК РУСЛАН ВАЛЕРЬЕВИЧ\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\tподпись принимающей стороны\t\tпечать организации\n" +
+                "\n" +
+                "\n" +
+                "Отметка о подтверждений выполнения принимающей\n" +
+                "стороной и иностранным гражданом действий,\n" +
+                "необходимых для его постановки на учёт\n" +
+                "по месту пребывания\n";
+        String format = "Настоящим подверждается, что\n" +
+                "Фамилия: $lastname\n" +
+                "Имя, Отчество: $firstname\n" +
+                "Гражданство: $country\n" +
+                "Дата рождения:  число: $dbirth месяц: $mbirth год: $ybirth пол: $sex\n" +
+                "Документ, удостоверяющий личности вид: $document серия: $serie №: $number\n" +
+                "\n" +
+                "в установленном порядке уведомил о прибытии в место пребывания по адресу:\n" +
+                "Область, край, руспублика, АО: $region\n" +
+                "Район: $area\n" +
+                "Город или населенный пункт: $city\n" +
+                "Улица: $street\n" +
+                "Дом: $house Корпус: $corpus Строение: $building Квартира: $appartement\n" +
+                "Срок пребывания до: число: $dend месяц: $mend год: $yend\n" +
+                "\n" +
+                "Для принимающей стороны\n" +
+                "дата убытия инностранного гражданина\n" +
+                "число:\t\tмесяц:\t\tгод:\n" +
+                "\n" +
+                "Фамилия: $hostfirstname\n" +
+                "Имя, Отчество: $hostlastname\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\tподпись принимающей стороны\t\tпечать организации\n" +
+                "\n" +
+                "\n" +
+                "Отметка о подтверждений выполнения принимающей\n" +
+                "стороной и иностранным гражданом действий,\n" +
+                "необходимых для его постановки на учёт\n" +
+                "по месту пребывания\n";
+        matchWholeVariables(clean(text), clean(format));
     }
 
 }

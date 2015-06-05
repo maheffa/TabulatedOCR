@@ -4,6 +4,7 @@ package com.maheffa.TabulatedOCR;
 
 
 import com.maheffa.TabulatedOCR.GUI.OcrMainForm;
+import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 import org.opencv.core.Core;
 
 import javax.swing.*;
@@ -24,17 +25,17 @@ public class EntryPoint {
 //        javax.swing.plaf.nimbus.NimbusLo/okAndFeel
 //        try {
 //            jUIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-//        try {
-//            UIManager.setLookAndFeel(new GTKLookAndFeel());
+        try {
+            UIManager.setLookAndFeel(new GTKLookAndFeel());
 //        } catch (ClassNotFoundException e) {
 //            e.printStackTrace();
 //        } catch (InstantiationException e) {
 //            e.printStackTrace();
 //        } catch (IllegalAccessException e) {
 //            e.printStackTrace();
-//        } catch (UnsupportedLookAndFeelException e) {
-//            e.printStackTrace();
-//        }
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         new EntryPoint(new OcrMainForm());
     }
 

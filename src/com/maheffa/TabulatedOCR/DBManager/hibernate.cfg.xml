@@ -7,11 +7,11 @@
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">t00r</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost/TOCR</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/TOCR?unicode=true</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
-        <property name="hibernate.validator.apply_to_ddl">false</property>
+        <property name="hbm2ddl.auto">update</property>
         <mapping package="com.maheffa.TabulatedOCR.DBManager"/>
         <mapping resource="com/maheffa/TabulatedOCR/DBManager/Ocrconfig.hbm.xml" />
         <mapping resource="com/maheffa/TabulatedOCR/DBManager/Format.hbm.xml" />

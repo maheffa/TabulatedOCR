@@ -74,6 +74,8 @@ class TOCRWorker extends SwingWorker<HashMap<String, Object>, RunnerProgress> {
         String[] pbe = ImgProcUtil.getPathBaseExtension(path);
         CellContainer cellContainer = null;
 
+        System.out.println("Configuration:\n" + conf);
+
         mainForm.showProgress();
 //                STATE_READING_IMAGE
         publish(RunnerProgress.createMessenger(0, "Reading image from " + path));
@@ -175,6 +177,7 @@ class TOCRWorker extends SwingWorker<HashMap<String, Object>, RunnerProgress> {
 //                STATE_RECOGNIZING_TEXT
         publish(RunnerProgress.createMessenger((int) (100.0 * 12 / nStep), "Recognizing text"));
         Extractor extractor = new Extractor();
+        extractor.setLanguage(conf.getLanguage());
         extractor.setApplyNoiseRemoval(conf.getDenoise());
         extractor.setUserDictionary(conf.getUserDictionary());
         extractor.setTreatCell(format.getType().equalsIgnoreCase("TABLE"));
