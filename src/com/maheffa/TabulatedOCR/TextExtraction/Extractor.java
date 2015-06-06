@@ -42,19 +42,19 @@ public class Extractor {
     }
 
     public void setUserDictionary(boolean val) {
-        if (val) {
-            tesseract.setTessVariable("user_words_suffix", "user-words");
-        } else {
-            tesseract.setTessVariable("user_words_suffix", "");
-        }
+//        if (val) {
+//            tesseract.setTessVariable("user_words_suffix", "user-words");
+//        } else {
+//            tesseract.setTessVariable("user_words_suffix", "");
+//        }
     }
 
     public void setApplyNoiseRemoval(boolean val) {
-        if (val) {
-            tesseract.setTessVariable("textord_heavy_nr", "1");
-        } else {
-            tesseract.setTessVariable("textord_heavy_nr", "0");
-        }
+//        if (val) {
+//            tesseract.setTessVariable("textord_heavy_nr", "1");
+//        } else {
+//            tesseract.setTessVariable("textord_heavy_nr", "0");
+//        }
     }
 
     public String extractText(BufferedImage img) {

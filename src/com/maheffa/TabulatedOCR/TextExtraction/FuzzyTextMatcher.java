@@ -2,6 +2,9 @@ package com.maheffa.TabulatedOCR.TextExtraction;
 // File:    com.maheffa.TabulatedOCR.TextExtraction.FuzzyTextMatcher.java
 // Created: 07/05/2015
 
+import com.maheffa.TabulatedOCR.RunnerProgress;
+import com.maheffa.TabulatedOCR.TOCRWorker;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -138,7 +141,7 @@ public class FuzzyTextMatcher {
         return beginEnds;
     }
 
-    public static HashMap<String, String> matchWholeVariables(String text, String format) {
+    public static HashMap<String, String> matchWholeVariables(String text, String format, TOCRWorker worker) {
         System.out.println("matching variables");
         System.out.println("Input:\n" + text);
         System.out.println("Format:\n" + format);
@@ -155,6 +158,11 @@ public class FuzzyTextMatcher {
                 beVar1 = new int[]{format.length(), format.length()};
             }
             System.out.println("Finding value of variable " + format.substring(beVar0[0], beVar0[1]));
+            if (worker != null) {
+                worker.forcePublish(RunnerProgress.createMessenger(
+                        (int) (100 * 12.0 / 13 + 100.0 * i / 13 / beginEndOfVariables.size()),
+                        "Reading value of " + format.substring(beVar0[0], beVar0[1])));
+            }
             int[] txt0 = substringMatch(text, format.substring(pt, beVar0[0]));
             txt0[1]--;
             int[] txt1 = substringMatch(text, format.substring(
@@ -167,7 +175,7 @@ public class FuzzyTextMatcher {
             int b = txt1[0] < a ? text.length() : txt1[0];
             map.put(
                     getVarIn(format, beVar0[0]+1, beVar0[1]),
-                    getVarIn(text, a, b)
+                    cut(getVarIn(text, a, b))
             );
             pt = beVar0[1];
         }
@@ -176,6 +184,23 @@ public class FuzzyTextMatcher {
             System.out.println("\t" + entry.getKey() + " : " + entry.getValue());
         }
         return map;
+    }
+
+    public static String cut(String text) {
+        int p = text.indexOf('\n');
+        return text.substring(0, p <= 0 ? text.length() : p);
+    }
+
+    public static String cut(String text, int a, int b) {
+        StringBuilder str = new StringBuilder();
+        for (int i = a; i < b; i++) {
+            if (text.charAt(i) == '\n') {
+                break;
+            } else {
+                str.append(text.charAt(i));
+            }
+        }
+        return str.toString();
     }
 
     public static String getVarIn(String text, int a, int b) {
@@ -319,7 +344,7 @@ public class FuzzyTextMatcher {
                 "стороной и иностранным гражданом действий,\n" +
                 "необходимых для его постановки на учёт\n" +
                 "по месту пребывания\n";
-        matchWholeVariables(clean(text), clean(format));
+        matchWholeVariables(text, format, null);
     }
 
 }
